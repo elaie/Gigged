@@ -9,6 +9,6 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(child: Text("i'm the bigger map"),);
+    return Container(child: Text("i'm the biggest map ehe"),);
   }
 }
