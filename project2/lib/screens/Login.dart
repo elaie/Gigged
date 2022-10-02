@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project2/screens/Homepage.dart';
@@ -17,8 +18,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   var _formKey = GlobalKey<FormState>();
   bool _isPasswordHidden = true;
-  var userNameController = TextEditingController();
-  var userPasswordController = TextEditingController();
+  TextEditingController _emailTextController = TextEditingController();
+  TextEditingController _passwordTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
 
     Widget EmailOrUsername = TextFormField(
       keyboardType: TextInputType.name,
-      controller: userNameController,
+      controller: _emailTextController,
       validator: (value) {
         if (value!.isEmpty) {
           return 'Field cannot be empty';
@@ -69,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     Widget Password = TextFormField(
-      controller: userPasswordController,
+      controller: _passwordTextController,
       obscureText: _isPasswordHidden,
       validator: (value) {
         if (value!.isEmpty) {
@@ -135,25 +136,32 @@ class _LoginPageState extends State<LoginPage> {
         height: 50,
         child: ElevatedButton(
           onPressed: () {
+            FirebaseAuth.instance.signInWithEmailAndPassword(
+                email: _emailTextController.text,
+                password: _passwordTextController.text).then((value) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                  builder: (context)
+              =>
+                  HomePage('null', 'null')
+              ,
+              )
+              ).onError((error, stackTrace) {
+                print("PASSWORD ERROR");
+              });
+            });
             if (_formKey.currentState!.validate()) {
               //to take input from user
-              String userName = userNameController.text;
-              String userPassword = userPasswordController.text;
-              print(userName);
-              print(userPassword);
 
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomePage('null', 'null'),
-                ),
-              );
+              print(_emailTextController.text);
+              print(_passwordTextController.text);
             }
           },
           child: const Text(
             'Login',
             style:
-                TextStyle(fontFamily: 'Comfortaa', fontWeight: FontWeight.bold),
+            TextStyle(fontFamily: 'Comfortaa', fontWeight: FontWeight.bold),
           ),
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(

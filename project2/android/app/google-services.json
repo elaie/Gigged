@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "658826784915",
+    "project_id": "gigged-ba0e1",
+    "storage_bucket": "gigged-ba0e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658826784915:android:3e7f1fc654f5b6c9169d66",
+        "android_client_info": {
+          "package_name": "com.example.project2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "658826784915-1tkp697tmv7tuvcgf5t3eq7m17s1nc37.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.project2",
+            "certificate_hash": "3d3b9bffd1aeb7f20eeddc39bb2c879149da681e"
+          }
+        },
+        {
+          "client_id": "658826784915-ie9i47agdfu7t83didu6cvcor2vd6459.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlImy0b2-nkRwiI5OXwCN-F_ke71hDsq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "658826784915-ie9i47agdfu7t83didu6cvcor2vd6459.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

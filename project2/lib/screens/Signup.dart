@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project2/screens/Homepage.dart';
@@ -12,10 +13,12 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  TextEditingController _emailTextController = TextEditingController();
+  TextEditingController _passwordTextController = TextEditingController();
+  TextEditingController _passwordTextController2 = TextEditingController();
   var _formKey = GlobalKey<FormState>();
   bool _isPasswordHidden = true;
-  var userNameController = TextEditingController();
-  var userPasswordController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,10 @@ class _SignupPageState extends State<SignupPage> {
       child: Text(
         "Looks like you're new here,",
         style: TextStyle(
-            fontFamily: 'Comfortaa', fontWeight: FontWeight.bold, fontSize: 16, color: kPrimaryColor),
+            fontFamily: 'Comfortaa',
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+            color: kPrimaryColor),
       ),
     );
 
@@ -33,13 +39,16 @@ class _SignupPageState extends State<SignupPage> {
       child: Text(
         'Lets sign you up!',
         style: TextStyle(
-            fontFamily: 'Comfortaa', fontWeight: FontWeight.bold, fontSize: 30, color: kPrimaryColor),
+            fontFamily: 'Comfortaa',
+            fontWeight: FontWeight.bold,
+            fontSize: 30,
+            color: kPrimaryColor),
       ),
     );
 
     Widget EmailOrUsername = TextFormField(
       keyboardType: TextInputType.name,
-      controller: userNameController,
+      controller: _emailTextController,
       validator: (value) {
         if (value!.isEmpty) {
           return 'Field cannot be empty';
@@ -59,7 +68,7 @@ class _SignupPageState extends State<SignupPage> {
     );
 
     Widget Password = TextFormField(
-      controller: userPasswordController,
+      controller: _passwordTextController,
       obscureText: _isPasswordHidden,
       validator: (value) {
         if (value!.isEmpty) {
@@ -82,12 +91,12 @@ class _SignupPageState extends State<SignupPage> {
         contentPadding: EdgeInsets.all(20.0),
       ),
     );
-    Widget ConfirmPassword=Container(
+    Widget ConfirmPassword = Container(
       height: 70,
       width: 500,
-      decoration: BoxDecoration(borderRadius:BorderRadius.circular(50)),
-      child: TextFormField (
-        controller: userPasswordController,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),
+      child: TextFormField(
+        controller: _passwordTextController2,
         obscureText: _isPasswordHidden,
         validator: (value) {
           if (value!.isEmpty) {
@@ -120,17 +129,25 @@ class _SignupPageState extends State<SignupPage> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               //to take input from user
-              String userName = userNameController.text;
-              String userPassword = userPasswordController.text;
+              String userName = _emailTextController.text;
+              String userPassword = _passwordTextController.text;
               print(userName);
               print(userPassword);
-
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomePage('null', 'null'),
-                ),
-              );
+              FirebaseAuth.instance
+                  .createUserWithEmailAndPassword(
+                      email: _emailTextController.text,
+                      password: _passwordTextController.text)
+                  .then((value) {
+                    print("created new acc");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomePage('null', 'null'),
+                  ),
+                );
+              }).onError((error, stackTrace) {
+                print("error ${error.toString()}");
+              });
             }
           },
           child: const Text(
