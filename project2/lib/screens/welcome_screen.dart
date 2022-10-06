@@ -16,7 +16,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    Widget TopImage = ClipRRect(
+   /* Widget TopImage = ClipRRect(
       child: Positioned(
         top: 0,
         left: 0,
@@ -33,7 +33,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           height: 200,
         ),
       ),
-    );
+    );*/
 
     Widget PhraseText = Text(
       'Welcome to Gigged.',
@@ -128,13 +128,26 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TopImage,
             SafeArea(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  LogoImage,
-                  SizedBox(height: 10),
+                  Stack(
+                    children: <Widget>[
+                      Container(
+                          alignment: Alignment.topLeft,
+                          height: 240,
+                          child: Image.asset('assets/images/main_top.png',fit: BoxFit.fill)
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top: 200),
+                        alignment: Alignment.center,
+                          height: 350,
+                          child: Image.asset('assets/images/viber_image_2022-10-06_18-33-37-004.jpg',fit: BoxFit.fill)
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 30),
                   PhraseText,
                   PhraseText2,
                   SizedBox(height: 60),
