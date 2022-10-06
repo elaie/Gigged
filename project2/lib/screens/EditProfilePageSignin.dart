@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:project2/screens/ArtistProfilePage.dart';
+import 'package:project2/screens/Homepage.dart';
 
+import 'ArtistProfilePage.dart';
 import 'constraints.dart';
 
-class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({Key? key}) : super(key: key);
+class EditProfilePageSignin extends StatefulWidget {
+  const EditProfilePageSignin({Key? key}) : super(key: key);
 
   @override
-  State<EditProfilePage> createState() => _EditProfilePageState();
+  State<EditProfilePageSignin> createState() => _EditProfilePageSigninState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
+class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
   @override
   Widget build(BuildContext context) {
-
     Widget ProfilePic = GestureDetector(
       onTap: () {
         print('image pressed');
@@ -96,12 +96,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
           fontSize: 30,
           color: kPrimaryColor),
     );
-    
-    Widget SaveButton=  ElevatedButton(
+
+    Widget SaveButton = ElevatedButton(
       child: Text(
         "Save Changes",
-        style: TextStyle(
-            fontFamily: 'Comfortaa', fontWeight: FontWeight.bold),
+        style: TextStyle(fontFamily: 'Comfortaa', fontWeight: FontWeight.bold),
       ),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(
@@ -114,13 +113,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ),
       ),
       onPressed: () {
-        Navigator.pop(
+        Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ArtistProfilePage('')),
+          MaterialPageRoute(
+            builder: (context) => HomePage('', ''),
+          ),
         );
       },
     );
-    
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -128,19 +129,33 @@ class _EditProfilePageState extends State<EditProfilePage> {
             padding: const EdgeInsets.all(50),
             child: Column(
               children: [
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 Toptext,
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 ProfilePic,
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 ChangeProfilePic,
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 FullName,
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 UserName,
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 AboutMe,
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 SaveButton,
               ],
             ),
