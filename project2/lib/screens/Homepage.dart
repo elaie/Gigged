@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project2/screens/ArtistProfilePage.dart';
 import 'package:project2/screens/MainPage.dart';
 import 'package:project2/screens/MapPage.dart';
 import 'package:project2/screens/ProfilePage.dart';
@@ -6,23 +7,26 @@ import 'package:project2/screens/SearchPage.dart';
 import 'package:project2/screens/constraints.dart';
 
 class HomePage extends StatefulWidget {
-  String userName;
-  String password;
+  String userName='';
+  String password='';
 
-  HomePage(this.userName, this.password);
+  HomePage(userName, password);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
+  var _selectedIndex = 0;
+  var _screens=[];
 
-  static const List<Widget> _widgetOptions = <Widget>[
+
+ /* static const List<Widget> _widgetOptions = <Widget>[
     MainPage(),
     MapPage(),
     SearchPage(),
-    ProfilePage(),
+    ArtistProfilePage(),
+    //ProfilePage(widget.userName),
   ];
 
   void _onItemTapped(int index) {
@@ -64,6 +68,67 @@ class _HomePageState extends State<HomePage> {
         selectedItemColor: kPrimaryColor,
         onTap: _onItemTapped,
       ),
+    );
+  }
+}
+*/
+
+  @override
+  void initState() {
+    //widget.userName use gana ko lagi initialize garna parcha paila
+    super.initState();
+    _screens = [
+      MainPage(),
+      MapPage(),
+      SearchPage(),
+      ArtistProfilePage(widget.userName),
+    ];
+  }
+
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: _screens[_selectedIndex],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Home'),
+              trailing: Icon(Icons.accessibility_outlined),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MainPage()),
+                );
+              },
+            )
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+
+        //esma icons pani clickable huncha
+        type: BottomNavigationBarType.fixed,
+        items: const <BottomNavigationBarItem> [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home',backgroundColor: kPrimaryColor),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.map), label: "Map",backgroundColor: kPrimaryColor),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search",backgroundColor: kPrimaryColor),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile",backgroundColor: kPrimaryColor),
+        ],
+        selectedItemColor: kPrimaryDarkColor,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+            print("=============");
+            print(index);
+            print("=============");
+          });
+        },
+      ),
+
     );
   }
 }
