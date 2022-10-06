@@ -14,7 +14,15 @@ class ArtistProfilePage extends StatefulWidget {
 }
 
 class _ArtistProfilePageState extends State<ArtistProfilePage> {
-
+  String getUserEmail() {
+    final user = FirebaseAuth.instance.currentUser;
+    String email=" ";
+    if (user != null) {
+      email = user.email.toString();
+      return (email);
+    }
+    return email;
+  }
   var _rating = 0;
 
   @override
