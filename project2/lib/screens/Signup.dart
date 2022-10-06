@@ -142,6 +142,7 @@ class _SignupPageState extends State<SignupPage> {
                       password: _passwordTextController.text)
                   .then((value) {
                     print("created new acc");
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(

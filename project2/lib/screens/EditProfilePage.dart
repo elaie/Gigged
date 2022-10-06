@@ -1,3 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:project2/screens/ArtistProfilePage.dart';
 
@@ -11,8 +14,20 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  final database = FirebaseDatabase.instance.reference();
+  TextEditingController _nameTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+
+    String getUserEmail() {
+      final user = FirebaseAuth.instance.currentUser;
+      String email=" ";
+      if (user != null) {
+        email = user.email.toString();
+        return (email);
+      }
+      return email;
+    }
 
     Widget ProfilePic = GestureDetector(
       onTap: () {
@@ -31,26 +46,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
           style: TextStyle(color: kPrimaryDarkColor),
         ));
 
-    Widget UserName = TextFormField(
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Field cannot be empty';
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(color: kPrimaryLightColor),
-        ),
-        labelText: 'Username',
-        filled: true,
-        fillColor: kPrimaryLightColor,
-        contentPadding: EdgeInsets.all(20.0),
-      ),
-    );
 
     Widget FullName = TextFormField(
+      keyboardType: TextInputType.name,
+      controller: _nameTextController,
       validator: (value) {
         if (value!.isEmpty) {
           return 'Field cannot be empty';
@@ -114,7 +113,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ),
       ),
       onPressed: () {
-        Navigator.pop(
+
+        //final userInformation = database.child('USERS'+getUserEmail()+"/");
+        FirebaseAuth.instance.currentUser?.updateDisplayName(_nameTextController.text);
+        print(_nameTextController.text+"is printed");
+        Navigator.push(
+
           context,
           MaterialPageRoute(builder: (context) => ArtistProfilePage('')),
         );
@@ -144,6 +148,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 SaveButton,
               ],
             ),
+
           ),
         ),
       ),
