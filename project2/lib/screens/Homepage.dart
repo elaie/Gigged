@@ -4,10 +4,11 @@ import 'package:project2/screens/MainPage.dart';
 import 'package:project2/screens/MapPage.dart';
 import 'package:project2/screens/ProfilePage.dart';
 import 'package:project2/screens/SearchPage.dart';
+import 'package:project2/screens/UserProfilePage.dart';
 import 'package:project2/screens/constraints.dart';
 
 class HomePage extends StatefulWidget {
-  String userName='';
+  String userName='pritisha';
   String password='';
 
   HomePage(userName, password);
@@ -81,7 +82,9 @@ class _HomePageState extends State<HomePage> {
       MainPage(),
       MapPage(),
       SearchPage(),
-      ArtistProfilePage(widget.userName),
+      UserProfilePage(),
+      //ArtistProfilePage(widget.userName),
+
     ];
   }
 
