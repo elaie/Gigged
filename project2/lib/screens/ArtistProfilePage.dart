@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project2/screens/EditProfilePage.dart';
 import 'package:project2/screens/constraints.dart';
 import 'package:project2/screens/welcome_screen.dart';
 
@@ -13,15 +14,6 @@ class ArtistProfilePage extends StatefulWidget {
 }
 
 class _ArtistProfilePageState extends State<ArtistProfilePage> {
-  String getUserEmail() {
-    final user = FirebaseAuth.instance.currentUser;
-    String email=" ";
-    if (user != null) {
-      email = user.email.toString();
-      return (email);
-    }
-   return email;
-  }
 
   var _rating = 0;
 
@@ -70,26 +62,12 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                       ),
                     ),
                   ),
-                  onPressed: () {},
-                ),
-                // message me
-                ElevatedButton(
-                  child: Text(
-                    "Message me",
-                    style: TextStyle(
-                        fontFamily: 'Comfortaa', fontWeight: FontWeight.bold),
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                      (kPrimaryColor),
-                    ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                      ),
-                    ),
-                  ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const EditProfilePage()),
+                    );
+                  },
                 ),
               ],
             ),
@@ -127,6 +105,14 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
             //overview
             Text(
               "About Me",
+              style: TextStyle(
+                  fontFamily: 'Comfortaa',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: kPrimaryDarkColor),
+            ),
+            Text(
+              "*insert bio here*",
               style: TextStyle(
                   fontFamily: 'Comfortaa',
                   fontWeight: FontWeight.bold,
