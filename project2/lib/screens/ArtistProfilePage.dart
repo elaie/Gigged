@@ -14,11 +14,12 @@ class ArtistProfilePage extends StatefulWidget {
 }
 
 class _ArtistProfilePageState extends State<ArtistProfilePage> {
+  //TO GET CURRENT USER EMAIL
   String getUserEmail() {
     final user = FirebaseAuth.instance.currentUser;
     String email=" ";
     if (user != null) {
-      email = user.email.toString();
+      email = user.displayName.toString();
       return (email);
     }
     return email;
