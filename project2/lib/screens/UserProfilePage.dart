@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:project2/screens/constraints.dart';
@@ -11,10 +12,19 @@ class UserProfilePage extends StatefulWidget {
 }
 
 class _UserProfilePageState extends State<UserProfilePage> {
+  //final database = FirebaseDatabase.instance.reference();
+  final user = FirebaseAuth.instance.currentUser;
+  print(user) {
+    // TODO: implement print
+    throw UnimplementedError();
+  }
+
+
   int _rating = 0;
 
   @override
   Widget build(BuildContext context) {
+   // final ratings = database.child('ratings/');
     return Scaffold(
       body: SafeArea(
         child: Column(

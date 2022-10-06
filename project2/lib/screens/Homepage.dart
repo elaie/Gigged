@@ -82,8 +82,8 @@ class _HomePageState extends State<HomePage> {
       MainPage(),
       MapPage(),
       SearchPage(),
-      UserProfilePage(),
-      //ArtistProfilePage(widget.userName),
+      //UserProfilePage(),
+      ArtistProfilePage(widget.userName),
 
     ];
   }

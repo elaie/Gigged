@@ -13,7 +13,18 @@ class ArtistProfilePage extends StatefulWidget {
 }
 
 class _ArtistProfilePageState extends State<ArtistProfilePage> {
-  var _rating =0;
+  String getUserEmail() {
+    final user = FirebaseAuth.instance.currentUser;
+    String email=" ";
+    if (user != null) {
+      email = user.email.toString();
+      return (email);
+    }
+   return email;
+  }
+
+  var _rating = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +33,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              "Hello there!\n" + widget.userName,
+              "Hello there!\n" + getUserEmail(),
               style: TextStyle(
                   fontFamily: 'Comfortaa',
                   fontWeight: FontWeight.bold,
@@ -94,21 +105,23 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
             //stars
             AnimatedPositioned(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
-                5,
-                (index) => IconButton(
-                  icon:index <_rating ? Icon(Icons.star, size: 32) : Icon(Icons.star_border, size:32),
-                  color: kPrimaryColor,
-                  onPressed: () {
-                    setState(
-                        (){
-                          _rating = index +1;
-                        },
-                    );
-                  },
-                ),
-              )),
+                    5,
+                    (index) => IconButton(
+                      icon: index < _rating
+                          ? Icon(Icons.star, size: 32)
+                          : Icon(Icons.star_border, size: 32),
+                      color: kPrimaryColor,
+                      onPressed: () {
+                        setState(
+                          () {
+                            _rating = index + 1;
+                          },
+                        );
+                      },
+                    ),
+                  )),
               duration: Duration(milliseconds: 300),
             ),
             //overview
