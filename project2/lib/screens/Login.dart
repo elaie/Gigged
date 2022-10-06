@@ -144,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                   MaterialPageRoute(
                   builder: (context)
               =>
-                  HomePage('null', 'null')
+                  HomePage(_emailTextController, _passwordTextController)
               ,
               )
               ).onError((error, stackTrace) {

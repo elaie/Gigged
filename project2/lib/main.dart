@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:project2/screens/Homepage.dart';
+import 'package:project2/screens/ProfilePage.dart';
 import 'package:project2/screens/constraints.dart';
 import 'package:project2/screens/welcome_screen.dart';
 
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
         primaryColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: const WelcomeScreen(),//this page runs first
+      home:  HomePage('null', 'null'),//this page runs first
     );
   }
 }
