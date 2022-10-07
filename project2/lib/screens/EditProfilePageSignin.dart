@@ -1,34 +1,19 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:project2/screens/ArtistProfilePage.dart';
+import 'package:project2/screens/Homepage.dart';
 
+import 'ArtistProfilePage.dart';
 import 'constraints.dart';
 
-class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({Key? key}) : super(key: key);
+class EditProfilePageSignin extends StatefulWidget {
+  const EditProfilePageSignin({Key? key}) : super(key: key);
 
   @override
-  State<EditProfilePage> createState() => _EditProfilePageState();
+  State<EditProfilePageSignin> createState() => _EditProfilePageSigninState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
-  final database = FirebaseDatabase.instance.reference();
-  TextEditingController _nameTextController = TextEditingController();
+class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
   @override
   Widget build(BuildContext context) {
-
-    String getUserEmail() {
-      final user = FirebaseAuth.instance.currentUser;
-      String email=" ";
-      if (user != null) {
-        email = user.email.toString();
-        return (email);
-      }
-      return email;
-    }
-
     Widget ProfilePic = GestureDetector(
       onTap: () {
         print('image pressed');
@@ -46,10 +31,26 @@ class _EditProfilePageState extends State<EditProfilePage> {
           style: TextStyle(color: kPrimaryDarkColor),
         ));
 
+    Widget UserName = TextFormField(
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Field cannot be empty';
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(color: kPrimaryLightColor),
+        ),
+        labelText: 'Username',
+        filled: true,
+        fillColor: kPrimaryLightColor,
+        contentPadding: EdgeInsets.all(20.0),
+      ),
+    );
 
     Widget FullName = TextFormField(
-      keyboardType: TextInputType.name,
-      controller: _nameTextController,
       validator: (value) {
         if (value!.isEmpty) {
           return 'Field cannot be empty';
@@ -95,12 +96,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
           fontSize: 30,
           color: kPrimaryColor),
     );
-    
-    Widget SaveButton=  ElevatedButton(
+
+    Widget SaveButton = ElevatedButton(
       child: Text(
         "Save Changes",
-        style: TextStyle(
-            fontFamily: 'Comfortaa', fontWeight: FontWeight.bold),
+        style: TextStyle(fontFamily: 'Comfortaa', fontWeight: FontWeight.bold),
       ),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(
@@ -113,18 +113,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ),
       ),
       onPressed: () {
-
-        //final userInformation = database.child('USERS'+getUserEmail()+"/");
-        FirebaseAuth.instance.currentUser?.updateDisplayName(_nameTextController.text);
-        print(_nameTextController.text+"is printed");
         Navigator.push(
-
           context,
-          MaterialPageRoute(builder: (context) => ArtistProfilePage('')),
+          MaterialPageRoute(
+            builder: (context) => HomePage('', ''),
+          ),
         );
       },
     );
-    
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -132,23 +129,36 @@ class _EditProfilePageState extends State<EditProfilePage> {
             padding: const EdgeInsets.all(50),
             child: Column(
               children: [
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 Toptext,
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 ProfilePic,
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 ChangeProfilePic,
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 FullName,
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 UserName,
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 AboutMe,
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 SaveButton,
               ],
             ),
-
           ),
         ),
       ),

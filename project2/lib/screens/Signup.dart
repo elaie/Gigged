@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:project2/screens/EditProfilePage.dart';
 import 'package:project2/screens/Homepage.dart';
 import 'package:project2/screens/Login.dart';
 import 'package:project2/screens/constraints.dart';
+
+import 'EditProfilePageSignin.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -139,10 +142,11 @@ class _SignupPageState extends State<SignupPage> {
                       password: _passwordTextController.text)
                   .then((value) {
                     print("created new acc");
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => HomePage('null', 'null'),
+                    builder: (context) => EditProfilePageSignin(),
                   ),
                 );
               }).onError((error, stackTrace) {

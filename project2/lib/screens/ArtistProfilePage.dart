@@ -14,6 +14,16 @@ class ArtistProfilePage extends StatefulWidget {
 }
 
 class _ArtistProfilePageState extends State<ArtistProfilePage> {
+  //TO GET CURRENT USER EMAIL
+  String getUserEmail() {
+    final user = FirebaseAuth.instance.currentUser;
+    String email = " ";
+    if (user != null) {
+      email = user.displayName.toString();
+      return (email);
+    }
+    return email;
+  }
 
   var _rating = 0;
 
@@ -21,46 +31,77 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              "Hello there!\n" + getUserEmail(),
-              style: TextStyle(
-                  fontFamily: 'Comfortaa',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 35,
-                  color: kPrimaryColor),
+        child: Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(20),
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/main_top.png'),
+              fit: BoxFit.cover,
             ),
-            //profile picture
-            GestureDetector(
-              onTap: () {
-                print('image pressed');
-              },
-              child: const CircleAvatar(
-                radius: 70,
-                backgroundImage: AssetImage('assets/images/profile2.webp'),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                "Hello there!",
+                style: TextStyle(
+                    fontFamily: 'Comfortaa',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: kPrimaryColor),
               ),
-            ),
-            //edit button
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  child: Text(
-                    "Edit Profile",
-                    style: TextStyle(
-                        fontFamily: 'Comfortaa', fontWeight: FontWeight.bold),
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                      (kPrimaryColor),
+              Text(
+                getUserEmail(),
+                style: TextStyle(
+                    fontFamily: 'Comfortaa',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: kPrimaryColor),
+              ),
+
+              //profile picture
+              GestureDetector(
+                onTap: () {
+                  print('image pressed');
+                },
+                child: const CircleAvatar(
+                  radius: 70,
+                  backgroundImage: AssetImage('assets/images/profile2.webp'),
+                ),
+              ),
+              //edit button
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    child: Text(
+                      "Edit Profile",
+                      style: TextStyle(
+                          fontFamily: 'Comfortaa', fontWeight: FontWeight.bold),
                     ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                        (kPrimaryColor),
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
                       ),
                     ),
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
+                          ),
+                        ),
+                        builder: (context) => EditProfilePage(),
+                      );
+                    },
                   ),
                   onPressed: () {
                     Navigator.of(context).push(_createRoute());
@@ -123,28 +164,32 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                   color: kPrimaryDarkColor),
             ),
 
-            //logout button
-            ElevatedButton(
-              child: Text("Logout"),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  (kPrimaryColor),
-                ),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.0),
+
+              //logout button
+              ElevatedButton(
+                child: Text("Logout"),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    (kPrimaryColor),
+                  ),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
                   ),
                 ),
+                onPressed: () {
+                  FirebaseAuth.instance.signOut().then((value) {
+                    print("Signed Out");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => WelcomeScreen()));
+                  });
+                },
               ),
-              onPressed: () {
-                FirebaseAuth.instance.signOut().then((value) {
-                  print("Signed Out");
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => WelcomeScreen()));
-                });
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

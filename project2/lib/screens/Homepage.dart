@@ -8,8 +8,8 @@ import 'package:project2/screens/UserProfilePage.dart';
 import 'package:project2/screens/constraints.dart';
 
 class HomePage extends StatefulWidget {
-  String userName='pritisha';
-  String password='';
+  String userName = 'pritisha';
+  String password = '';
 
   HomePage(userName, password);
 
@@ -19,10 +19,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var _selectedIndex = 0;
-  var _screens=[];
+  var _screens = [];
 
-
- /* static const List<Widget> _widgetOptions = <Widget>[
+  /* static const List<Widget> _widgetOptions = <Widget>[
     MainPage(),
     MapPage(),
     SearchPage(),
@@ -84,7 +83,6 @@ class _HomePageState extends State<HomePage> {
       SearchPage(),
       //UserProfilePage(),
       ArtistProfilePage(widget.userName),
-
     ];
   }
 
@@ -111,15 +109,25 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-
         //esma icons pani clickable huncha
         type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem> [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home',backgroundColor: kPrimaryColor),
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.map), label: "Map",backgroundColor: kPrimaryColor),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search",backgroundColor: kPrimaryColor),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile",backgroundColor: kPrimaryColor),
+              icon: Icon(Icons.home),
+              label: 'Home',
+              backgroundColor: kPrimaryColor),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.map),
+              label: "Map",
+              backgroundColor: kPrimaryColor),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: "Search",
+              backgroundColor: kPrimaryColor),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: "Profile",
+              backgroundColor: kPrimaryColor),
         ],
         selectedItemColor: kPrimaryDarkColor,
         onTap: (index) {
@@ -131,7 +139,6 @@ class _HomePageState extends State<HomePage> {
           });
         },
       ),
-
     );
   }
 }
