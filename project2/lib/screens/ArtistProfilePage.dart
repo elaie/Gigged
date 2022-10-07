@@ -103,56 +103,67 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                       );
                     },
                   ),
-                ],
-              ),
-              //ratings
-              Text(
-                "Ratings",
-                style: TextStyle(
-                    fontFamily: 'Comfortaa',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: kPrimaryDarkColor),
-              ),
-              //stars
-              AnimatedPositioned(
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                      5,
-                      (index) => IconButton(
-                        icon: index < _rating
-                            ? Icon(Icons.star, size: 32)
-                            : Icon(Icons.star_border, size: 32),
-                        color: kPrimaryColor,
-                        onPressed: () {
-                          setState(
-                            () {
-                              _rating = index + 1;
-                            },
-                          );
-                        },
-                      ),
-                    )),
-                duration: Duration(milliseconds: 300),
-              ),
-              //overview
-              Text(
-                "About Me",
-                style: TextStyle(
-                    fontFamily: 'Comfortaa',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: kPrimaryDarkColor),
-              ),
-              Text(
-                "*insert bio here*",
-                style: TextStyle(
-                    fontFamily: 'Comfortaa',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: kPrimaryDarkColor),
-              ),
+                  onPressed: () {
+                    Navigator.of(context).push(_createRoute());
+                  },
+                  /*onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const EditProfilePage()),
+                    );
+                  },*/
+                ),
+              ],
+            ),
+            //ratings
+            Text(
+              "Ratings",
+              style: TextStyle(
+                  fontFamily: 'Comfortaa',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: kPrimaryDarkColor),
+            ),
+            //stars
+            AnimatedPositioned(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    5,
+                    (index) => IconButton(
+                      icon: index < _rating
+                          ? Icon(Icons.star, size: 32)
+                          : Icon(Icons.star_border, size: 32),
+                      color: kPrimaryColor,
+                      onPressed: () {
+                        setState(
+                          () {
+                            _rating = index + 1;
+                          },
+                        );
+                      },
+                    ),
+                  )),
+              duration: Duration(milliseconds: 300),
+            ),
+            //overview
+            Text(
+              "About Me",
+              style: TextStyle(
+                  fontFamily: 'Comfortaa',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: kPrimaryDarkColor),
+            ),
+            Text(
+              "*insert bio here*",
+              style: TextStyle(
+                  fontFamily: 'Comfortaa',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: kPrimaryDarkColor),
+            ),
+
 
               //logout button
               ElevatedButton(
@@ -184,3 +195,23 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
     );
   }
 }
+
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => const EditProfilePage(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+
+
