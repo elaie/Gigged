@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:project2/screens/Homepage.dart';
 import 'package:project2/screens/ProfilePage.dart';
@@ -6,6 +7,7 @@ import 'package:project2/screens/constraints.dart';
 import 'package:project2/screens/welcome_screen.dart';
 
 void main() async {
+  final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());

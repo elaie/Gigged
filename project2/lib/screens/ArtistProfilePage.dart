@@ -14,6 +14,7 @@ class ArtistProfilePage extends StatefulWidget {
 }
 
 class _ArtistProfilePageState extends State<ArtistProfilePage> {
+
   var _rating = 0;
 
   @override
@@ -24,7 +25,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              "Hello there!\n" + widget.userName,
+              "Hello there!\n" + getUserEmail(),
               style: TextStyle(
                   fontFamily: 'Comfortaa',
                   fontWeight: FontWeight.bold,
