@@ -1,14 +1,17 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:project2/screens/ArtistProfilePage.dart';
 
 import 'constraints.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
-
   @override
   State<EditProfilePage> createState() => _EditProfilePageState();
 }
@@ -16,6 +19,21 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   final database = FirebaseDatabase.instance.reference();
   TextEditingController _nameTextController = TextEditingController();
+  String imageUrl = " ";
+  void picUploadImage() async{
+  final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+  Reference ref = FirebaseStorage.instance.ref().child("profilepic.jpg");
+  await ref.putFile(File(image!.path));
+  ref.getDownloadURL().then((value) {
+    print(value);
+    setState(() {
+      imageUrl = value;
+    });
+  });
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -30,20 +48,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
 
     Widget ProfilePic = GestureDetector(
-      onTap: () {
+      onTap: () async{
         print('image pressed');
+          picUploadImage();
       },
-      child: const CircleAvatar(
-        radius: 70,
-        backgroundImage: AssetImage('assets/images/profile2.webp'),
-      ),
+      child: imageUrl == " " ? Icon(Icons.person) : Image.network(imageUrl),
     );
 
     Widget ChangeProfilePic = GestureDetector(
         onTap: () {},
+
         child: Text(
           'Change Profile Picture',
           style: TextStyle(color: kPrimaryDarkColor),
+
         ));
 
 
