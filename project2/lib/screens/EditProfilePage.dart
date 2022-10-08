@@ -141,8 +141,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 SizedBox(height: 20,),
                 FullName,
                 SizedBox(height: 20,),
-                UserName,
-                SizedBox(height: 20,),
                 AboutMe,
                 SizedBox(height: 20,),
                 SaveButton,
