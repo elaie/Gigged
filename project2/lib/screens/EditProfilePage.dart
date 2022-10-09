@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,6 +10,7 @@ import 'package:project2/screens/ArtistProfilePage.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../storage_services.dart';
 import 'constraints.dart';
+import '../getData.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
@@ -29,15 +29,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   Widget build(BuildContext context) {
     final Storage storage = Storage();
-    String getUserEmail() {
+    final extractData ExtractData = extractData();
+
+    String getUserUID() {
       final user = FirebaseAuth.instance.currentUser;
-      String email = " ";
+      String UID = " ";
       if (user != null) {
-        email = user.email.toString();
-        return (email);
+        UID = user.uid.toString();
+        print("=======================================UID OF USER: "+UID);
+        return (UID);
+
       }
-      return email;
+      return UID;
     }
+
+
     FutureBuilder(future: storage.listFiles(),
         builder: (BuildContext context,
             AsyncSnapshot<firebase_storage.ListResult> snapshot) {
@@ -86,19 +92,22 @@ class _EditProfilePageState extends State<EditProfilePage> {
         }
 
         final path = results.files.single.path!;
-        final fileName = results.files.single.name;
+        //final fileName = results.files.single.name;
 
         storage
-            .uploadFile(path, fileName)
+            .uploadFile(path, getUserUID())
             .then((value) => print("profile picture uploaded   FILENAME:"+path));
-        print("PATH" + path);
-        print("FILENAME: " + fileName);
-      },
 
-        child : FutureBuilder(future: storage.downloadURL("IMG_20221008_012520_386.jpg"),
+        print("PATH" + path);
+        print("FILENAME: " + ExtractData.getUserEmail());
+      },
+        // TO INITIALIZE THE PROFILE PICTURE
+        child : FutureBuilder(future: storage.downloadURL(ExtractData.getUserUID()),
             builder: (BuildContext context,
                 AsyncSnapshot<String> snapshot) {
+
               print("===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+              getUserUID();
               if (snapshot.connectionState == ConnectionState.done &&
                   snapshot.hasData) {
                 print("CONNECTION STATE IS STABLE");

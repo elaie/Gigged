@@ -6,6 +6,7 @@ import 'package:project2/screens/constraints.dart';
 import 'package:project2/screens/welcome_screen.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../storage_services.dart';
+import '../getData.dart';
 
 class ArtistProfilePage extends StatefulWidget {
   String userName;
@@ -18,25 +19,10 @@ class ArtistProfilePage extends StatefulWidget {
 
 class _ArtistProfilePageState extends State<ArtistProfilePage> {
   final Storage storage = Storage();
+  final extractData ExtractData = extractData();
   String imageUrl = " ";
-  //TO GET CURRENT USER EMAIL
-  String getUserEmail() {
-    final user = FirebaseAuth.instance.currentUser;
-    String email = " ";
-    if (user != null) {
-      email = user.displayName.toString();
-      return (email);
-    }
-    return email;
-  }
-  void LoadImage() async {
-    final ref = FirebaseStorage.instance.ref().child('profilepic.jpg');
-    await ref.getDownloadURL();
 
-// no need of the file extension, the name will do fine.
-    var url = await ref.getDownloadURL();
-    print(url);
-  }
+
   var _rating = 0;
 
   @override
@@ -64,7 +50,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
     color: kPrimaryColor),
     ),
     Text(
-    getUserEmail(),
+      ExtractData.getUserName(),
     style: TextStyle(
     fontFamily: 'Comfortaa',
     fontWeight: FontWeight.bold,
@@ -77,7 +63,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
     onTap: () {
     print('image pressed');
     },
-    child: FutureBuilder(future: storage.downloadURL("IMG_20221008_012520_386.jpg"),
+    child: FutureBuilder(future: storage.downloadURL(ExtractData.getUserUID()),
             builder: (BuildContext context,
                 AsyncSnapshot<String> snapshot) {
               print("===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
