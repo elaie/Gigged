@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:project2/screens/ArtistProfilePage.dart';
 import 'package:project2/screens/Homepage.dart';
 import 'package:project2/screens/ProfilePage.dart';
+import 'package:project2/screens/WhoAreYou.dart';
 import 'package:project2/screens/constraints.dart';
 import 'package:project2/screens/welcome_screen.dart';
 
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
         primaryColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: HomePage('', ''),//this page runs first
+      home: WhoAreYou(),//this page runs first
     );
   }
 }
