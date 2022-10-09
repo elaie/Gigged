@@ -57,7 +57,7 @@ class _MapPageState extends State<MapPage> {
         ), // AppBar
         body: Stack(
           children: <Widget>[
-            //currentLocation == null ? const Center(child: Text("Loading")) :
+            currentLocation == null ? const Center(child: Text("Loading")) :
             GoogleMap(
                 initialCameraPosition:CameraPosition (
                   target: LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
