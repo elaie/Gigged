@@ -48,7 +48,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                 color: kPrimaryColor),
           ),
           Text(
-              extractData().getUserEmail(),
+              extractData().getUserName(),
             style: TextStyle(
                 fontFamily: 'Comfortaa',
                 fontWeight: FontWeight.bold,
