@@ -75,32 +75,32 @@ class _EditProfilePageState extends State<EditProfilePage> {
         });
 
     Widget ProfilePic = GestureDetector(
-      onTap: () async {
-        print('image pressed');
-        final results = await FilePicker.platform.pickFiles(
-          allowMultiple: false,
-          type: FileType.custom,
-          allowedExtensions: ['png', 'jpg'],
-        );
-        if (results == null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("No File Selected"),
-            ),
+        onTap: () async {
+          print('image pressed');
+          final results = await FilePicker.platform.pickFiles(
+            allowMultiple: false,
+            type: FileType.custom,
+            allowedExtensions: ['png', 'jpg'],
           );
-          return null;
-        }
+          if (results == null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("No File Selected"),
+              ),
+            );
+            return null;
+          }
 
-        final path = results.files.single.path!;
-        //final fileName = results.files.single.name;
+          final path = results.files.single.path!;
+          //final fileName = results.files.single.name;
 
-        storage
-            .uploadFile(path, getUserUID())
-            .then((value) => print("profile picture uploaded   FILENAME:"+path));
+          storage
+              .uploadFile(path, getUserUID())
+              .then((value) => print("profile picture uploaded   FILENAME:"+path));
 
-        print("PATH" + path);
-        print("FILENAME: " + ExtractData.getUserEmail());
-      },
+          print("PATH" + path);
+          print("FILENAME: " + ExtractData.getUserEmail());
+        },
         // TO INITIALIZE THE PROFILE PICTURE
         child : FutureBuilder(future: storage.downloadURL(ExtractData.getUserUID()),
             builder: (BuildContext context,
