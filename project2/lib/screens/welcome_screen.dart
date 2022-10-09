@@ -129,35 +129,39 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SafeArea(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Stack(
-                    children: <Widget>[
-                      Container(
-                          alignment: Alignment.topLeft,
-                          height: 240,
-                          child: Image.asset('assets/images/main_top.png',fit: BoxFit.fill)
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(top: 200),
-                        alignment: Alignment.center,
-                          height: 350,
-                          child: Image.asset('assets/images/viber_image_2022-10-06_18-33-37-004.jpg',fit: BoxFit.fill)
-                      ),
-                    ],
+              child: Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/main_top.png'),
+                    fit: BoxFit.cover,
                   ),
-                  SizedBox(height: 30),
-                  PhraseText,
-                  PhraseText2,
-                  SizedBox(height: 60),
-                  LoginButton,
-                  SizedBox(height: 10),
-                  OrText,
-                  SizedBox(height: 10),
-                  SignUpButton,
-                  SizedBox(height: 10),
-                ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Stack(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 60,),
+                          child: Container(
+                            alignment: Alignment.center,
+                              height: 350,
+                              child: Image.asset('assets/images/Gigged-1.png',fit: BoxFit.fill)
+                          ),
+                        ),
+                      ],
+                    ),
+                    PhraseText,
+                    PhraseText2,
+                    SizedBox(height: 60),
+                    LoginButton,
+                    SizedBox(height: 10),
+                    OrText,
+                    SizedBox(height: 10),
+                    SignUpButton,
+                    SizedBox(height: 10),
+                  ],
+                ),
               ),
             ),
           ],

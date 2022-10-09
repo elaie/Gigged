@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   var _selectedIndex = 0;
   var _screens = [];
 
-  /* static const List<Widget> _widgetOptions = <Widget>[
+  static const List<Widget> _widgetOptions = <Widget>[
     MainPage(),
     MapPage(),
     SearchPage(),
@@ -38,14 +38,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Gigged'),
-        backgroundColor: kPrimaryColor,
-      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -71,9 +68,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-*/
 
-  @override
+ /* @override
   void initState() {
     //widget.userName use gana ko lagi initialize garna parcha paila
     super.initState();
@@ -140,5 +136,4 @@ class _HomePageState extends State<HomePage> {
         },
       ),
     );
-  }
-}
+  }*/

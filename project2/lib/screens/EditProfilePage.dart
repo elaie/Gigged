@@ -226,7 +226,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         print(_nameTextController.text + "is printed");
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ArtistProfilePage('')),
+          MaterialPageRoute(builder: (context) => ArtistProfilePage()),
         );
       },
     );
