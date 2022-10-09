@@ -47,7 +47,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
-
     Widget EmailOrUsername = TextFormField(
       keyboardType: TextInputType.name,
       controller: _emailTextController,
@@ -136,18 +135,17 @@ class _LoginPageState extends State<LoginPage> {
         height: 50,
         child: ElevatedButton(
           onPressed: () {
-            FirebaseAuth.instance.signInWithEmailAndPassword(
-                email: _emailTextController.text,
-                password: _passwordTextController.text).then((value) {
+            FirebaseAuth.instance
+                .signInWithEmailAndPassword(
+                    email: _emailTextController.text,
+                    password: _passwordTextController.text)
+                .then((value) {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                  builder: (context)
-              =>
-                  HomePage(_emailTextController, _passwordTextController)
-              ,
-              )
-              ).onError((error, stackTrace) {
+                    builder: (context) =>
+                        HomePage(_emailTextController, _passwordTextController),
+                  )).onError((error, stackTrace) {
                 print("PASSWORD ERROR");
               });
             });
@@ -161,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
           child: const Text(
             'Login',
             style:
-            TextStyle(fontFamily: 'Comfortaa', fontWeight: FontWeight.bold),
+                TextStyle(fontFamily: 'Comfortaa', fontWeight: FontWeight.bold),
           ),
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(

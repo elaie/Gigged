@@ -91,7 +91,8 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           Text('hello world'),
         ],
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
+      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
