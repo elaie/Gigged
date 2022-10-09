@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:project2/screens/constraints.dart';
 import 'package:project2/screens/welcome_screen.dart';
 
@@ -14,17 +18,29 @@ class UserProfilePage extends StatefulWidget {
 class _UserProfilePageState extends State<UserProfilePage> {
   //final database = FirebaseDatabase.instance.reference();
   final user = FirebaseAuth.instance.currentUser;
+
   print(user) {
     // TODO: implement print
     throw UnimplementedError();
   }
 
+  String imageUrl = " ";
+
+  void LoadImage() async {
+    final ref = FirebaseStorage.instance.ref().child('profilepic.jpg');
+    await ref.getDownloadURL();
+
+// no need of the file extension, the name will do fine.
+    var url = await ref.getDownloadURL();
+    print(url);
+  }
 
   int _rating = 0;
 
   @override
   Widget build(BuildContext context) {
-   // final ratings = database.child('ratings/');
+    LoadImage();
+    // final ratings = database.child('ratings/');
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -51,11 +67,12 @@ class _UserProfilePageState extends State<UserProfilePage> {
             GestureDetector(
               onTap: () {
                 print('image pressed');
+                LoadImage();
+                print(imageUrl);
               },
-              child: const CircleAvatar(
-                radius: 70,
-                backgroundImage: AssetImage('assets/images/profile2.webp'),
-              ),
+              child: imageUrl == " "
+                  ? Icon(Icons.person)
+                  : Image.network(imageUrl),
             ),
             //edit button and message buttons
             Row(

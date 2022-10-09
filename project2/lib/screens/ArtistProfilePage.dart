@@ -1,27 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:project2/screens/EditProfilePage.dart';
 import 'package:project2/screens/constraints.dart';
 import 'package:project2/screens/welcome_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import '../storage_services.dart';
+import '../getData.dart';
 
 class ArtistProfilePage extends StatefulWidget {
-  const ArtistProfilePage({Key? key}) : super(key: key);
 
+  const ArtistProfilePage({Key? key}) : super(key: key);
   @override
   State<ArtistProfilePage> createState() => _ArtistProfilePageState();
 }
 
 class _ArtistProfilePageState extends State<ArtistProfilePage> {
-  //TO GET CURRENT USER EMAIL
-  String getUserEmail() {
-    final user = FirebaseAuth.instance.currentUser;
-    String email = " ";
-    if (user != null) {
-      email = user.displayName.toString();
-      return (email);
-    }
-    return email;
-  }
+  final Storage storage = Storage();
+  final extractData ExtractData = extractData();
+  String imageUrl = " ";
 
   var _rating = 0;
 
@@ -50,7 +47,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                     color: kPrimaryColor),
               ),
               Text(
-                getUserEmail(),
+                ExtractData.getUserName(),
                 style: TextStyle(
                     fontFamily: 'Comfortaa',
                     fontWeight: FontWeight.bold,
@@ -60,14 +57,27 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
 
               //profile picture
               GestureDetector(
-                onTap: () {
-                  print('image pressed');
-                },
-                child: const CircleAvatar(
-                  radius: 70,
-                  backgroundImage: AssetImage('assets/images/profile2.webp'),
-                ),
-              ),
+                  onTap: () {
+                    print('image pressed');
+                  },
+                  child: FutureBuilder(
+                      future: storage.downloadURL(ExtractData.getUserUID()),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<String> snapshot) {
+                        print(
+                            "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+                        if (snapshot.connectionState == ConnectionState.done &&
+                            snapshot.hasData) {
+                          print("CONNECTION STATE IS STABLE");
+                          return Container(
+                              width: 300,
+                              height: 250,
+                              child: Image.network(snapshot.data!,
+                                  fit: BoxFit.cover));
+                        }
+                        print("CONNECTION STATE IS UN-STABLE");
+                        return Container();
+                      })),
               //edit button
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -126,14 +136,14 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
                       5,
-                      (index) => IconButton(
+                          (index) => IconButton(
                         icon: index < _rating
                             ? Icon(Icons.star, size: 32)
                             : Icon(Icons.star_border, size: 32),
                         color: kPrimaryColor,
                         onPressed: () {
                           setState(
-                            () {
+                                () {
                               _rating = index + 1;
                             },
                           );
@@ -194,7 +204,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
 Route _createRoute() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) =>
-        const EditProfilePage(),
+    const EditProfilePage(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(0.0, 1.0);
       const end = Offset.zero;
