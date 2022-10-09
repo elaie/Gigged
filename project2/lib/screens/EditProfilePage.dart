@@ -120,7 +120,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         Navigator.push(
 
           context,
-          MaterialPageRoute(builder: (context) => ArtistProfilePage('')),
+          MaterialPageRoute(builder: (context) => ArtistProfilePage()),
         );
       },
     );
