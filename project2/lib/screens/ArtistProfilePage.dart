@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:project2/screens/EditProfilePage.dart';
 import 'package:project2/screens/constraints.dart';
 import 'package:project2/screens/welcome_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import '../storage_services.dart';
 
 class ArtistProfilePage extends StatefulWidget {
   String userName;
@@ -14,6 +17,8 @@ class ArtistProfilePage extends StatefulWidget {
 }
 
 class _ArtistProfilePageState extends State<ArtistProfilePage> {
+  final Storage storage = Storage();
+  String imageUrl = " ";
   //TO GET CURRENT USER EMAIL
   String getUserEmail() {
     final user = FirebaseAuth.instance.currentUser;
@@ -24,7 +29,14 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
     }
     return email;
   }
+  void LoadImage() async {
+    final ref = FirebaseStorage.instance.ref().child('profilepic.jpg');
+    await ref.getDownloadURL();
 
+// no need of the file extension, the name will do fine.
+    var url = await ref.getDownloadURL();
+    print(url);
+  }
   var _rating = 0;
 
   @override
@@ -65,10 +77,21 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
     onTap: () {
     print('image pressed');
     },
-    child: const CircleAvatar(
-    radius: 70,
-    backgroundImage: AssetImage('assets/images/profile2.webp'),
-    ),
+    child: FutureBuilder(future: storage.downloadURL("IMG_20221008_012520_386.jpg"),
+            builder: (BuildContext context,
+                AsyncSnapshot<String> snapshot) {
+              print("===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+              if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.hasData) {
+                print("CONNECTION STATE IS STABLE");
+                return Container(width: 300,
+                    height: 250,
+                    child: Image.network(snapshot.data!,
+                        fit:BoxFit.cover));
+              }
+              print("CONNECTION STATE IS UN-STABLE");
+              return Container();
+            })
     ),
     //edit button
     Row(
