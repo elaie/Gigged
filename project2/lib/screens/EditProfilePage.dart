@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:async';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,11 +7,13 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:project2/local_data.dart';
 import 'package:project2/screens/ArtistProfilePage.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../storage_services.dart';
 import 'constraints.dart';
 import '../getData.dart';
+
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
@@ -20,18 +23,47 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  final database = FirebaseDatabase.instance.reference();
+  final _database = FirebaseDatabase.instance.reference();
   TextEditingController _nameTextController = TextEditingController();
   TextEditingController _bioTextController = TextEditingController();
 
+
   get path => null;
 
+  String displayBio = "test";
+  late StreamSubscription _userBio;
+
+  final Storage storage = Storage();
+  final extractData ExtractData = extractData();
+  final local_data Local_data = local_data();
+  var _rating = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    activateListeners();
+    _nameTextController.text = extractData().getUserName();
+    _bioTextController.text=displayBio;
+  }
+
+  void activateListeners() {
+    _userBio = _database
+        .child(ExtractData.getUserUID() + "/BIO/Bio")
+        .onValue
+        .listen((event) {
+      final String description = event.snapshot.value.toString();
+      print("LISTENER: " + description);
+      setState(() {
+        _bioTextController.text='$description';
+      });
+    });
+  }
   @override
 
   Widget build(BuildContext context) {
     final Storage storage = Storage();
     final extractData ExtractData = extractData();
-    final setBio = database.child(ExtractData.getUserUID()+'/BIO/');
+    final setBio = _database.child(ExtractData.getUserUID()+'/BIO/');
     FutureBuilder(future: storage.listFiles(),
         builder: (BuildContext context,
             AsyncSnapshot<firebase_storage.ListResult> snapshot) {
@@ -213,7 +245,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         setBio.set({'Bio': _bioTextController.text});
         FirebaseAuth.instance.currentUser
             ?.updateDisplayName(_nameTextController.text);
-        print(_nameTextController.text + "is printed");
+        //print(_nameTextController.text + "is printed");
           Navigator.pop(context);
       },
     );
