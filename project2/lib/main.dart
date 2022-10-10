@@ -6,11 +6,11 @@ import 'package:project2/screens/Homepage.dart';
 import 'package:project2/screens/ProfilePage.dart';
 import 'package:project2/screens/constraints.dart';
 import 'package:project2/screens/welcome_screen.dart';
-
 void main() async {
   final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Welcome',
       theme: ThemeData(

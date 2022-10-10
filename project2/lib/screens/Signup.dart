@@ -134,23 +134,44 @@ class _SignupPageState extends State<SignupPage> {
               //to take input from user
               String userName = _emailTextController.text;
               String userPassword = _passwordTextController.text;
+              String userPassword2= _passwordTextController2.text;
+              if(userPassword!=userPassword2)
+                {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Password doesn't match"),
+                    ),
+                  );
+                  return null;
+                }
               print(userName);
               print(userPassword);
-              FirebaseAuth.instance
-                  .createUserWithEmailAndPassword(
-                      email: _emailTextController.text,
-                      password: _passwordTextController.text)
-                  .then((value) {
-                    print("created new acc");
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditProfilePageSignin(),
+              try{
+                FirebaseAuth.instance
+                    .createUserWithEmailAndPassword(
+                    email: _emailTextController.text,
+                    password: _passwordTextController.text)
+                    .then((value) {
+                  print("created new acc");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditProfilePageSignin(),
+                    ),
+                  );
+                }).onError((error, stackTrace) {
+                  print("error ${error.toString()}");
+                });
+              } on FirebaseAuthException catch (e){
+                print(e);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(e.message.toString()),
                   ),
                 );
-              }).onError((error, stackTrace) {
-                print("error ${error.toString()}");
-              });
+
+              }
+
             }
           },
           child: const Text(

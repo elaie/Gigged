@@ -135,26 +135,43 @@ class _LoginPageState extends State<LoginPage> {
         height: 50,
         child: ElevatedButton(
           onPressed: () {
-            FirebaseAuth.instance
-                .signInWithEmailAndPassword(
-                    email: _emailTextController.text,
-                    password: _passwordTextController.text)
-                .then((value) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        HomePage(_emailTextController, _passwordTextController),
-                  )).onError((error, stackTrace) {
-                print("PASSWORD ERROR");
+             showDialog(context: context,
+                 barrierDismissible: false,
+                 builder: (context) => Center(child: CircularProgressIndicator()));
+            try{
+              FirebaseAuth.instance
+                  .signInWithEmailAndPassword(
+                  email: _emailTextController.text,
+                  password: _passwordTextController.text)
+                  .then((value) {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          HomePage(_emailTextController, _passwordTextController),
+                    ));
               });
-            });
-            if (_formKey.currentState!.validate()) {
-              //to take input from user
+              //Navigator.of(context).pop();
 
-              print(_emailTextController.text);
-              print(_passwordTextController.text);
+              print("HELLO WORLD");
+            } on FirebaseAuthException catch (e){
+              print("ERROR LOGININ: "+e.toString());
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(e.message.toString()),
+                ),
+              );
+
             }
+             ScaffoldMessenger.of(context).showSnackBar(
+               SnackBar(
+                 content: Text("ERROR SIGNING IN"),
+               ),
+             );
+
+            //Navigator.of(context).pop();
+
           },
           child: const Text(
             'Login',
