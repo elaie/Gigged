@@ -214,10 +214,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         FirebaseAuth.instance.currentUser
             ?.updateDisplayName(_nameTextController.text);
         print(_nameTextController.text + "is printed");
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ArtistProfilePage()),
-        );
+          Navigator.pop(context);
       },
     );
 
