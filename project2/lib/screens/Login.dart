@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
+import 'package:project2/main.dart';
 import 'package:project2/screens/Homepage.dart';
 import 'package:project2/screens/Signup.dart';
 import 'package:project2/screens/constraints.dart';
@@ -20,6 +22,13 @@ class _LoginPageState extends State<LoginPage> {
   bool _isPasswordHidden = true;
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailTextController.dispose();
+    _passwordTextController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,45 +143,7 @@ class _LoginPageState extends State<LoginPage> {
         width: 200,
         height: 50,
         child: ElevatedButton(
-          onPressed: () {
-             showDialog(context: context,
-                 barrierDismissible: false,
-                 builder: (context) => Center(child: CircularProgressIndicator()));
-            try{
-              FirebaseAuth.instance
-                  .signInWithEmailAndPassword(
-                  email: _emailTextController.text,
-                  password: _passwordTextController.text)
-                  .then((value) {
-                Navigator.of(context).popUntil((route) => route.isFirst);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          HomePage(_emailTextController, _passwordTextController),
-                    ));
-              });
-              //Navigator.of(context).pop();
-
-              print("HELLO WORLD");
-            } on FirebaseAuthException catch (e){
-              print("ERROR LOGININ: "+e.toString());
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(e.message.toString()),
-                ),
-              );
-
-            }
-             ScaffoldMessenger.of(context).showSnackBar(
-               SnackBar(
-                 content: Text("ERROR SIGNING IN"),
-               ),
-             );
-
-            //Navigator.of(context).pop();
-
-          },
+          onPressed: signIn,
           child: const Text(
             'Login',
             style:
@@ -225,5 +196,25 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  Future signIn() async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(child: CircularProgressIndicator()));
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailTextController.text.trim(),
+          password: _passwordTextController.text.trim());
+    } on FirebaseAuthException catch (e) {
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.message.toString()),
+        ),
+      );
+    }
+    Navigator.of(context).pop();
   }
 }

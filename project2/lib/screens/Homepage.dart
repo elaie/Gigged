@@ -8,10 +8,7 @@ import 'package:project2/screens/UserProfilePage.dart';
 import 'package:project2/screens/constraints.dart';
 
 class HomePage extends StatefulWidget {
-  String userName = 'pritisha';
-  String password = '';
-
-  HomePage(userName, password);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();

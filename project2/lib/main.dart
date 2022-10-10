@@ -3,9 +3,12 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:project2/screens/ArtistProfilePage.dart';
 import 'package:project2/screens/Homepage.dart';
+import 'package:project2/screens/Login.dart';
 import 'package:project2/screens/ProfilePage.dart';
 import 'package:project2/screens/constraints.dart';
 import 'package:project2/screens/welcome_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 void main() async {
   final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,17 +16,15 @@ void main() async {
 
   runApp(const MyApp());
 }
-
-
+final navigatorKey = GlobalKey<NavigatorState>();
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Welcome',
       theme: ThemeData(
         // This is the theme of your application.
@@ -38,7 +39,8 @@ class MyApp extends StatelessWidget {
         primaryColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: HomePage('', ''),//this page runs first
+
+      home: WelcomeScreen(),//this page runs first
     );
   }
 }
@@ -77,6 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -98,4 +101,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
