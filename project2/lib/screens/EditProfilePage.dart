@@ -22,6 +22,7 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   final database = FirebaseDatabase.instance.reference();
   TextEditingController _nameTextController = TextEditingController();
+  TextEditingController _bioTextController = TextEditingController();
 
   get path => null;
 
@@ -30,20 +31,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     final Storage storage = Storage();
     final extractData ExtractData = extractData();
-
-    String getUserUID() {
-      final user = FirebaseAuth.instance.currentUser;
-      String UID = " ";
-      if (user != null) {
-        UID = user.uid.toString();
-        print("=======================================UID OF USER: "+UID);
-        return (UID);
-
-      }
-      return UID;
-    }
-
-
+    final setBio = database.child(ExtractData.getUserUID()+'/BIO/');
     FutureBuilder(future: storage.listFiles(),
         builder: (BuildContext context,
             AsyncSnapshot<firebase_storage.ListResult> snapshot) {
@@ -95,7 +83,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           //final fileName = results.files.single.name;
 
           storage
-              .uploadFile(path, getUserUID())
+              .uploadFile(path, ExtractData.getUserUID())
               .then((value) => print("profile picture uploaded   FILENAME:"+path));
 
           print("PATH" + path);
@@ -107,7 +95,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 AsyncSnapshot<String> snapshot) {
 
               print("===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
-              getUserUID();
+              ExtractData.getUserUID();
               if (snapshot.connectionState == ConnectionState.done &&
                   snapshot.hasData) {
                 print("CONNECTION STATE IS STABLE");
@@ -143,7 +131,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           //final fileName = results.files.single.name;
 
           storage
-              .uploadFile(path, getUserUID())
+              .uploadFile(path, ExtractData.getUserUID())
               .then((value) => print("profile picture uploaded   FILENAME:"+path));
 
           print("PATH" + path);
@@ -177,6 +165,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
 
     Widget AboutMe = TextFormField(
+      controller: _bioTextController,
       validator: (value) {
         if (value!.isEmpty) {
           return 'Field cannot be empty';
@@ -221,6 +210,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       ),
       onPressed: () {
         //final userInformation = database.child('USERS'+getUserEmail()+"/");
+        setBio.set({'Bio': _bioTextController.text});
         FirebaseAuth.instance.currentUser
             ?.updateDisplayName(_nameTextController.text);
         print(_nameTextController.text + "is printed");
