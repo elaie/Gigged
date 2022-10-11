@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:project2/screens/EditProfilePage.dart';
 import 'package:project2/screens/Homepage.dart';
 import 'package:project2/screens/Login.dart';
+import 'package:project2/screens/WhoAreYou.dart';
 import 'package:project2/screens/constraints.dart';
 
 import 'EditProfilePageSignin.dart';
@@ -145,7 +146,7 @@ class _SignupPageState extends State<SignupPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => EditProfilePageSignin(),
+                    builder: (context) => WhoAreYou(),
                   ),
                 );
               }).onError((error, stackTrace) {

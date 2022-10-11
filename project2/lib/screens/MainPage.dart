@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:project2/screens/PublicArtistProfile.dart';
 
 import 'constraints.dart';
 
@@ -55,7 +56,7 @@ class _MainPageState extends State<MainPage> {
                                   color: kPrimaryDarkColor),
                             ),
                             GestureDetector(
-                              onTap: (){},
+                              onTap: () {},
                               child: Text(
                                 'See all',
                                 style: TextStyle(
@@ -68,115 +69,124 @@ class _MainPageState extends State<MainPage> {
                               ),
                             ),
                           ])),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   //images for upcoming events
                   SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          //event 1
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 20),
-                            height: 150,
-                            width: 180,
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      print('image pressed');
-                                    },
-                                    child: Image.network(
-                                      'https://www.pngplay.com/wp-content/uploads/6/Party-Concert-Background-PNG-Image.png',
-                                    ),
-                                  ),
-                                  SizedBox(height: 10,),
-                                  Expanded(
-                                    child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Arbitary Event',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Comfortaa',
-                                              ),
-                                            ),
-                                            Text(
-                                              'From 9 oct-10 oct          '
-                                              'Venue - LOD club',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontFamily: 'Comfortaa',
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-                                  )
-                                ]),
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        //event 1
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          height: 150,
+                          width: 180,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          //event 2
-                          Container(
-                            height: 150,
-                            width: 180,
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      print('image pressed');
-                                    },
-                                    child: Image.network(
-                                      'https://www.pngplay.com/wp-content/uploads/6/Party-Concert-Background-PNG-Image.png',
-                                    ),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    print('image pressed');
+                                  },
+                                  child: Image.network(
+                                    'https://www.pngplay.com/wp-content/uploads/6/Party-Concert-Background-PNG-Image.png',
                                   ),
-                                  //texts for upcoming events
-                                  SizedBox(height: 10,),
-                                  Expanded(
-                                    child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'ABCD Event',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Comfortaa',
-                                              ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Arbitary Event',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'Comfortaa',
                                             ),
-                                            Text(
-                                              'From 11 oct-15 oct         '
-                                              'Venue - dorsia Club',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontFamily: 'Comfortaa',
-                                              ),
+                                          ),
+                                          Text(
+                                            'From 9 oct-10 oct          '
+                                            'Venue - LOD club',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontFamily: 'Comfortaa',
                                             ),
-                                          ],
-                                        )),
-                                  )
-                                ]),
-                          )
-                        ],
-                      ),),
-                  SizedBox(height: 20,),
+                                          ),
+                                        ],
+                                      )),
+                                )
+                              ]),
+                        ),
+                        //event 2
+                        Container(
+                          height: 150,
+                          width: 180,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    print('image pressed');
+                                  },
+                                  child: Image.network(
+                                    'https://www.pngplay.com/wp-content/uploads/6/Party-Concert-Background-PNG-Image.png',
+                                  ),
+                                ),
+                                //texts for upcoming events
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'ABCD Event',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'Comfortaa',
+                                            ),
+                                          ),
+                                          Text(
+                                            'From 11 oct-15 oct         '
+                                            'Venue - dorsia Club',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontFamily: 'Comfortaa',
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                )
+                              ]),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   //trending artist
                   Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -194,7 +204,9 @@ class _MainPageState extends State<MainPage> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: (){print('see all pressed');},
+                              onTap: () {
+                                print('see all pressed');
+                              },
                               child: Text(
                                 'See all',
                                 style: TextStyle(
@@ -215,6 +227,11 @@ class _MainPageState extends State<MainPage> {
                         //artist 1
                         GestureDetector(
                           onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PublicArtistProfile()));
                             print('artist1 image pressed');
                           },
                           child: Padding(
@@ -231,6 +248,11 @@ class _MainPageState extends State<MainPage> {
                         //artist 2
                         GestureDetector(
                           onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PublicArtistProfile()));
                             print('artist 2 image pressed');
                           },
                           child: Padding(
@@ -247,6 +269,11 @@ class _MainPageState extends State<MainPage> {
                         //artist 3
                         GestureDetector(
                           onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PublicArtistProfile()));
                             print('artist 3 image pressed');
                           },
                           child: Padding(
@@ -283,7 +310,7 @@ class _MainPageState extends State<MainPage> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: (){},
+                              onTap: () {},
                               child: Text(
                                 'See all',
                                 style: TextStyle(
@@ -321,7 +348,8 @@ class _MainPageState extends State<MainPage> {
                                     onTap: () {
                                       print('image pressed');
                                     },
-                                    child: Image.asset('assets/images/club.jpg'),
+                                    child:
+                                        Image.asset('assets/images/club.jpg'),
                                   ),
                                   Expanded(
                                     child: Padding(
@@ -329,7 +357,7 @@ class _MainPageState extends State<MainPage> {
                                             horizontal: 10),
                                         child: Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(height: 10),
                                             Text(
@@ -370,7 +398,8 @@ class _MainPageState extends State<MainPage> {
                                     onTap: () {
                                       print('image pressed');
                                     },
-                                    child: Image.asset('assets/images/club.jpg'),
+                                    child:
+                                        Image.asset('assets/images/club.jpg'),
                                   ),
                                   Expanded(
                                     child: Padding(
@@ -378,7 +407,7 @@ class _MainPageState extends State<MainPage> {
                                             horizontal: 10),
                                         child: Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(height: 10),
                                             Text(
@@ -419,7 +448,10 @@ class _MainPageState extends State<MainPage> {
                                     onTap: () {
                                       print('image pressed');
                                     },
-                                    child: Image.asset('assets/images/club.jpg', fit: BoxFit.fill,),
+                                    child: Image.asset(
+                                      'assets/images/club.jpg',
+                                      fit: BoxFit.fill,
+                                    ),
                                   ),
                                   Expanded(
                                     child: Padding(
@@ -427,7 +459,7 @@ class _MainPageState extends State<MainPage> {
                                             horizontal: 10),
                                         child: Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(height: 10),
                                             Text(

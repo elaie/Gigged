@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:project2/screens/EditProfilePageSignin.dart';
 
 import 'constraints.dart';
 
@@ -41,6 +42,12 @@ class _WhoAreYouState extends State<WhoAreYou> {
                 GestureDetector(
                   onTap: () {
                     print("Artist icon tapped");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditProfilePageSignin(),
+                      ),
+                    );
                   },
                   child: Lottie.asset(
                       'assets/anim/118914-woman-singer-in-recording-studio.json',
@@ -59,6 +66,12 @@ class _WhoAreYouState extends State<WhoAreYou> {
                 GestureDetector(
                   onTap: (){
                     print("user icon tapped");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditProfilePageSignin(),
+                      ),
+                    );
                   },
                   child: Lottie.asset('assets/anim/71367-person.json',
                       height: 200, width: 200),
@@ -75,6 +88,12 @@ class _WhoAreYouState extends State<WhoAreYou> {
                 GestureDetector(
                   onTap: (){
                     print("venue icon tapped");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditProfilePageSignin(),
+                      ),
+                    );
                   },
                   child: Lottie.asset(
                       'assets/anim/22446-house-cafe-restouran-building-maison-005-mocca-animation.json',
