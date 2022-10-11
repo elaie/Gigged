@@ -5,6 +5,8 @@ import 'package:project2/screens/ArtistProfilePage.dart';
 import 'package:project2/screens/Homepage.dart';
 import 'package:project2/screens/Login.dart';
 import 'package:project2/screens/ProfilePage.dart';
+import 'package:project2/screens/PublicArtistProfile.dart';
+import 'package:project2/screens/WhoAreYou.dart';
 import 'package:project2/screens/constraints.dart';
 import 'package:project2/screens/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,7 +41,6 @@ class MyApp extends StatelessWidget {
         primaryColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
       ),
-
       home: WelcomeScreen(),//this page runs first
     );
   }

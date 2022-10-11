@@ -79,6 +79,9 @@ flutter:
     - assets/anim/BandGuitar.json
     - assets/anim/105639-signup.json
     - assets/anim/LadyGuitar.json
+    - assets/anim/22446-house-cafe-restouran-building-maison-005-mocca-animation.json
+    - assets/anim/71367-person.json
+    - assets/anim/118914-woman-singer-in-recording-studio.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
