@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:project2/screens/Homepage.dart';
 import 'package:project2/screens/Login.dart';
+import 'package:project2/screens/MainPage.dart';
 import 'package:project2/screens/Signup.dart';
 import 'package:project2/screens/constraints.dart';
 
@@ -16,7 +19,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-   /* Widget TopImage = ClipRRect(
+    /* Widget TopImage = ClipRRect(
       child: Positioned(
         top: 0,
         left: 0,
@@ -101,8 +104,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => LoginPage(),
-              ),
+                  builder: (context) => Scaffold(
+                      body: StreamBuilder<User?>(
+                          stream: FirebaseAuth.instance.authStateChanges(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return HomePage();
+                            } else {
+                              return LoginPage();
+                            }
+                          }))),
             );
           },
           child: const Text(
@@ -142,12 +153,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     Stack(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(top: 60,),
-                          child: Container(
-                            alignment: Alignment.center,
-                              height: 350,
-                              child: Image.asset('assets/images/Gigged-1.png',fit: BoxFit.fill)
+                          padding: const EdgeInsets.only(
+                            top: 60,
                           ),
+                          child: Container(
+                              alignment: Alignment.center,
+                              height: 350,
+                              child: Image.asset('assets/images/Gigged-1.png',
+                                  fit: BoxFit.fill)),
                         ),
                       ],
                     ),
