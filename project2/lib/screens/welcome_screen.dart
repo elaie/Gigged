@@ -5,6 +5,7 @@ import 'package:project2/screens/Homepage.dart';
 import 'package:project2/screens/Login.dart';
 import 'package:project2/screens/MainPage.dart';
 import 'package:project2/screens/Signup.dart';
+import 'package:project2/screens/WhoAreYou.dart';
 import 'package:project2/screens/constraints.dart';
 
 class WelcomeScreen extends StatefulWidget {

@@ -157,7 +157,7 @@ class _SignupPageState extends State<SignupPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditProfilePageSignin(),
+                      builder: (context) => WhoAreYou(),
                     ),
                   );
                 }).onError((error, stackTrace) {
