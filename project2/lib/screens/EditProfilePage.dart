@@ -26,7 +26,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final _database = FirebaseDatabase.instance.reference();
   TextEditingController _nameTextController = TextEditingController();
   TextEditingController _bioTextController = TextEditingController();
-
+  final user = FirebaseAuth.instance.currentUser;
 
   get path => null;
 
@@ -141,8 +141,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
             })
     );
 
+
     Widget ChangeProfilePic = GestureDetector(
         onTap: () async {
+
+
+
 
           print('image pressed');
           final results = await FilePicker.platform.pickFiles(
@@ -162,12 +166,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
           final path = results.files.single.path!;
           //final fileName = results.files.single.name;
 
+
           storage
               .uploadFile(path, ExtractData.getUserUID())
               .then((value) => print("profile picture uploaded   FILENAME:"+path));
 
           print("PATH" + path);
           print("FILENAME: " + ExtractData.getUserEmail());
+
         },
         child: Text(
           'Change Profile Picture',

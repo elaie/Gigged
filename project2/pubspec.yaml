@@ -50,6 +50,7 @@ dependencies:
   flutter_polyline_points: ^1.0.0
   location: ^4.4.0
   flutter_svg: ^1.1.5
+  cloud_firestore: ^3.5.1
 
 dev_dependencies:
   flutter_test:

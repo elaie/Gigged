@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:project2/getData.dart';
 import 'package:project2/screens/constraints.dart';
-
+import '../storage_services.dart';
 class PublicArtistProfile extends StatefulWidget {
   const PublicArtistProfile({Key? key}) : super(key: key);
 
   @override
   State<PublicArtistProfile> createState() => _PublicArtistProfileState();
+
 }
 
 class _PublicArtistProfileState extends State<PublicArtistProfile> {
-
+  final Storage storage = Storage();
+  final extractData ExtractData = extractData();
   var _rating = 0;
   @override
   Widget build(BuildContext context) {
@@ -41,10 +43,25 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
                 SizedBox(height: 20),
                 //profile picture
                 GestureDetector(
-                  child: const CircleAvatar(
-                    radius: 70,
-                    backgroundImage: AssetImage('assets/images/singerImage.jpg'),
-                  ),
+                  child: FutureBuilder(
+                      future: storage.downloadURL(ExtractData.getUserUID()),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<String> snapshot) {
+                        // print(
+                        // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+                        extractData().getUserUID();
+                        if (snapshot.connectionState == ConnectionState.done &&
+                            snapshot.hasData) {
+                          //print("CONNECTION STATE IS STABLE");
+                          return CircleAvatar(
+                              radius: 70,
+                              backgroundImage: NetworkImage(
+                                snapshot.data!,
+                              ));
+                        }
+                        // print("CONNECTION STATE IS UN-STABLE");
+                        return Container();
+                      }),
                 ),
                 SizedBox(height: 20),
                 //bio

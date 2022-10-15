@@ -1,19 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project2/screens/EditProfilePageSignin.dart';
-
+import '../getData.dart';
 import 'constraints.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class WhoAreYou extends StatefulWidget {
-  const WhoAreYou({Key? key}) : super(key: key);
+
+  //WhoAreYou(this.value);
+  //WhoAreYou({super.key, required this.value});
+
+  final value;
+  WhoAreYou(this.value);
 
   @override
   State<WhoAreYou> createState() => _WhoAreYouState();
 }
 
 class _WhoAreYouState extends State<WhoAreYou> {
+
+  final _database = FirebaseDatabase.instance.reference();
+  final extractData ExtractData = extractData();
   @override
   Widget build(BuildContext context) {
+    final setAccType = _database.child(ExtractData.getUserUID()+'/');
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -42,6 +53,9 @@ class _WhoAreYouState extends State<WhoAreYou> {
                 GestureDetector(
                   onTap: () {
                     print("Artist icon tapped");
+                    print("value: "+widget.value);
+                    FirebaseFirestore.instance.collection('Artist').doc(widget.value).set({"Account type":"Artist Profile"});
+                    setAccType.set({'Account Type':'Artist'});
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -65,7 +79,9 @@ class _WhoAreYouState extends State<WhoAreYou> {
                 //user icon
                 GestureDetector(
                   onTap: (){
+                    setAccType.set({'Account Type':'User'});
                     print("user icon tapped");
+                    FirebaseFirestore.instance.collection('User').doc(widget.value).set({"Account type":"User Profile"});
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -87,7 +103,9 @@ class _WhoAreYouState extends State<WhoAreYou> {
                 //venue icon
                 GestureDetector(
                   onTap: (){
+                    setAccType.set({'Account Type':'Venue'});
                     print("venue icon tapped");
+                    FirebaseFirestore.instance.collection('Venue').doc(widget.value).set({"Account type":"Venue Profile"});
                     Navigator.push(
                       context,
                       MaterialPageRoute(

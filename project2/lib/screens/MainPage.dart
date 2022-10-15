@@ -1,9 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:project2/screens/PublicArtistProfile.dart';
-
+import '../storage_services.dart';
 import 'constraints.dart';
-
+import 'package:project2/getData.dart';
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
@@ -12,8 +13,12 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  final Storage storage = Storage();
+  final extractData ExtractData = extractData();
+
   @override
   Widget build(BuildContext context) {
+    storage.listFiles();
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -42,6 +47,7 @@ class _MainPageState extends State<MainPage> {
               //upcoming events
               Column(
                 children: <Widget>[
+
                   Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.0),
                       child: Row(
@@ -56,11 +62,15 @@ class _MainPageState extends State<MainPage> {
                                   color: kPrimaryDarkColor),
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+
+                              },
                               child: Text(
                                 'See all',
                                 style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
+                                  color: Theme
+                                      .of(context)
+                                      .primaryColor,
                                   fontSize: 16.0,
                                   fontFamily: 'Comfortaa',
                                   fontWeight: FontWeight.w600,
@@ -91,7 +101,9 @@ class _MainPageState extends State<MainPage> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    print('image pressed');
+
+
+                                    print('first image pressed');
                                   },
                                   child: Image.network(
                                     'https://www.pngplay.com/wp-content/uploads/6/Party-Concert-Background-PNG-Image.png',
@@ -106,7 +118,7 @@ class _MainPageState extends State<MainPage> {
                                           horizontal: 10),
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             'Arbitary Event',
@@ -118,7 +130,7 @@ class _MainPageState extends State<MainPage> {
                                           ),
                                           Text(
                                             'From 9 oct-10 oct          '
-                                            'Venue - LOD club',
+                                                'Venue - LOD club',
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontFamily: 'Comfortaa',
@@ -158,7 +170,7 @@ class _MainPageState extends State<MainPage> {
                                           horizontal: 10),
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             'ABCD Event',
@@ -170,7 +182,7 @@ class _MainPageState extends State<MainPage> {
                                           ),
                                           Text(
                                             'From 11 oct-15 oct         '
-                                            'Venue - dorsia Club',
+                                                'Venue - dorsia Club',
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontFamily: 'Comfortaa',
@@ -210,7 +222,9 @@ class _MainPageState extends State<MainPage> {
                               child: Text(
                                 'See all',
                                 style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
+                                  color: Theme
+                                      .of(context)
+                                      .primaryColor,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 1.0,
@@ -225,6 +239,7 @@ class _MainPageState extends State<MainPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         //artist 1
+
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -234,16 +249,26 @@ class _MainPageState extends State<MainPage> {
                                         PublicArtistProfile()));
                             print('artist1 image pressed');
                           },
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10, right: 10, top: 10),
-                            child: const CircleAvatar(
-                              radius: 60,
-                              backgroundImage:
-                                  AssetImage('assets/images/singerImage.jpg'),
-                              backgroundColor: Colors.transparent,
-                            ),
-                          ),
+                      child: FutureBuilder(
+                          future: storage.downloadURL(ExtractData.getUserUID()),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<String> snapshot) {
+                            // print(
+                            // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+                            extractData().getUserUID();
+                            if (snapshot.connectionState == ConnectionState.done &&
+                                snapshot.hasData) {
+                              //print("CONNECTION STATE IS STABLE");
+                              return CircleAvatar(
+                                  radius: 70,
+                                  backgroundImage: NetworkImage(
+                                    snapshot.data!,
+                                  ));
+                            }
+                            // print("CONNECTION STATE IS UN-STABLE");
+                            return Container();
+                          }),
+
                         ),
                         //artist 2
                         GestureDetector(
@@ -261,7 +286,7 @@ class _MainPageState extends State<MainPage> {
                             child: const CircleAvatar(
                               radius: 60,
                               backgroundImage:
-                                  AssetImage('assets/images/singerImage.jpg'),
+                              AssetImage('assets/images/singerImage.jpg'),
                               backgroundColor: Colors.transparent,
                             ),
                           ),
@@ -282,7 +307,7 @@ class _MainPageState extends State<MainPage> {
                             child: const CircleAvatar(
                               radius: 60,
                               backgroundImage:
-                                  AssetImage('assets/images/singerImage.jpg'),
+                              AssetImage('assets/images/singerImage.jpg'),
                               backgroundColor: Colors.transparent,
                             ),
                           ),
@@ -314,7 +339,9 @@ class _MainPageState extends State<MainPage> {
                               child: Text(
                                 'See all',
                                 style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
+                                  color: Theme
+                                      .of(context)
+                                      .primaryColor,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 1.0,
@@ -349,7 +376,7 @@ class _MainPageState extends State<MainPage> {
                                       print('image pressed');
                                     },
                                     child:
-                                        Image.asset('assets/images/club.jpg'),
+                                    Image.asset('assets/images/club.jpg'),
                                   ),
                                   Expanded(
                                     child: Padding(
@@ -357,7 +384,7 @@ class _MainPageState extends State<MainPage> {
                                             horizontal: 10),
                                         child: Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(height: 10),
                                             Text(
@@ -399,7 +426,7 @@ class _MainPageState extends State<MainPage> {
                                       print('image pressed');
                                     },
                                     child:
-                                        Image.asset('assets/images/club.jpg'),
+                                    Image.asset('assets/images/club.jpg'),
                                   ),
                                   Expanded(
                                     child: Padding(
@@ -407,7 +434,7 @@ class _MainPageState extends State<MainPage> {
                                             horizontal: 10),
                                         child: Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(height: 10),
                                             Text(
@@ -459,7 +486,7 @@ class _MainPageState extends State<MainPage> {
                                             horizontal: 10),
                                         child: Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(height: 10),
                                             Text(
@@ -495,5 +522,7 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
     );
+
   }
+
 }

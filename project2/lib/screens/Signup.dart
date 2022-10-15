@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -153,11 +154,12 @@ class _SignupPageState extends State<SignupPage> {
                     email: _emailTextController.text,
                     password: _passwordTextController.text)
                     .then((value) {
+                      //FirebaseFirestore.instance.collection('UserData').doc(value.user?.uid).set({"email": value.user?.email});
                   print("created new acc");
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => WhoAreYou(),
+                      builder: (context) => WhoAreYou(value.user?.uid.toString()),
                     ),
                   );
                 }).onError((error, stackTrace) {
