@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:project2/screens/constraints.dart';
@@ -66,6 +67,7 @@ class _SearchPageState extends State<SearchPage> {
                 child: searchBarUI(),
               ),
             ),
+
           ],
         ),
       ),

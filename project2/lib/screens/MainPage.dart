@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -5,6 +6,7 @@ import 'package:project2/screens/PublicArtistProfile.dart';
 import '../storage_services.dart';
 import 'constraints.dart';
 import 'package:project2/getData.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
@@ -15,10 +17,32 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final Storage storage = Storage();
   final extractData ExtractData = extractData();
+  String artistUID = "";
+  CollectionReference _collectionRef =
+      FirebaseFirestore.instance.collection('Artist');
+  CollectionReference users = FirebaseFirestore.instance.collection('Artist');
+
+  Future<void> getData() async {
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await _collectionRef.get();
+    //QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection("UID").get();
+
+    // Get data from docs and convert map to List
+
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    print("COLLECTION DATA: ");
+    print(allData[0]);
+    String dummy = allData[0].toString();
+    print("DUMMY: " + dummy);
+    artistUID = dummy.replaceAll(RegExp('[^A-Za-z0-9]'), '');
+    artistUID = artistUID.substring(3);
+    print("results: " + artistUID);
+  }
 
   @override
   Widget build(BuildContext context) {
-    storage.listFiles();
+    getData();
+    //storage.listFiles();
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -47,7 +71,6 @@ class _MainPageState extends State<MainPage> {
               //upcoming events
               Column(
                 children: <Widget>[
-
                   Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.0),
                       child: Row(
@@ -62,15 +85,11 @@ class _MainPageState extends State<MainPage> {
                                   color: kPrimaryDarkColor),
                             ),
                             GestureDetector(
-                              onTap: () {
-
-                              },
+                              onTap: () {},
                               child: Text(
                                 'See all',
                                 style: TextStyle(
-                                  color: Theme
-                                      .of(context)
-                                      .primaryColor,
+                                  color: Theme.of(context).primaryColor,
                                   fontSize: 16.0,
                                   fontFamily: 'Comfortaa',
                                   fontWeight: FontWeight.w600,
@@ -101,8 +120,6 @@ class _MainPageState extends State<MainPage> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-
-
                                     print('first image pressed');
                                   },
                                   child: Image.network(
@@ -118,7 +135,7 @@ class _MainPageState extends State<MainPage> {
                                           horizontal: 10),
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             'Arbitary Event',
@@ -130,7 +147,7 @@ class _MainPageState extends State<MainPage> {
                                           ),
                                           Text(
                                             'From 9 oct-10 oct          '
-                                                'Venue - LOD club',
+                                            'Venue - LOD club',
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontFamily: 'Comfortaa',
@@ -170,7 +187,7 @@ class _MainPageState extends State<MainPage> {
                                           horizontal: 10),
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             'ABCD Event',
@@ -182,7 +199,7 @@ class _MainPageState extends State<MainPage> {
                                           ),
                                           Text(
                                             'From 11 oct-15 oct         '
-                                                'Venue - dorsia Club',
+                                            'Venue - dorsia Club',
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontFamily: 'Comfortaa',
@@ -222,9 +239,7 @@ class _MainPageState extends State<MainPage> {
                               child: Text(
                                 'See all',
                                 style: TextStyle(
-                                  color: Theme
-                                      .of(context)
-                                      .primaryColor,
+                                  color: Theme.of(context).primaryColor,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 1.0,
@@ -246,29 +261,32 @@ class _MainPageState extends State<MainPage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        PublicArtistProfile()));
+                                        PublicArtistProfile(artistUID)));
                             print('artist1 image pressed');
                           },
-                      child: FutureBuilder(
-                          future: storage.downloadURL(ExtractData.getUserUID()),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<String> snapshot) {
-                            // print(
-                            // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
-                            extractData().getUserUID();
-                            if (snapshot.connectionState == ConnectionState.done &&
-                                snapshot.hasData) {
-                              //print("CONNECTION STATE IS STABLE");
-                              return CircleAvatar(
-                                  radius: 70,
-                                  backgroundImage: NetworkImage(
-                                    snapshot.data!,
-                                  ));
-                            }
-                            // print("CONNECTION STATE IS UN-STABLE");
-                            return Container();
-                          }),
-
+                          child: FutureBuilder(
+                              future:
+                                  storage.downloadURL(artistUID),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<String> snapshot) {
+                                print("ARTIST UID: " +artistUID);
+                                if (snapshot.connectionState ==
+                                        ConnectionState.done &&
+                                    snapshot.hasData) {
+                                  print("CONNECTION STATE IS STABLE");
+                                  return CircleAvatar(
+                                      radius: 70,
+                                      backgroundImage: NetworkImage(
+                                        snapshot.data!,
+                                      ));
+                                }
+                                 print("CONNECTION STATE IS UN-STABLE");
+                                return CircleAvatar(
+                                    radius: 70,
+                                   //FIX THIS
+                                   // backgroundImage: Image.asset("assets/images/profile2.webp"),
+                                );
+                              }),
                         ),
                         //artist 2
                         GestureDetector(
@@ -277,7 +295,7 @@ class _MainPageState extends State<MainPage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        PublicArtistProfile()));
+                                        PublicArtistProfile(artistUID)));
                             print('artist 2 image pressed');
                           },
                           child: Padding(
@@ -286,7 +304,7 @@ class _MainPageState extends State<MainPage> {
                             child: const CircleAvatar(
                               radius: 60,
                               backgroundImage:
-                              AssetImage('assets/images/singerImage.jpg'),
+                                  AssetImage('assets/images/singerImage.jpg'),
                               backgroundColor: Colors.transparent,
                             ),
                           ),
@@ -298,7 +316,7 @@ class _MainPageState extends State<MainPage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        PublicArtistProfile()));
+                                        PublicArtistProfile(artistUID)));
                             print('artist 3 image pressed');
                           },
                           child: Padding(
@@ -307,7 +325,7 @@ class _MainPageState extends State<MainPage> {
                             child: const CircleAvatar(
                               radius: 60,
                               backgroundImage:
-                              AssetImage('assets/images/singerImage.jpg'),
+                                  AssetImage('assets/images/singerImage.jpg'),
                               backgroundColor: Colors.transparent,
                             ),
                           ),
@@ -339,9 +357,7 @@ class _MainPageState extends State<MainPage> {
                               child: Text(
                                 'See all',
                                 style: TextStyle(
-                                  color: Theme
-                                      .of(context)
-                                      .primaryColor,
+                                  color: Theme.of(context).primaryColor,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 1.0,
@@ -376,7 +392,7 @@ class _MainPageState extends State<MainPage> {
                                       print('image pressed');
                                     },
                                     child:
-                                    Image.asset('assets/images/club.jpg'),
+                                        Image.asset('assets/images/club.jpg'),
                                   ),
                                   Expanded(
                                     child: Padding(
@@ -384,7 +400,7 @@ class _MainPageState extends State<MainPage> {
                                             horizontal: 10),
                                         child: Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(height: 10),
                                             Text(
@@ -426,7 +442,7 @@ class _MainPageState extends State<MainPage> {
                                       print('image pressed');
                                     },
                                     child:
-                                    Image.asset('assets/images/club.jpg'),
+                                        Image.asset('assets/images/club.jpg'),
                                   ),
                                   Expanded(
                                     child: Padding(
@@ -434,7 +450,7 @@ class _MainPageState extends State<MainPage> {
                                             horizontal: 10),
                                         child: Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(height: 10),
                                             Text(
@@ -486,7 +502,7 @@ class _MainPageState extends State<MainPage> {
                                             horizontal: 10),
                                         child: Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(height: 10),
                                             Text(
@@ -522,7 +538,5 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
     );
-
   }
-
 }

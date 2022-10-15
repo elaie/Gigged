@@ -1,20 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:project2/getData.dart';
 import 'package:project2/screens/constraints.dart';
+import 'package:firebase_database/firebase_database.dart';
 import '../storage_services.dart';
-class PublicArtistProfile extends StatefulWidget {
-  const PublicArtistProfile({Key? key}) : super(key: key);
+import '../local_data.dart';
+import 'dart:async';
 
+class PublicArtistProfile extends StatefulWidget {
+  //const PublicArtistProfile({Key? key}) : super(key: key);
+  String artistURL="";
+  PublicArtistProfile(this.artistURL);
   @override
   State<PublicArtistProfile> createState() => _PublicArtistProfileState();
 
 }
 
 class _PublicArtistProfileState extends State<PublicArtistProfile> {
+  final _database = FirebaseDatabase.instance.reference();
+
+  String displayBio = " ";
+  late StreamSubscription _userBio;
+
   final Storage storage = Storage();
   final extractData ExtractData = extractData();
+  final local_data Local_data = local_data();
   var _rating = 0;
+
   @override
+  void initState() {
+    super.initState();
+    activateListeners();
+  }
+
+  void activateListeners() {
+    _userBio = _database
+        .child(widget.artistURL+"/BIO/Bio")
+        .onValue
+        .listen((event) {
+      final String description = event.snapshot.value.toString();
+      print("LISTENER: " + description);
+      setState(() {
+        displayBio = '$description';
+      });
+    });
+  }
+  @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -32,6 +63,7 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
+
                   'Artist username here',
                   style: TextStyle(
                     fontFamily: 'Comfortaa',
@@ -44,7 +76,8 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
                 //profile picture
                 GestureDetector(
                   child: FutureBuilder(
-                      future: storage.downloadURL(ExtractData.getUserUID()),
+
+                      future: storage.downloadURL(widget.artistURL),
                       builder: (BuildContext context,
                           AsyncSnapshot<String> snapshot) {
                         // print(
@@ -58,15 +91,14 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
                               backgroundImage: NetworkImage(
                                 snapshot.data!,
                               ));
-                        }
+                        }print("artist: "+widget.artistURL);
                         // print("CONNECTION STATE IS UN-STABLE");
                         return Container();
                       }),
                 ),
                 SizedBox(height: 20),
                 //bio
-                Text(
-                  'About me',
+                Text("BIO",
                   style: TextStyle(
                     fontFamily: 'Comfortaa',
                     fontWeight: FontWeight.bold,
@@ -75,7 +107,7 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
                   ),
                 ),
                 Container(
-                  child:Text('*insert bio here*',),
+                  child:Text(displayBio),
                 ),
                 //buttons
                 SizedBox(height: 20),
@@ -187,6 +219,14 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
           ),
         ),
       ),
+
     );
+
   }
+  @override
+  void deactivate () {
+    _userBio.cancel();
+    super.deactivate();
+  }
+
 }
