@@ -261,38 +261,41 @@ class _MainPageState extends State<MainPage> {
                       children: [
                         //artist 1
 
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        PublicArtistProfile(artistUID)));
-                            print('artist1 image pressed');
-                          },
-                          child: FutureBuilder(
-                              future:
-                                  storage.downloadURL(artistUID),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<String> snapshot) {
-                                print("ARTIST UID: " +artistUID);
-                                if (snapshot.connectionState ==
-                                        ConnectionState.done &&
-                                    snapshot.hasData) {
-                                  print("CONNECTION STATE IS STABLE");
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10.0,  right: 10, top: 7),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          PublicArtistProfile(artistUID)));
+                              print('artist1 image pressed');
+                            },
+                            child: FutureBuilder(
+                                future:
+                                    storage.downloadURL(artistUID),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<String> snapshot) {
+                                  print("ARTIST UID: " +artistUID);
+                                  if (snapshot.connectionState ==
+                                          ConnectionState.done &&
+                                      snapshot.hasData) {
+                                    print("CONNECTION STATE IS STABLE");
+                                    return CircleAvatar(
+                                        radius: 70,
+                                        backgroundImage: NetworkImage(
+                                          snapshot.data!,
+                                        ));
+                                  }
+                                   print("CONNECTION STATE IS UN-STABLE");
                                   return CircleAvatar(
                                       radius: 70,
-                                      backgroundImage: NetworkImage(
-                                        snapshot.data!,
-                                      ));
-                                }
-                                 print("CONNECTION STATE IS UN-STABLE");
-                                return CircleAvatar(
-                                    radius: 70,
-                                   //FIX THIS
-                                   // backgroundImage: Image.asset("assets/images/profile2.webp"),
-                                );
-                              }),
+                                     //FIX THIS
+                                     // backgroundImage: Image.asset("assets/images/profile2.webp"),
+                                  );
+                                }),
+                          ),
                         ),
                         //artist 2
                         GestureDetector(
