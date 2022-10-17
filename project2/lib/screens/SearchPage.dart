@@ -11,6 +11,8 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  String name = "a";
+  String val= "b";
   @override
   Widget build(BuildContext context) {
     Widget Logo = GestureDetector(
@@ -54,7 +56,9 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 300,),
+              padding: const EdgeInsets.only(
+                top: 300,
+              ),
               child: Container(
                 alignment: Alignment.topCenter,
                 child: Text('*Add history here*'),
@@ -67,7 +71,46 @@ class _SearchPageState extends State<SearchPage> {
                 child: searchBarUI(),
               ),
             ),
-
+            // StreamBuilder<QuerySnapshot>(
+            //   stream:
+            //       FirebaseFirestore.instance.collection('Artist').snapshots(),
+            //   builder: (context, snapshots) {
+            //     return (snapshots.connectionState == ConnectionState.waiting)
+            //         ? Center(
+            //             child: CircularProgressIndicator(),
+            //           )
+            //         : ListView.builder(
+            //             itemCount: snapshots.data!.docs.length,
+            //             itemBuilder: (context, index) {
+            //               var data = snapshots.data!.docs[index].data()
+            //                   as Map<String, dynamic>;
+            //               if (name.isEmpty) {
+            //                 return ListTile(
+            //                   title: Text(
+            //                     data['name'],
+            //                     maxLines: 1,
+            //                     overflow: TextOverflow.ellipsis,
+            //                     style: TextStyle(),
+            //                   ),
+            //                 );
+            //               }
+            //               if (data['name']
+            //                   .toString()
+            //                   .toLowerCase()
+            //                   .startsWith(name.toLowerCase())) {
+            //                 return ListTile(
+            //                   title: Text(
+            //                     data['name'],
+            //                     maxLines: 1,
+            //                     overflow: TextOverflow.ellipsis,
+            //                     style: TextStyle(),
+            //                   ),
+            //                 );
+            //               }
+            //               return Container();
+            //             });
+            //   },
+            // )
           ],
         ),
       ),
@@ -86,6 +129,9 @@ class _SearchPageState extends State<SearchPage> {
       borderRadius: BorderRadius.circular(25.0),
       onQueryChanged: (query) {
         //methods will be here
+        setState(() {
+          name = val;
+        });
       },
       //showDrawerHamburger: false,
       transitionCurve: Curves.easeInOut,

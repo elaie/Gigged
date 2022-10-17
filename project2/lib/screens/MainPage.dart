@@ -21,7 +21,11 @@ class _MainPageState extends State<MainPage> {
   CollectionReference _collectionRef =
       FirebaseFirestore.instance.collection('Artist');
   CollectionReference users = FirebaseFirestore.instance.collection('Artist');
-
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
   Future<void> getData() async {
     // Get docs from collection reference
     QuerySnapshot querySnapshot = await _collectionRef.get();
@@ -35,13 +39,15 @@ class _MainPageState extends State<MainPage> {
     String dummy = allData[0].toString();
     print("DUMMY: " + dummy);
     artistUID = dummy.replaceAll(RegExp('[^A-Za-z0-9]'), '');
-    artistUID = artistUID.substring(3);
+    setState(() {
+      artistUID = artistUID.substring(3);
+    });
+
     print("results: " + artistUID);
   }
 
   @override
   Widget build(BuildContext context) {
-    getData();
     //storage.listFiles();
     return Scaffold(
       body: SafeArea(

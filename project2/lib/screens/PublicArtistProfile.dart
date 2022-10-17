@@ -8,7 +8,7 @@ import 'dart:async';
 
 class PublicArtistProfile extends StatefulWidget {
   //const PublicArtistProfile({Key? key}) : super(key: key);
-  String artistURL="";
+  String artistURL;
   PublicArtistProfile(this.artistURL);
   @override
   State<PublicArtistProfile> createState() => _PublicArtistProfileState();
