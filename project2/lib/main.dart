@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         primaryColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: MessagePage(),//this page runs first
+      home: WelcomeScreen(),//this page runs first
     );
   }
 }

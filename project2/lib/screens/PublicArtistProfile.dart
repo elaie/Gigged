@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project2/getData.dart';
+import 'package:project2/screens/MessagePage.dart';
 import 'package:project2/screens/constraints.dart';
 import 'package:firebase_database/firebase_database.dart';
 import '../storage_services.dart';
@@ -9,10 +10,11 @@ import 'dart:async';
 class PublicArtistProfile extends StatefulWidget {
   //const PublicArtistProfile({Key? key}) : super(key: key);
   String artistURL;
+
   PublicArtistProfile(this.artistURL);
+
   @override
   State<PublicArtistProfile> createState() => _PublicArtistProfileState();
-
 }
 
 class _PublicArtistProfileState extends State<PublicArtistProfile> {
@@ -33,10 +35,8 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
   }
 
   void activateListeners() {
-    _userBio = _database
-        .child(widget.artistURL+"/BIO/Bio")
-        .onValue
-        .listen((event) {
+    _userBio =
+        _database.child(widget.artistURL + "/BIO/Bio").onValue.listen((event) {
       final String description = event.snapshot.value.toString();
       print("LISTENER: " + description);
       setState(() {
@@ -44,8 +44,8 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
       });
     });
   }
-  @override
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -63,7 +63,6 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-
                   'Artist username here',
                   style: TextStyle(
                     fontFamily: 'Comfortaa',
@@ -76,7 +75,6 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
                 //profile picture
                 GestureDetector(
                   child: FutureBuilder(
-
                       future: storage.downloadURL(widget.artistURL),
                       builder: (BuildContext context,
                           AsyncSnapshot<String> snapshot) {
@@ -91,14 +89,16 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
                               backgroundImage: NetworkImage(
                                 snapshot.data!,
                               ));
-                        }print("artist: "+widget.artistURL);
+                        }
+                        print("artist: " + widget.artistURL);
                         // print("CONNECTION STATE IS UN-STABLE");
                         return Container();
                       }),
                 ),
                 SizedBox(height: 20),
                 //bio
-                Text("BIO",
+                Text(
+                  "BIO",
                   style: TextStyle(
                     fontFamily: 'Comfortaa',
                     fontWeight: FontWeight.bold,
@@ -107,7 +107,7 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
                   ),
                 ),
                 Container(
-                  child:Text(displayBio),
+                  child: Text(displayBio),
                 ),
                 //buttons
                 SizedBox(height: 20),
@@ -119,19 +119,27 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
                       child: Text(
                         "Message me",
                         style: TextStyle(
-                            fontFamily: 'Comfortaa', fontWeight: FontWeight.bold),
+                            fontFamily: 'Comfortaa',
+                            fontWeight: FontWeight.bold),
                       ),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
                           (kPrimaryColor),
                         ),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25.0),
                           ),
                         ),
                       ),
                       onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MessagePage(),
+                          ),
+                        );
                       },
                     ),
                   ],
@@ -152,14 +160,14 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(
                         5,
-                            (index) => IconButton(
+                        (index) => IconButton(
                           icon: index < _rating
                               ? Icon(Icons.star, size: 32)
                               : Icon(Icons.star_border, size: 32),
                           color: kPrimaryColor,
                           onPressed: () {
                             setState(
-                                  () {
+                              () {
                                 _rating = index + 1;
                               },
                             );
@@ -185,11 +193,10 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
                   alignment: Alignment.topCenter,
                   padding: EdgeInsets.all(15),
                   decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(25)
-                  ),
-
-                  child: Text('*Content here\n fyi it is green just so we can see the size of container ik it looks weird*'),
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(25)),
+                  child: Text(
+                      '*Content here\n fyi it is green just so we can see the size of container ik it looks weird*'),
                 ),
                 SizedBox(height: 20),
                 //highlights
@@ -209,24 +216,21 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
                   padding: EdgeInsets.all(15),
                   decoration: BoxDecoration(
                       color: Colors.green,
-                      borderRadius: BorderRadius.circular(25)
-                  ),
-
-                  child: Text('*Content here\n are we adding highlights? idk lmk*'),
+                      borderRadius: BorderRadius.circular(25)),
+                  child: Text(
+                      '*Content here\n are we adding highlights? idk lmk*'),
                 ),
               ],
             ),
           ),
         ),
       ),
-
     );
-
   }
+
   @override
-  void deactivate () {
+  void deactivate() {
     _userBio.cancel();
     super.deactivate();
   }
-
 }

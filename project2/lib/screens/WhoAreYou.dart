@@ -40,7 +40,7 @@ class _WhoAreYouState extends State<WhoAreYou> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Text(
                   'Who Are You?',
