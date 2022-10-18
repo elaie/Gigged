@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:project2/screens/ArtistProfilePage.dart';
 import 'package:project2/screens/Homepage.dart';
 import 'package:project2/screens/Login.dart';
+import 'package:project2/screens/MessageListPage.dart';
 import 'package:project2/screens/MessagePage.dart';
 import 'package:project2/screens/ProfilePage.dart';
 import 'package:project2/screens/PublicArtistProfile.dart';

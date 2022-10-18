@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:project2/screens/MessageListPage.dart';
 import 'package:project2/screens/PublicArtistProfile.dart';
 import '../storage_services.dart';
 import 'constraints.dart';
@@ -21,11 +22,13 @@ class _MainPageState extends State<MainPage> {
   CollectionReference _collectionRef =
       FirebaseFirestore.instance.collection('Artist');
   CollectionReference users = FirebaseFirestore.instance.collection('Artist');
+
   @override
   void initState() {
     super.initState();
     getData();
   }
+
   Future<void> getData() async {
     // Get docs from collection reference
     QuerySnapshot querySnapshot = await _collectionRef.get();
@@ -62,15 +65,36 @@ class _MainPageState extends State<MainPage> {
             padding: EdgeInsets.symmetric(vertical: 30.0),
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(left: 20.0, right: 120.0),
-                //welcome text
-                child: Text(
-                  'Welcome!',
-                  style: TextStyle(
-                      fontFamily: 'Comfortaa',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                      color: kPrimaryDarkColor),
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Welcome!',
+                      style: TextStyle(
+                          fontFamily: 'Comfortaa',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                          color: kPrimaryDarkColor),
+                    ),
+                    SizedBox(
+                      width: 140,
+                    ),
+                    Container(
+                        child: IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MessageListPage(),
+                          ),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.message_outlined,
+                        color: kPrimaryDarkColor,
+                      ),
+                    )),
+                  ],
                 ),
               ),
               SizedBox(height: 20.0),
@@ -262,7 +286,8 @@ class _MainPageState extends State<MainPage> {
                         //artist 1
 
                         Padding(
-                          padding: const EdgeInsets.only(left: 10.0,  right: 10, top: 7),
+                          padding: const EdgeInsets.only(
+                              left: 10.0, right: 10, top: 7),
                           child: GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -273,11 +298,10 @@ class _MainPageState extends State<MainPage> {
                               print('artist1 image pressed');
                             },
                             child: FutureBuilder(
-                                future:
-                                    storage.downloadURL(artistUID),
+                                future: storage.downloadURL(artistUID),
                                 builder: (BuildContext context,
                                     AsyncSnapshot<String> snapshot) {
-                                  print("ARTIST UID: " +artistUID);
+                                  print("ARTIST UID: " + artistUID);
                                   if (snapshot.connectionState ==
                                           ConnectionState.done &&
                                       snapshot.hasData) {
@@ -288,11 +312,11 @@ class _MainPageState extends State<MainPage> {
                                           snapshot.data!,
                                         ));
                                   }
-                                   print("CONNECTION STATE IS UN-STABLE");
+                                  print("CONNECTION STATE IS UN-STABLE");
                                   return CircleAvatar(
-                                      radius: 70,
-                                     //FIX THIS
-                                     // backgroundImage: Image.asset("assets/images/profile2.webp"),
+                                    radius: 70,
+                                    //FIX THIS
+                                    // backgroundImage: Image.asset("assets/images/profile2.webp"),
                                   );
                                 }),
                           ),
