@@ -16,11 +16,11 @@ class _MessageListPageState extends State<MessageListPage> {
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
         elevation: 8,
-        leading: IconButton(
+        /*leading: IconButton(
           onPressed: () {},
           icon: Icon(Icons.menu),
           color: Colors.white,
-        ),
+        ),*/
         title: Text(
           'Inbox',
           style: TextStyle(

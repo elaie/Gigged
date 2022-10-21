@@ -210,14 +210,13 @@ _sendMessageArea() {
         topLeft: Radius.circular(35),
         bottomRight: Radius.circular(35),
         bottomLeft: Radius.circular(35),
-
       ),
       boxShadow: [
         BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
       ],
     ),
     padding: EdgeInsets.symmetric(horizontal: 8),
-    height: 70,
+    height: 55,
 
     child: Row(
       children: <Widget>[

@@ -2,9 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:project2/screens/EventDiscriptionPage.dart';
 import 'package:project2/screens/MessageListPage.dart';
 import 'package:project2/screens/PublicArtistProfile.dart';
+import 'package:project2/screens/SeeAllVenue.dart';
 import '../storage_services.dart';
+import 'SeeAllArtist.dart';
+import 'SeeAllPageEvent.dart';
+import 'VenuePublicPage.dart';
 import 'constraints.dart';
 import 'package:project2/getData.dart';
 
@@ -62,23 +67,19 @@ class _MainPageState extends State<MainPage> {
             ),
           ),
           child: ListView(
-            padding: EdgeInsets.symmetric(vertical: 30.0),
+            // padding: EdgeInsets.symmetric(vertical: 30.0),
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Welcome!',
-                      style: TextStyle(
-                          fontFamily: 'Comfortaa',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                          color: kPrimaryDarkColor),
-                    ),
-                    SizedBox(
-                      width: 140,
-                    ),
+                    //logo
+                    Container(
+                        alignment: Alignment.center,
+                        height: 130,
+                        child: Image.asset('assets/images/Gigged-1.png',
+                            fit: BoxFit.fill)),
                     Container(
                         child: IconButton(
                       onPressed: () {
@@ -97,7 +98,6 @@ class _MainPageState extends State<MainPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 20.0),
               //upcoming events
               Column(
                 children: <Widget>[
@@ -115,7 +115,14 @@ class _MainPageState extends State<MainPage> {
                                   color: kPrimaryDarkColor),
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SeeAllPageEvent(),
+                                  ),
+                                );
+                              },
                               child: Text(
                                 'See all',
                                 style: TextStyle(
@@ -135,6 +142,7 @@ class _MainPageState extends State<MainPage> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         //event 1
                         Container(
@@ -150,6 +158,13 @@ class _MainPageState extends State<MainPage> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            EventDiscription(),
+                                      ),
+                                    );
                                     print('first image pressed');
                                   },
                                   child: Image.network(
@@ -264,6 +279,12 @@ class _MainPageState extends State<MainPage> {
                             ),
                             GestureDetector(
                               onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SeeAllArtist(),
+                                  ),
+                                );
                                 print('see all pressed');
                               },
                               child: Text(
@@ -386,7 +407,14 @@ class _MainPageState extends State<MainPage> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SeeAllVenue(),
+                                  ),
+                                );
+                              },
                               child: Text(
                                 'See all',
                                 style: TextStyle(
@@ -423,6 +451,13 @@ class _MainPageState extends State<MainPage> {
                                   GestureDetector(
                                     onTap: () {
                                       print('image pressed');
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              VenuePublicPage(),
+                                        ),
+                                      );
                                     },
                                     child:
                                         Image.asset('assets/images/club.jpg'),
