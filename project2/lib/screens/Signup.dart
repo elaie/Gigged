@@ -61,6 +61,11 @@ class _SignupPageState extends State<SignupPage> {
         return null;
       },
       decoration: InputDecoration(
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(30.0),),
+            borderSide: BorderSide(color: kPrimaryLightColor,)
+        ),
+        labelStyle: TextStyle(color: kPrimaryDarkColor),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide(color: kPrimaryLightColor),
@@ -86,6 +91,11 @@ class _SignupPageState extends State<SignupPage> {
         return null; //flutter ma condition satisfy bhayo bhane null return garnai parcha
       },
       decoration: InputDecoration(
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(30.0),),
+            borderSide: BorderSide(color: kPrimaryLightColor,)
+        ),
+        labelStyle: TextStyle(color: kPrimaryDarkColor),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide(color: kPrimaryLightColor),
@@ -114,6 +124,11 @@ class _SignupPageState extends State<SignupPage> {
           return null; //flutter ma condition satisfy bhayo bhane null return garnai parcha
         },
         decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(30.0),),
+              borderSide: BorderSide(color: kPrimaryLightColor,)
+          ),
+          labelStyle: TextStyle(color: kPrimaryDarkColor),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
             borderSide: BorderSide(color: kPrimaryLightColor),
