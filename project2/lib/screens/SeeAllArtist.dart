@@ -189,7 +189,15 @@ class _SeeAllArtistState extends State<SeeAllArtist> {
                 //     ),
                 //   );
                 // }
-                return ListTile(title: Text(data['Name'].toString()),);
+                return ListTile( onTap: () {
+                  print("Tapped ");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              PublicArtistProfile(data['Name'].toString())));
+                  print("nav pushed");
+                },title: Text(data['Name'].toString()),);
                 // if (data['UID']) {
                 //   return ListTile(
                 //     title: Text(
@@ -218,7 +226,8 @@ class _SeeAllArtistState extends State<SeeAllArtist> {
                 return Container();
               });
         },
-      ));
+      )
+  );
 }
 // // Widget build(BuildContext context) {
 // //   return Scaffold(

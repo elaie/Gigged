@@ -20,7 +20,8 @@ import 'constraints.dart';
 
 class EditProfilePageSignin extends StatefulWidget {
   final value;
-  EditProfilePageSignin(this.value);
+  final accType;
+  EditProfilePageSignin(this.value,this.accType);
 
   @override
   State<EditProfilePageSignin> createState() => _EditProfilePageSigninState();
@@ -267,7 +268,7 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
           'Name': _nameTextController.text,
           'Bio':_bioTextController.text
         };
-        FirebaseFirestore.instance.collection("Artist").add(dataToSave);
+        FirebaseFirestore.instance.collection(widget.accType.toString()).add(dataToSave);
         //FirebaseFirestore.instance.collection('Artist').doc().set({"Name":_nameTextController.text});
         //FirebaseFirestore.instance.collection('Artist').doc().set({"UID":});
         print("USER UID================"+widget.value);

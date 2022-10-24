@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:project2/screens/ArtistProfilePage.dart';
 import 'package:project2/screens/EventDiscriptionPage.dart';
 import 'package:project2/screens/MessageListPage.dart';
 import 'package:project2/screens/PublicArtistProfile.dart';
@@ -24,7 +25,8 @@ class _MainPageState extends State<MainPage> {
   final Storage storage = Storage();
   final extractData ExtractData = extractData();
   String artistUID = "";
-  CollectionReference _collectionRef = FirebaseFirestore.instance.collection('Artist');
+  CollectionReference _collectionRef =
+      FirebaseFirestore.instance.collection('Artist');
   CollectionReference users = FirebaseFirestore.instance.collection('Artist');
 
   @override
@@ -47,7 +49,7 @@ class _MainPageState extends State<MainPage> {
     print("DUMMY: " + dummy);
     artistUID = dummy.replaceAll(RegExp('[^A-Za-z0-9]'), '');
     setState(() {
-      artistUID = artistUID.substring(3);
+      artistUID = artistUID.substring(3, 31);
     });
 
     print("results: " + artistUID);
@@ -298,93 +300,132 @@ class _MainPageState extends State<MainPage> {
                               ),
                             ),
                           ])),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        //artist 1
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10.0, right: 10, top: 7),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          PublicArtistProfile(artistUID)));
-                              print('artist1 image pressed');
-                            },
-                            child: FutureBuilder(
-                                future: storage.downloadURL(artistUID),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot<String> snapshot) {
-                                  print("ARTIST UID: " + artistUID);
-                                  if (snapshot.connectionState ==
-                                          ConnectionState.done &&
-                                      snapshot.hasData) {
-                                    print("CONNECTION STATE IS STABLE");
-                                    return CircleAvatar(
-                                        radius: 70,
-                                        backgroundImage: NetworkImage(
-                                          snapshot.data!,
-                                        ));
-                                  }
-                                  print("CONNECTION STATE IS UN-STABLE");
-                                  return CircleAvatar(
-                                    radius: 70,
-                                    //FIX THIS
-                                    // backgroundImage: Image.asset("assets/images/profile2.webp"),
-                                  );
-                                }),
-                          ),
-                        ),
-                        //artist 2
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        PublicArtistProfile(artistUID)));
-                            print('artist 2 image pressed');
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10, right: 10, top: 10),
-                            child: const CircleAvatar(
-                              radius: 60,
-                              backgroundImage:
-                                  AssetImage('assets/images/singerImage.jpg'),
-                              backgroundColor: Colors.transparent,
-                            ),
-                          ),
-                        ),
-                        //artist 3
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        PublicArtistProfile(artistUID)));
-                            print('artist 3 image pressed');
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10, right: 10, top: 10),
-                            child: const CircleAvatar(
-                              radius: 60,
-                              backgroundImage:
-                                  AssetImage('assets/images/singerImage.jpg'),
-                              backgroundColor: Colors.transparent,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+
+                  StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('Artist')
+                        .snapshots(),
+                    builder: (context, snapshots) {
+                      print("*********about to return ");
+                      return ListView.builder(
+                          // scrollDirection: Axis.horizontal,
+                          //   padding: const EdgeInsets.all(0),
+                          shrinkWrap: true,
+                          itemCount: snapshots.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            var data = snapshots.data!.docs[index].data()
+                                as Map<String, dynamic>;
+                            return ListTile(
+                              onTap: () {
+                                print("Tapped ");
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PublicArtistProfile(
+                                                data['UID'].toString())));
+                                print("nav pushed");
+                              },
+                              //radius vairacha somehow
+                              visualDensity: VisualDensity(vertical: 4),
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage("gs://gigged-ba0e1.appspot.com/test/15w4czOLnmQzdY5ihPP1FuSYdif1"),
+                                child: Text(data['Name'].toString()),
+                                radius: 50,
+
+                              ),
+                            );
+                          });
+                    },
                   ),
+
+                  // SingleChildScrollView(
+                  //   scrollDirection: Axis.horizontal,
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       //artist 1
+                  //       Padding(
+                  //         padding: const EdgeInsets.only(
+                  //             left: 10.0, right: 10, top: 7),
+                  //         child: GestureDetector(
+                  //           onTap: () {
+                  //             Navigator.push(
+                  //                 context,
+                  //                 MaterialPageRoute(
+                  //                     builder: (context) =>
+                  //                         PublicArtistProfile(artistUID)));
+                  //             print('artist1 image pressed');
+                  //           },
+                  //           child: FutureBuilder(
+                  //               future: storage.downloadURL(artistUID),
+                  //               builder: (BuildContext context,
+                  //                   AsyncSnapshot<String> snapshot) {
+                  //                 print("ARTIST UID: " + artistUID);
+                  //                 if (snapshot.connectionState ==
+                  //                     ConnectionState.done &&
+                  //                     snapshot.hasData) {
+                  //                   print("CONNECTION STATE IS STABLE");
+                  //                   return CircleAvatar(
+                  //                       radius: 70,
+                  //                       backgroundImage: NetworkImage(
+                  //                         snapshot.data!,
+                  //                       ));
+                  //                 }
+                  //                 print("CONNECTION STATE IS UN-STABLE");
+                  //                 return CircleAvatar(
+                  //                   radius: 70,
+                  //                   //FIX THIS
+                  //                   // backgroundImage: Image.asset("assets/images/profile2.webp"),
+                  //                 );
+                  //               }),
+                  //         ),
+                  //       ),
+                  //       //artist 2
+                  //       GestureDetector(
+                  //         onTap: () {
+                  //           Navigator.push(
+                  //               context,
+                  //               MaterialPageRoute(
+                  //                   builder: (context) =>
+                  //                       PublicArtistProfile(artistUID)));
+                  //           print('artist 2 image pressed');
+                  //         },
+                  //         child: Padding(
+                  //           padding: const EdgeInsets.only(
+                  //               left: 10, right: 10, top: 10),
+                  //           child: const CircleAvatar(
+                  //             radius: 60,
+                  //             backgroundImage:
+                  //             AssetImage('assets/images/singerImage.jpg'),
+                  //             backgroundColor: Colors.transparent,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       //artist 3
+                  //       GestureDetector(
+                  //         onTap: () {
+                  //           Navigator.push(
+                  //               context,
+                  //               MaterialPageRoute(
+                  //                   builder: (context) =>
+                  //                       PublicArtistProfile(artistUID)));
+                  //           print('artist 3 image pressed');
+                  //         },
+                  //         child: Padding(
+                  //           padding: const EdgeInsets.only(
+                  //               left: 10, right: 10, top: 10),
+                  //           child: const CircleAvatar(
+                  //             radius: 60,
+                  //             backgroundImage:
+                  //             AssetImage('assets/images/singerImage.jpg'),
+                  //             backgroundColor: Colors.transparent,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   SizedBox(height: 30.0),
                   //trending venues
                   Column(
