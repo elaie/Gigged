@@ -13,7 +13,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../storage_services.dart';
 import 'constraints.dart';
 import '../getData.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
@@ -261,6 +261,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
         setBio.set({'Bio': _bioTextController.text});
         FirebaseAuth.instance.currentUser
             ?.updateDisplayName(_nameTextController.text);
+        Map<String,String> dataToSave= {
+          'Name': _nameTextController.text,
+          'Bio':_bioTextController.text
+        };
+       // FirebaseFirestore.instance.collection("Artist");
         //print(_nameTextController.text + "is printed");
           Navigator.pop(context);
       },

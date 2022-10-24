@@ -24,8 +24,7 @@ class _MainPageState extends State<MainPage> {
   final Storage storage = Storage();
   final extractData ExtractData = extractData();
   String artistUID = "";
-  CollectionReference _collectionRef =
-      FirebaseFirestore.instance.collection('Artist');
+  CollectionReference _collectionRef = FirebaseFirestore.instance.collection('Artist');
   CollectionReference users = FirebaseFirestore.instance.collection('Artist');
 
   @override
@@ -305,7 +304,6 @@ class _MainPageState extends State<MainPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         //artist 1
-
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 10.0, right: 10, top: 7),

@@ -21,7 +21,9 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
   final _database = FirebaseDatabase.instance.reference();
 
   String displayBio = " ";
+  String displayName = " ";
   late StreamSubscription _userBio;
+  late StreamSubscription _userName;
 
   final Storage storage = Storage();
   final extractData ExtractData = extractData();
@@ -43,6 +45,14 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
         displayBio = '$description';
       });
     });
+    _userName =
+        _database.child(widget.artistURL + "/Name/Name").onValue.listen((event) {
+          final String description1 = event.snapshot.value.toString();
+          print("LISTENER: " + description1);
+          setState(() {
+            displayName = '$description1';
+          });
+        });
   }
 
   @override
@@ -62,8 +72,7 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text(
-                  'Artist username here',
+                Text(displayName,
                   style: TextStyle(
                     fontFamily: 'Comfortaa',
                     fontWeight: FontWeight.bold,
@@ -231,6 +240,7 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
   @override
   void deactivate() {
     _userBio.cancel();
+    _userName.cancel();
     super.deactivate();
   }
 }

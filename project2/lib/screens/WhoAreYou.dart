@@ -55,12 +55,13 @@ class _WhoAreYouState extends State<WhoAreYou> {
                   onTap: () {
                     print("Artist icon tapped");
                     print("value: "+widget.value);
-                    FirebaseFirestore.instance.collection('Artist').doc(widget.value).set({"UID":widget.value});
+                    //FirebaseFirestore.instance.collection('Artist').doc(widget.value).set({"UID":widget.value});
+                    //FirebaseFirestore.instance.collection('Artist').doc(widget.value).set({"Name":widget.value});
                     setAccType.set({'Account Type':'Artist'});
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EditProfilePageSignin(),
+                        builder: (context) => EditProfilePageSignin(widget.value.toString()),
                       ),
                     );
                   },
@@ -86,7 +87,7 @@ class _WhoAreYouState extends State<WhoAreYou> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EditProfilePageSignin(),
+                        builder: (context) => EditProfilePageSignin(widget.value),
                       ),
                     );
                   },
@@ -110,7 +111,7 @@ class _WhoAreYouState extends State<WhoAreYou> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EditProfilePageSignin(),
+                        builder: (context) => EditProfilePageSignin(widget.value),
                       ),
                     );
                   },

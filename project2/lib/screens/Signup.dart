@@ -169,8 +169,8 @@ class _SignupPageState extends State<SignupPage> {
                     email: _emailTextController.text,
                     password: _passwordTextController.text)
                     .then((value) {
-                      //FirebaseFirestore.instance.collection('UserData').doc(value.user?.uid).set({"email": value.user?.email});
                   print("created new acc");
+                  print(value.user?.uid.toString());
                   Navigator.push(
                     context,
                     MaterialPageRoute(
