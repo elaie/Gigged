@@ -69,18 +69,13 @@ class _SeeAllArtistState extends State<SeeAllArtist> {
   }
 
   void activateListeners(String result) {
-
-    _userName =
-        database.child(result + "/Name/Name").onValue.listen((event) {
-          final String description1 = event.snapshot.value.toString();
-          print("LISTENER: " + description1);
-          setState(() {
-            DisplayUid = '$description1';
-          });
-
-        });
-
-
+    _userName = database.child(result + "/Name/Name").onValue.listen((event) {
+      final String description1 = event.snapshot.value.toString();
+      print("LISTENER: " + description1);
+      setState(() {
+        DisplayUid = '$description1';
+      });
+    });
   }
 
   // String name = "";
@@ -102,133 +97,91 @@ class _SeeAllArtistState extends State<SeeAllArtist> {
   //
   // @override
 
-   Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //         title: Card(
-  //       child: TextField(
-  //         decoration: InputDecoration(
-  //             prefixIcon: Icon(Icons.search), hintText: 'Search...'),
-  //         onChanged: (val) {
-  //           setState(() {
-  //             //name = val;
-  //           });
-  //         },
-  //       ),
-  //     )),
-  //     body: SafeArea(
-  //       child: SingleChildScrollView(
-  //         child: Column(
-  //           children: [
-  //             Expanded(
-  //               child: FirebaseAnimatedList(query: database, itemBuilder: (BuildContext context,DataSnapshot snapshot,Animation<double> animation,int index){
-  //                 return Text("TEST DATA");
-  //               }),
-  //             )
-  //       //    ListTile(
-  //       //   title: Text("test"),
-  //       // ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-  return Scaffold(
-      appBar: AppBar(
-          title: Card(
-            child: TextField(
-              decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search), hintText: 'Search...'),
-              onChanged: (val) {
-                setState(() {
-                  //name = val;
-                });
-              },
-            ),
-          )),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('Artist').snapshots(),
-        builder: (context, snapshots) {
-          return (snapshots.connectionState == ConnectionState.waiting)
-              ? Center(
-            child: CircularProgressIndicator(),
-          )
-              : ListView.builder(
-              itemCount: snapshots.data!.docs.length,
-              itemBuilder: (context, index) {
-                var data = snapshots.data!.docs[index].data()
-                as Map<String, dynamic>;
-                print("data printing");
-                print(data);
-                getUID(data.toString());
-                DisplayUid;
-                //print(all)
-                // if (name.isEmpty) {
-                //   return ListTile(
-                //     title: Text(
-                //       data['name'],
-                //       maxLines: 1,
-                //       overflow: TextOverflow.ellipsis,
-                //       style: TextStyle(
-                //           color: Colors.black54,
-                //           fontSize: 16,
-                //           fontWeight: FontWeight.bold),
-                //     ),
-                //     subtitle: Text(
-                //       data['email'],
-                //       maxLines: 1,
-                //       overflow: TextOverflow.ellipsis,
-                //       style: TextStyle(
-                //           color: Colors.black54,
-                //           fontSize: 16,
-                //           fontWeight: FontWeight.bold),
-                //     ),
-                //     leading: CircleAvatar(
-                //       backgroundImage: NetworkImage(data['image']),
-                //     ),
-                //   );
-                // }
-                return ListTile( onTap: () {
-                  print("Tapped ");
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              PublicArtistProfile(data['Name'].toString())));
-                  print("nav pushed");
-                },title: Text(data['Name'].toString()),);
-                // if (data['UID']) {
-                //   return ListTile(
-                //     title: Text(
-                //       data.toString(),
-                //       maxLines: 1,
-                //       overflow: TextOverflow.ellipsis,
-                //       style: TextStyle(
-                //           color: Colors.black54,
-                //           fontSize: 16,
-                //           fontWeight: FontWeight.bold),
-                //     ),
-                //     // subtitle: Text(
-                //     //   data['email'],
-                //     //   maxLines: 1,
-                //     //   overflow: TextOverflow.ellipsis,
-                //     //   style: TextStyle(
-                //     //       color: Colors.black54,
-                //     //       fontSize: 16,
-                //     //       fontWeight: FontWeight.bold),
-                //     // ),
-                //     // leading: CircleAvatar(
-                //     //   backgroundImage: NetworkImage(data['image']),
-                //     // ),
-                //   );
-                // }
-                return Container();
-              });
-        },
-      )
-  );
-}
+  Widget build(BuildContext context) {
+    //   return Scaffold(
+    //     appBar: AppBar(
+    //         title: Card(
+    //       child: TextField(
+    //         decoration: InputDecoration(
+    //             prefixIcon: Icon(Icons.search), hintText: 'Search...'),
+    //         onChanged: (val) {
+    //           setState(() {
+    //             //name = val;
+    //           });
+    //         },
+    //       ),
+    //     )),
+    //     body: SafeArea(
+    //       child: SingleChildScrollView(
+    //         child: Column(
+    //           children: [
+    //             Expanded(
+    //               child: FirebaseAnimatedList(query: database, itemBuilder: (BuildContext context,DataSnapshot snapshot,Animation<double> animation,int index){
+    //                 return Text("TEST DATA");
+    //               }),
+    //             )
+    //       //    ListTile(
+    //       //   title: Text("test"),
+    //       // ),
+    //           ],
+    //         ),
+    //       ),
+    //     ),
+    //   );
+    // }
+    return Scaffold(
+        // appBar: AppBar(
+        //     title: Card(
+        //   child: TextField(
+        //     decoration: InputDecoration(
+        //         prefixIcon: Icon(Icons.search), hintText: 'Search...'),
+        //     onChanged: (val) {
+        //       setState(() {
+        //         //name = val;
+        //       });
+        //     },
+        //   ),
+        // )),
+        body: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance.collection('Artist').snapshots(),
+          builder: (context, snapshots) {
+            return (snapshots.connectionState == ConnectionState.waiting)
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return Divider();
+                    },
+                    itemCount: snapshots.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      var data = snapshots.data!.docs[index].data()
+                          as Map<String, dynamic>;
+                      print("data printing");
+                      print(data);
+                      getUID(data.toString());
+                      DisplayUid;
+                      return ListTile(
+                        onTap: () {
+                          print("Tapped ");
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PublicArtistProfile(
+                                      data['Name'].toString())));
+                          print("nav pushed");
+                        },
+                        leading: CircleAvatar(
+                          backgroundColor: const Color(0xff764abc),
+                        ),
+                        subtitle: Text('Artist'),
+                        title: Text(data['Name'].toString()),
+                      );
+                    });
+          },
+        ));
+  }
+
 // // Widget build(BuildContext context) {
 // //   return Scaffold(
 // //     body: SafeArea(
@@ -429,24 +382,22 @@ class _SeeAllArtistState extends State<SeeAllArtist> {
 // //     ),
 // //   );
 // // }
-String getUID(String uid)
-{
-  String result="";
-  String displayName="";
-  result = uid.replaceAll(RegExp('[^A-Za-z0-9]'), '');
-  result = result.substring(3);
-  print("results: " + result);
+  String getUID(String uid) {
+    String result = "";
+    String displayName = "";
+    result = uid.replaceAll(RegExp('[^A-Za-z0-9]'), '');
+    result = result.substring(3);
+    print("results: " + result);
 
-
-  // _userName =
-  //     database.child(result + "/Name/Name").onValue.listen((event) {
-  //       final String description1 = event.snapshot.value.toString();
-  //       print("LISTENER: " + description1);
-  //         displayName = '$description1';
-  //
-  //     });
-print("DISPLAY NAME: "+displayName);
-  //activateListeners(result);
-  return displayName;
-}
+    // _userName =
+    //     database.child(result + "/Name/Name").onValue.listen((event) {
+    //       final String description1 = event.snapshot.value.toString();
+    //       print("LISTENER: " + description1);
+    //         displayName = '$description1';
+    //
+    //     });
+    print("DISPLAY NAME: " + displayName);
+    //activateListeners(result);
+    return displayName;
+  }
 }
