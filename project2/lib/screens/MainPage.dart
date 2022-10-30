@@ -111,7 +111,7 @@ class _MainPageState extends State<MainPage> {
                               style: TextStyle(
                                   fontFamily: 'Comfortaa',
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 20,
+                                  fontSize: 22.0,
                                   color: kPrimaryDarkColor),
                             ),
                             GestureDetector(
@@ -140,7 +140,6 @@ class _MainPageState extends State<MainPage> {
                   ),
                   //images for upcoming events
                   SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
