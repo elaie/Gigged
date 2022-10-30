@@ -55,12 +55,13 @@ class _WhoAreYouState extends State<WhoAreYou> {
                   onTap: () {
                     print("Artist icon tapped");
                     print("value: "+widget.value);
-                    FirebaseFirestore.instance.collection('Artist').doc(widget.value).set({"UID":widget.value});
+                    //FirebaseFirestore.instance.collection('Artist').doc(widget.value).set({"UID":widget.value});
+                    //FirebaseFirestore.instance.collection('Artist').doc(widget.value).set({"Name":widget.value});
                     setAccType.set({'Account Type':'Artist'});
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EditProfilePageSignin(),
+                        builder: (context) => EditProfilePageSignin(widget.value.toString(),"Artist"),
                       ),
                     );
                   },
@@ -82,11 +83,11 @@ class _WhoAreYouState extends State<WhoAreYou> {
                   onTap: (){
                     setAccType.set({'Account Type':'User'});
                     print("user icon tapped");
-                    FirebaseFirestore.instance.collection('User').doc(widget.value).set({"UID":widget.value});
+                    //FirebaseFirestore.instance.collection('User').doc(widget.value).set({"UID":widget.value});
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EditProfilePageSignin(),
+                        builder: (context) => EditProfilePageSignin(widget.value,"User"),
                       ),
                     );
                   },
@@ -106,11 +107,11 @@ class _WhoAreYouState extends State<WhoAreYou> {
                   onTap: (){
                     setAccType.set({'Account Type':'Venue'});
                     print("venue icon tapped");
-                    FirebaseFirestore.instance.collection('Venue').doc(widget.value).set({"UID":widget.value});
+                    //FirebaseFirestore.instance.collection('Venue').doc(widget.value).set({"UID":widget.value});
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EditProfilePageSignin(),
+                        builder: (context) => EditProfilePageSignin(widget.value,"Venue"),
                       ),
                     );
                   },

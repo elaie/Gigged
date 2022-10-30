@@ -10,7 +10,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:project2/local_data.dart';
-import 'package:project2/screens/ArtistProfilePage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../storage_services.dart';
 import 'constraints.dart';
@@ -19,7 +19,9 @@ import 'ArtistProfilePage.dart';
 import 'constraints.dart';
 
 class EditProfilePageSignin extends StatefulWidget {
-  const EditProfilePageSignin({Key? key}) : super(key: key);
+  final value;
+  final accType;
+  EditProfilePageSignin(this.value,this.accType);
 
   @override
   State<EditProfilePageSignin> createState() => _EditProfilePageSigninState();
@@ -42,30 +44,31 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
   var _rating = 0;
 
   @override
-  void initState() {
-    super.initState();
-    activateListeners();
-    _nameTextController.text = extractData().getUserName();
-    _bioTextController.text=displayBio;
-  }
-
-  void activateListeners() {
-    _userBio = _database
-        .child(ExtractData.getUserUID() + "/BIO/Bio")
-        .onValue
-        .listen((event) {
-      final String description = event.snapshot.value.toString();
-      print("LISTENER: " + description);
-      setState(() {
-        _bioTextController.text='$description';
-      });
-    });
-  }
+  // void initState() {
+  //   super.initState();
+  //   activateListeners();
+  //   //_nameTextController.text = extractData().getUserName();
+  //   //_bioTextController.text=displayBio;
+  // }
+  //
+  // void activateListeners() {
+  //   _userBio = _database
+  //       .child(ExtractData.getUserUID() + "/BIO/Bio")
+  //       .onValue
+  //       .listen((event) {
+  //     final String description = event.snapshot.value.toString();
+  //     print("LISTENER: " + description);
+  //     setState(() {
+  //       _bioTextController.text='$description';
+  //     });
+  //   });
+  // }
   @override
 
   Widget build(BuildContext context) {
     final Storage storage = Storage();
     final extractData ExtractData = extractData();
+    final setName= _database.child(ExtractData.getUserUID()+'/Name/');
     final setBio = _database.child(ExtractData.getUserUID()+'/BIO/');
     FutureBuilder(future: storage.listFiles(),
         builder: (BuildContext context,
@@ -257,9 +260,18 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
       onPressed: () {
         //final userInformation = database.child('USERS'+getUserEmail()+"/");
         setBio.set({'Bio': _bioTextController.text});
+        setName.set({'Name':_nameTextController.text});
         FirebaseAuth.instance.currentUser
             ?.updateDisplayName(_nameTextController.text);
-        //print(_nameTextController.text + "is printed");
+        Map<String,String> dataToSave= {
+          'UID': widget.value,
+          'Name': _nameTextController.text,
+          'Bio':_bioTextController.text
+        };
+        FirebaseFirestore.instance.collection(widget.accType.toString()).add(dataToSave);
+        //FirebaseFirestore.instance.collection('Artist').doc().set({"Name":_nameTextController.text});
+        //FirebaseFirestore.instance.collection('Artist').doc().set({"UID":});
+        print("USER UID================"+widget.value);
         Navigator.push(
             context,
             MaterialPageRoute(

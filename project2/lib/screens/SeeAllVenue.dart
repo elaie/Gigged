@@ -3,6 +3,11 @@ import 'package:project2/screens/VenuePublicPage.dart';
 
 import 'EventDiscriptionPage.dart';
 import 'constraints.dart';
+
+import 'package:project2/screens/PublicArtistProfile.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class SeeAllVenue extends StatefulWidget {
   const SeeAllVenue({Key? key}) : super(key: key);
 
@@ -14,202 +19,40 @@ class _SeeAllVenueState extends State<SeeAllVenue> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              //first block
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => VenuePublicPage(),
-                    ),
-                  );
+        body: StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('Venue').snapshots(),
+      builder: (context, snapshots) {
+        return (snapshots.connectionState == ConnectionState.waiting)
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : ListView.separated(
+                separatorBuilder: (context, index) {
+                  return Divider();
                 },
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.black12,
-                        width: 1,
-                      ),
+                itemCount: snapshots.data!.docs.length,
+                itemBuilder: (context, index) {
+                  var data = snapshots.data!.docs[index].data()
+                      as Map<String, dynamic>;
+                  print("data printing");
+                  print(data);
+                  return ListTile(
+                    onTap: () {
+                      print("Tapped ");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => VenuePublicPage()));
+                      print("nav pushed");
+                    },
+                    leading: CircleAvatar(
+                      backgroundColor: const Color(0xff764abc),
                     ),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 15,
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(40),
-                          ),
-                          //for unread messages
-                          border: Border.all(
-                            width: 2,
-                            color: kPrimaryColor,
-                          ),
-                          //shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                            ),
-                          ],
-                        ),
-                        child: CircleAvatar(
-                          radius: 35,
-                          backgroundImage:
-                          AssetImage('assets/images/singerImage.jpg'),
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.65,
-                        padding: EdgeInsets.only(left: 20),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  constraints: BoxConstraints(maxWidth: 175),
-                                  child: Text(
-                                    'Khattra venue',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Comfortaa',
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                'Kati bolchas k kaile kai ta chup lag kati text gareko block handinchu talai',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.black54,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              //second message
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => VenuePublicPage(),
-                    ),
+                    subtitle: Text('Venue'),
+                    title: Text(data['Name'].toString()),
                   );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.black12,
-                        width: 1,
-                      ),
-                    ),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 15,
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(40),
-                          ),
-                          //for unread messages
-                          border: Border.all(
-                            width: 2,
-                            color: kPrimaryColor,
-                          ),
-                          //shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                            ),
-                          ],
-                        ),
-                        child: CircleAvatar(
-                          radius: 35,
-                          backgroundImage:
-                          AssetImage('assets/images/singerImage.jpg'),
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.65,
-                        padding: EdgeInsets.only(left: 20),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  constraints: BoxConstraints(maxWidth: 175),
-                                  child: Text(
-                                    'Arko Khattra venue',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Comfortaa',
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                'Kati bolchas k kaile kai ta chup lag kati text gareko block handinchu talai',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.black54,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                });
+      },
+    ));
   }
 }
