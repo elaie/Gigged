@@ -161,22 +161,70 @@ class _SeeAllArtistState extends State<SeeAllArtist> {
                       print(data);
                       getUID(data.toString());
                       DisplayUid;
-                      return ListTile(
+                      return GestureDetector(
                         onTap: () {
                           print("Tapped ");
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PublicArtistProfile(
-                                      data['Name'].toString())));
+                                  builder: (context) =>
+                                      PublicArtistProfile(
+                                          data['UID'].toString())));
                           print("nav pushed");
                         },
-                        leading: CircleAvatar(
-                          backgroundColor: const Color(0xff764abc),
-                        ),
-                        subtitle: Text('Artist'),
-                        title: Text(data['Name'].toString()),
+
+                        //radius vairacha somehow
+                        child: Card(child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+
+                          children: [
+                          FutureBuilder(
+                              future: storage.downloadURL(data['UID'].toString()),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<String> snapshot) {
+
+                                // print(
+                                // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+                                //extractData().getUserUID();
+                                print("IMG================================");
+                                if (snapshot.connectionState == ConnectionState.done &&
+                                    snapshot.hasData) {
+                                  print("IMG================================");
+                                  return CircleAvatar(
+                                      radius: 40,
+                                      backgroundImage: NetworkImage(
+                                        snapshot.data!,
+                                      ));
+                                }
+                                else {
+                                  return CircleAvatar(
+                                    radius: 40,
+                                    child: Image.asset('assets/images/profile2.webp'),
+
+                                  );
+                                }
+                              }),
+                            SizedBox(width: 20,),
+                            Text(data['Name'].toString()),
+                        ],),)
+
                       );
+                      // return ListTile(
+                      //   onTap: () {
+                      //     print("Tapped ");
+                      //     Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //             builder: (context) => PublicArtistProfile(
+                      //                 data['Name'].toString())));
+                      //     print("nav pushed");
+                      //   },
+                      //   leading: CircleAvatar(
+                      //     backgroundColor: const Color(0xff764abc),
+                      //   ),
+                      //   subtitle: Text('Artist'),
+                      //   title: Text(data['Name'].toString()),
+                      // );
                     });
           },
         ));

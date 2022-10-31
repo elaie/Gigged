@@ -14,8 +14,6 @@ class ArtistProfilePage extends StatefulWidget {
 
   @override
   State<ArtistProfilePage> createState() => _ArtistProfilePageState();
-
-
 }
 
 class _ArtistProfilePageState extends State<ArtistProfilePage> {
@@ -63,51 +61,60 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
           ),
           child: Column(
             children: [
-              SizedBox(height: 30,),
-            Text(
-            "Hello there!",
-            style: TextStyle(
-                fontFamily: 'Comfortaa',
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: kPrimaryColor),
-          ),
-              SizedBox(height: 20,),
-          Text(
-            extractData().getUserName(),
-            style: TextStyle(
-                fontFamily: 'Comfortaa',
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: kPrimaryColor),
-          ),
-              SizedBox(height: 10,),
-          //profile picture
-          GestureDetector(
-              onTap: () {
-                print('image pressed');
-              },
-              child: FutureBuilder(
-                  future: storage.downloadURL(ExtractData.getUserUID()),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<String> snapshot) {
-                    // print(
-                    // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
-                    extractData().getUserUID();
-                    if (snapshot.connectionState == ConnectionState.done &&
-                        snapshot.hasData) {
-                      //print("CONNECTION STATE IS STABLE");
-                      return CircleAvatar(
-                          radius: 70,
-                          backgroundImage: NetworkImage(
-                            snapshot.data!,
-                          ));
-                    }
-                    // print("CONNECTION STATE IS UN-STABLE");
-                    return Container();
-                  })),
-              SizedBox(height: 20,),
-          //bio
+              SizedBox(
+                height: 30,
+              ),
+              Text(
+                "Hello there!",
+                style: TextStyle(
+                    fontFamily: 'Comfortaa',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: kPrimaryColor),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                extractData().getUserName(),
+                style: TextStyle(
+                    fontFamily: 'Comfortaa',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: kPrimaryColor),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              //profile picture
+              GestureDetector(
+                  onTap: () {
+                    print('image pressed');
+                  },
+                  child: FutureBuilder(
+                      future: storage.downloadURL(ExtractData.getUserUID()),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<String> snapshot) {
+                        // print(
+                        // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+                        extractData().getUserUID();
+                        if (snapshot.connectionState == ConnectionState.done &&
+                            snapshot.hasData) {
+                          //print("CONNECTION STATE IS STABLE");
+                          return CircleAvatar(
+                              radius: 70,
+                              backgroundImage: NetworkImage(
+                                snapshot.data!,
+                              ));
+                        }
+                        // print("CONNECTION STATE IS UN-STABLE");
+                        return Container();
+                      })
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              //bio
               Container(
                 child: Column(
                   children: [
@@ -118,13 +125,14 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                         fontFamily: 'Comfortaa',
-
                       ),
                     ),
                     Divider(
                       thickness: 1,
-                      color: kPrimaryDarkColor,),
-                    Text(displayBio,
+                      color: kPrimaryDarkColor,
+                    ),
+                    Text(
+                      displayBio,
                       style: TextStyle(
                           fontFamily: 'Comfortaa',
                           fontSize: 16,
@@ -133,17 +141,84 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                   ],
                 ),
               ),
-              SizedBox(height: 30,),
-          //edit button
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
+              SizedBox(
+                height: 30,
+              ),
+              //edit button
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    child: Text(
+                      "Edit Profile",
+                      style: TextStyle(
+                          fontFamily: 'Comfortaa', fontWeight: FontWeight.bold),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                        (kPrimaryColor),
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
+                          ),
+                        ),
+                        builder: (context) => EditProfilePage(),
+                      );
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              //ratings
+              Text(
+                "Ratings",
+                style: TextStyle(
+                    fontFamily: 'Comfortaa',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: kPrimaryColor),
+              ),
+              //stars
+              AnimatedPositioned(
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      5,
+                      (index) => IconButton(
+                        icon: index < _rating
+                            ? Icon(Icons.star, size: 32)
+                            : Icon(Icons.star_border, size: 32),
+                        color: kPrimaryColor,
+                        onPressed: () {
+                          setState(
+                            () {
+                              _rating = index + 1;
+                            },
+                          );
+                        },
+                      ),
+                    )),
+                duration: Duration(milliseconds: 300),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              //logout button
               ElevatedButton(
-                child: Text(
-                  "Edit Profile",
-                  style: TextStyle(
-                      fontFamily: 'Comfortaa', fontWeight: FontWeight.bold),
-                ),
+                child: Text("Logout"),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
                     (kPrimaryColor),
@@ -155,98 +230,34 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                   ),
                 ),
                 onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(20),
-                      ),
-                    ),
-                    builder: (context) => EditProfilePage(),
-                  );
+                  FirebaseAuth.instance.signOut().then((value) {
+                    print("Signed Out");
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        PageRouteBuilder(pageBuilder: (BuildContext context,
+                            Animation animation, Animation secondaryAnimation) {
+                          return WelcomeScreen();
+                        }, transitionsBuilder: (BuildContext context,
+                            Animation<double> animation,
+                            Animation<double> secondaryAnimation,
+                            Widget child) {
+                          return new SlideTransition(
+                            position: new Tween<Offset>(
+                              begin: const Offset(1.0, 0.0),
+                              end: Offset.zero,
+                            ).animate(animation),
+                            child: child,
+                          );
+                        }),
+                        (Route route) => false);
+                  });
                 },
               ),
             ],
           ),
-              SizedBox(height: 30,),
-          //ratings
-          Text(
-            "Ratings",
-            style: TextStyle(
-                fontFamily: 'Comfortaa',
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: kPrimaryColor),
-          ),
-          //stars
-          AnimatedPositioned(
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  5,
-                      (index) =>
-                      IconButton(
-                        icon: index < _rating
-                            ? Icon(Icons.star, size: 32)
-                            : Icon(Icons.star_border, size: 32),
-                        color: kPrimaryColor,
-                        onPressed: () {
-                          setState(
-                                () {
-                              _rating = index + 1;
-                            },
-                          );
-                        },
-                      ),
-                )),
-            duration: Duration(milliseconds: 300),
-          ),
-              SizedBox(height: 30,),
-        //logout button
-        ElevatedButton(
-          child: Text("Logout"),
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(
-              (kPrimaryColor),
-            ),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25.0),
-              ),
-            ),
-          ),
-          onPressed: () {
-            FirebaseAuth.instance.signOut().then((value) {
-              print("Signed Out");
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  PageRouteBuilder(
-                      pageBuilder: (BuildContext context, Animation animation,
-                          Animation secondaryAnimation) {
-                        return WelcomeScreen();
-                      },
-                      transitionsBuilder: (BuildContext context,
-                          Animation<double> animation,
-                          Animation<double> secondaryAnimation, Widget child) {
-                        return new SlideTransition(
-                          position: new Tween<Offset>(
-                            begin: const Offset(1.0, 0.0),
-                            end: Offset.zero,
-                          ).animate(animation),
-                          child: child,
-                        );
-                      }),
-                      (Route route) => false);
-            });
-          },
         ),
-        ],
       ),
-    ),)
-    ,
     );
-
   }
 
   @override
@@ -254,14 +265,12 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
     _userBio.cancel();
     super.deactivate();
   }
-
 }
-
 
 Route _createRoute() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) =>
-    const EditProfilePage(),
+        const EditProfilePage(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(0.0, 1.0);
       const end = Offset.zero;
@@ -276,4 +285,3 @@ Route _createRoute() {
     },
   );
 }
-

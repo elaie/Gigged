@@ -147,32 +147,32 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
 
 
-
-          print('image pressed');
-          final results = await FilePicker.platform.pickFiles(
-            allowMultiple: false,
-            type: FileType.custom,
-            allowedExtensions: ['png', 'jpg'],
-          );
-          if (results == null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("No File Selected"),
-              ),
-            );
-            return null;
-          }
-
-          final path = results.files.single.path!;
-          //final fileName = results.files.single.name;
-
-
-          storage
-              .uploadFile(path, ExtractData.getUserUID())
-              .then((value) => print("profile picture uploaded   FILENAME:"+path));
-
-          print("PATH" + path);
-          print("FILENAME: " + ExtractData.getUserEmail());
+          //
+          // print('image pressed');
+          // final results = await FilePicker.platform.pickFiles(
+          //   allowMultiple: false,
+          //   type: FileType.custom,
+          //   allowedExtensions: ['png', 'jpg'],
+          // );
+          // if (results == null) {
+          //   ScaffoldMessenger.of(context).showSnackBar(
+          //     const SnackBar(
+          //       content: Text("No File Selected"),
+          //     ),
+          //   );
+          //   return null;
+          // }
+          //
+          // final path = results.files.single.path!;
+          // //final fileName = results.files.single.name;
+          //
+          //
+          // storage
+          //     .uploadFile(path, ExtractData.getUserUID())
+          //     .then((value) => print("profile picture uploaded   FILENAME:"+path));
+          //
+          // print("PATH" + path);
+          // print("FILENAME: " + ExtractData.getUserEmail());
 
         },
         child: Text(
