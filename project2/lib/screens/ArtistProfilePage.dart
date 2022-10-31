@@ -138,7 +138,8 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                           }
                           // print("CONNECTION STATE IS UN-STABLE");
                           return Container();
-                        })),
+                        })
+                ),
               ),
               //bio
               Container(
