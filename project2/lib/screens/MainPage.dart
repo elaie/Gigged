@@ -67,6 +67,7 @@ class _MainPageState extends State<MainPage> {
                   fit: BoxFit.cover,
                 ),
               ),
+<<<<<<< HEAD
               child: ListView(
                 // padding: EdgeInsets.symmetric(vertical: 30.0),
                   children: <Widget>[
@@ -94,6 +95,111 @@ class _MainPageState extends State<MainPage> {
                         icon: Icon(
                           Icons.message_outlined,
                           color: kPrimaryDarkColor,
+=======
+              //upcoming events
+              Column(
+                children: <Widget>[
+                  Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'Upcoming Events',
+                              style: TextStyle(
+                                  fontFamily: 'Comfortaa',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22.0,
+                                  color: kPrimaryDarkColor),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SeeAllPageEvent(),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                'See all',
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 16.0,
+                                  fontFamily: 'Comfortaa',
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 1.0,
+                                ),
+                              ),
+                            ),
+                          ])),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  //images for upcoming events
+                  SingleChildScrollView(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        //event 1
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          height: 150,
+                          width: 180,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            EventDiscription(),
+                                      ),
+                                    );
+                                    print('first image pressed');
+                                  },
+                                  child: Image.network(
+                                    'https://www.pngplay.com/wp-content/uploads/6/Party-Concert-Background-PNG-Image.png',
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Arbitary Event',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'Comfortaa',
+                                            ),
+                                          ),
+                                          Text(
+                                            'From 9 oct-10 oct          '
+                                            'Venue - LOD club',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontFamily: 'Comfortaa',
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                )
+                              ]),
+>>>>>>> e22825326288787dd02b5799ae6c48d2855d6935
                         ),
                       )),
                 ],

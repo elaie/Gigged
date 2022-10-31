@@ -46,7 +46,11 @@ class MyApp extends StatelessWidget {
         primaryColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
       ),
+<<<<<<< HEAD
       home: WelcomeScreen(),//this page runs first
+=======
+      home: VenuePrivatePage(),//this page runs first
+>>>>>>> e22825326288787dd02b5799ae6c48d2855d6935
     );
   }
 }

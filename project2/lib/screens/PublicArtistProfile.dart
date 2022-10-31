@@ -76,10 +76,11 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
                   style: TextStyle(
                     fontFamily: 'Comfortaa',
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: 30,
                     color: kPrimaryColor,
                   ),
                 ),
+
                 SizedBox(height: 20),
                 //profile picture
                 GestureDetector(
@@ -115,6 +116,9 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
                     color: kPrimaryColor,
                   ),
                 ),
+                Divider(
+                  thickness: 1,
+                  color: kPrimaryDarkColor,),
                 Container(
                   child: Text(displayBio),
                 ),
