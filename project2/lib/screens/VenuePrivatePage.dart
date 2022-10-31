@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:project2/screens/SeeAllArtist.dart';
 import 'package:project2/screens/constraints.dart';
-
+import 'welcome_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'EditProfilePage.dart';
+import 'dart:async';
+import 'package:firebase_database/firebase_database.dart';
+import '../storage_services.dart';
+import '../getData.dart';
+import '../local_data.dart';
 
 class VenuePrivatePage extends StatefulWidget {
   const VenuePrivatePage({Key? key}) : super(key: key);
@@ -12,6 +18,34 @@ class VenuePrivatePage extends StatefulWidget {
 }
 
 class _VenuePrivatePage extends State<VenuePrivatePage> {
+  final _database = FirebaseDatabase.instance.reference();
+
+  String displayBio = " ";
+  late StreamSubscription _userBio;
+
+  final Storage storage = Storage();
+  final extractData ExtractData = extractData();
+  final local_data Local_data = local_data();
+  var _rating = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    activateListeners();
+  }
+
+  void activateListeners() {
+    _userBio = _database
+        .child(ExtractData.getUserUID() + "/BIO/Bio")
+        .onValue
+        .listen((event) {
+      final String description = event.snapshot.value.toString();
+      print("LISTENER: " + description);
+      setState(() {
+        displayBio = '$description';
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,11 +100,46 @@ class _VenuePrivatePage extends State<VenuePrivatePage> {
                                   print('image is pressed');
                                 },
                                 //story
-                                child: const CircleAvatar(
-                                  radius: 70,
-                                  backgroundColor:
-                                      Color.fromARGB(255, 255, 253, 253),
-                                ),
+                                  child: FutureBuilder(
+                                      future: storage.downloadURL(ExtractData.getUserUID()),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<String> snapshot) {
+                                        // print(
+                                        // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+                                        extractData().getUserUID();
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.done &&
+                                            snapshot.hasData) {
+                                          //print("CONNECTION STATE IS STABLE");
+                                          return Container(
+                                            padding: EdgeInsets.all(2),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(100),
+                                              ),
+                                              //for circle outline on pp
+                                              border: Border.all(
+                                                width: 3,
+                                                color: kPrimaryColor,
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(0.5),
+                                                  spreadRadius: 2,
+                                                  blurRadius: 5,
+                                                ),
+                                              ],
+                                            ),
+                                            child: CircleAvatar(
+                                                radius: 70,
+                                                backgroundImage: NetworkImage(
+                                                  snapshot.data!,
+                                                )),
+                                          );
+                                        }
+                                        // print("CONNECTION STATE IS UN-STABLE");
+                                        return Container();
+                                      })
                               ),
                             )
                           ])),
@@ -91,7 +160,7 @@ class _VenuePrivatePage extends State<VenuePrivatePage> {
                               color: kPrimaryColor,
                             ),
                             Text(
-                              'something something place with something something description to be written and stuff',
+                              displayBio,
                               style: TextStyle(
                                 color: Colors.black,
                                 fontFamily: 'Comfortaa',
@@ -132,7 +201,7 @@ class _VenuePrivatePage extends State<VenuePrivatePage> {
                                           top: Radius.circular(20),
                                         ),
                                       ),
-                                      builder: (context) => VenuePrivatePage(),
+                                      builder: (context) => EditProfilePage(),
                                     );
                                   },
                                 ),
@@ -219,22 +288,40 @@ class _VenuePrivatePage extends State<VenuePrivatePage> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(20),
-                                        ),
-                                      ),
-                                      builder: (context) => VenuePrivatePage(),
-                                    );
+                                    FirebaseAuth.instance.signOut().then((value) {
+                                      print("Signed Out");
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          PageRouteBuilder(pageBuilder: (BuildContext context,
+                                              Animation animation,
+                                              Animation secondaryAnimation) {
+                                            return WelcomeScreen();
+                                          }, transitionsBuilder: (BuildContext context,
+                                              Animation<double> animation,
+                                              Animation<double> secondaryAnimation,
+                                              Widget child) {
+                                            return new SlideTransition(
+                                              position: new Tween<Offset>(
+                                                begin: const Offset(1.0, 0.0),
+                                                end: Offset.zero,
+                                              ).animate(animation),
+                                              child: child,
+                                            );
+                                          }),
+                                              (Route route) => false);
+                                    });
                                   },
                                 ),
                               ],
                             ),
                           ]))
                     ]))));
+  }
+
+  @override
+  void deactivate() {
+    _userBio.cancel();
+    super.deactivate();
   }
 }
 
