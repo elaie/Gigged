@@ -26,7 +26,7 @@ class _MainPageState extends State<MainPage> {
   final extractData ExtractData = extractData();
   String artistUID = "";
   CollectionReference _collectionRef =
-  FirebaseFirestore.instance.collection('Artist');
+      FirebaseFirestore.instance.collection('Artist');
   CollectionReference users = FirebaseFirestore.instance.collection('Artist');
 
   @override
@@ -81,21 +81,22 @@ class _MainPageState extends State<MainPage> {
                         height: 130,
                         child: Image.asset('assets/images/Gigged-1.png',
                             fit: BoxFit.fill)),
+                    //messages
                     Container(
                         child: IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MessageListPage(),
-                              ),
-                            );
-                          },
-                          icon: Icon(
-                            Icons.message_outlined,
-                            color: kPrimaryDarkColor,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MessageListPage(),
                           ),
-                        )),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.message_outlined,
+                        color: kPrimaryDarkColor,
+                      ),
+                    )),
                   ],
                 ),
               ),
@@ -181,7 +182,7 @@ class _MainPageState extends State<MainPage> {
                                         horizontal: 10),
                                     child: Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Arbitary Event',
@@ -193,14 +194,15 @@ class _MainPageState extends State<MainPage> {
                                         ),
                                         Text(
                                           'From 9 oct-10 oct          '
-                                              'Venue - LOD club',
+                                          'Venue - LOD club',
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontFamily: 'Comfortaa',
                                           ),
                                         ),
                                       ],
-                                    ),),
+                                    ),
+                                  ),
                                 )
                               ]),
                         ),
@@ -233,7 +235,7 @@ class _MainPageState extends State<MainPage> {
                                           horizontal: 10),
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             'ABCD Event',
@@ -245,7 +247,7 @@ class _MainPageState extends State<MainPage> {
                                           ),
                                           Text(
                                             'From 11 oct-15 oct         '
-                                                'Venue - dorsia Club',
+                                            'Venue - dorsia Club',
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontFamily: 'Comfortaa',
@@ -312,17 +314,16 @@ class _MainPageState extends State<MainPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             SizedBox(
-                              height:200.0,
+                              height: 200.0,
                               child: ListView.builder(
-                                physics: ClampingScrollPhysics(),
+                                  physics: ClampingScrollPhysics(),
                                   shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                padding: const EdgeInsets.all(10),
-
+                                  scrollDirection: Axis.horizontal,
+                                  padding: const EdgeInsets.all(10),
                                   itemCount: snapshots.data!.docs.length,
                                   itemBuilder: (context, index) {
-                                    var data = snapshots.data!.docs[index].data()
-                                    as Map<String, dynamic>;
+                                    var data = snapshots.data!.docs[index]
+                                        .data() as Map<String, dynamic>;
                                     return Row(
                                       children: [
                                         GestureDetector(
@@ -333,36 +334,62 @@ class _MainPageState extends State<MainPage> {
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         PublicArtistProfile(
-                                                            data['UID'].toString())));
+                                                            data['UID']
+                                                                .toString())));
                                             print("nav pushed");
                                           },
 
                                           //radius vairacha somehow
                                           child: FutureBuilder(
-                                              future: storage.downloadURL(data['UID'].toString()),
+                                              future: storage.downloadURL(
+                                                  data['UID'].toString()),
                                               builder: (BuildContext context,
-                                                  AsyncSnapshot<String> snapshot) {
+                                                  AsyncSnapshot<String>
+                                                      snapshot) {
                                                 // print(
                                                 // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
                                                 //extractData().getUserUID();
-                                                print("IMG================================");
-                                                if (snapshot.connectionState == ConnectionState.done &&
+                                                print(
+                                                    "IMG================================");
+                                                if (snapshot.connectionState ==
+                                                        ConnectionState.done &&
                                                     snapshot.hasData) {
-                                                  print("IMG================================");
+                                                  print(
+                                                      "IMG================================");
                                                   return Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: CircleAvatar(
-                                                        radius: 70,
-                                                        backgroundImage: NetworkImage(
-                                                          snapshot.data!,
-                                                        )),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Column(
+                                                      children: [
+                                                        CircleAvatar(
+                                                            radius: 70,
+                                                            backgroundColor: Colors.transparent,
+                                                            backgroundImage:
+                                                                NetworkImage(
+                                                              snapshot.data!,
+                                                            )),
+                                                        SizedBox(height: 10,),
+                                                        Text(
+                                                          'Username',
+                                                          style: TextStyle(
+                                                            color: kPrimaryDarkColor,
+                                                            fontWeight: FontWeight.bold,
+                                                            fontFamily: 'Comfortaa',
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   );
-
-                                                }
-                                                else {
-                                                  return CircleAvatar(
-                                                    radius: 70,
-                                                    child: Image.asset('assets/images/profile2.webp'),
+                                                } else {
+                                                  return Padding(
+                                                    padding: const EdgeInsets.all(30.0),
+                                                    child: CircleAvatar(
+                                                      radius: 50,
+                                                      backgroundColor: Colors.transparent,
+                                                      child: Image.asset(
+                                                          'assets/images/user.png'),
+                                                    ),
                                                   );
                                                 }
                                                 // print("CONNECTION STATE IS UN-STABLE");
@@ -548,17 +575,16 @@ class _MainPageState extends State<MainPage> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 SizedBox(
-                                  height:200.0,
+                                  height: 200.0,
                                   child: ListView.builder(
                                       physics: ClampingScrollPhysics(),
                                       shrinkWrap: true,
                                       scrollDirection: Axis.horizontal,
                                       padding: const EdgeInsets.all(10),
-
                                       itemCount: snapshots.data!.docs.length,
                                       itemBuilder: (context, index) {
-                                        var data = snapshots.data!.docs[index].data()
-                                        as Map<String, dynamic>;
+                                        var data = snapshots.data!.docs[index]
+                                            .data() as Map<String, dynamic>;
                                         return Row(
                                           children: [
                                             GestureDetector(
@@ -569,36 +595,77 @@ class _MainPageState extends State<MainPage> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             PublicArtistProfile(
-                                                                data['UID'].toString())));
+                                                                data['UID']
+                                                                    .toString())));
                                                 print("nav pushed");
                                               },
 
                                               //radius vairacha somehow
                                               child: FutureBuilder(
-                                                  future: storage.downloadURL(data['UID'].toString()),
-                                                  builder: (BuildContext context,
-                                                      AsyncSnapshot<String> snapshot) {
+                                                  future: storage.downloadURL(
+                                                      data['UID'].toString()),
+                                                  builder:
+                                                      (BuildContext context,
+                                                          AsyncSnapshot<String>
+                                                              snapshot) {
                                                     // print(
                                                     // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
                                                     //extractData().getUserUID();
-                                                    print("IMG================================");
-                                                    if (snapshot.connectionState == ConnectionState.done &&
+                                                    print(
+                                                        "IMG================================");
+                                                    if (snapshot.connectionState ==
+                                                            ConnectionState
+                                                                .done &&
                                                         snapshot.hasData) {
-                                                      print("IMG================================");
+                                                      print(
+                                                          "IMG================================");
                                                       return Padding(
-                                                        padding: const EdgeInsets.all(8.0),
-                                                        child: CircleAvatar(
-                                                            radius: 70,
-                                                            backgroundImage: NetworkImage(
-                                                              snapshot.data!,
-                                                            )),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Column(
+                                                          children: [
+                                                            Container(
+                                                              height: 100,
+                                                              width: 150,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          50),
+                                                                ),
+                                                              ),
+                                                              child:
+                                                                  Image.network(
+                                                                snapshot.data!,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            ),
+                                                            //username
+                                                            SizedBox(height: 10,),
+                                                            Text( 'username',
+                                                              style: TextStyle(
+                                                                color: kPrimaryDarkColor,
+                                                                fontWeight: FontWeight.bold,
+                                                                fontFamily: 'Comfortaa',
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       );
-
-                                                    }
-                                                    else {
-                                                      return CircleAvatar(
-                                                        radius: 70,
-                                                        child: Image.asset('assets/images/profile2.webp'),
+                                                    } else {
+                                                      return Padding(
+                                                        padding: const EdgeInsets.all(20.0),
+                                                        child: CircleAvatar(
+                                                          radius: 50,
+                                                          backgroundColor: Colors.transparent,
+                                                          child: Image.asset(
+                                                              'assets/images/user.png'),
+                                                        ),
                                                       );
                                                     }
                                                     // print("CONNECTION STATE IS UN-STABLE");
