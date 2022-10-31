@@ -537,173 +537,279 @@ class _MainPageState extends State<MainPage> {
                         ),
                       ),
                       //images and discription for venues
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            //first venue
-                            Container(
-                              margin: EdgeInsets.symmetric(horizontal: 20),
-                              height: 180,
-                              width: 180,
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: 10),
-                                  GestureDetector(
-                                    onTap: () {
-                                      print('image pressed');
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              VenuePublicPage(),
-                                        ),
-                                      );
-                                    },
-                                    child:
-                                    Image.asset('assets/images/club.jpg'),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                      StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('Venue')
+                            .snapshots(),
+                        builder: (context, snapshots) {
+                          print("*********about to return ");
+                          return SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  height:200.0,
+                                  child: ListView.builder(
+                                      physics: ClampingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      padding: const EdgeInsets.all(10),
+
+                                      itemCount: snapshots.data!.docs.length,
+                                      itemBuilder: (context, index) {
+                                        var data = snapshots.data!.docs[index].data()
+                                        as Map<String, dynamic>;
+                                        return Row(
                                           children: [
-                                            SizedBox(height: 10),
-                                            Text(
-                                              'LOD Club',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Comfortaa',
-                                              ),
-                                            ),
-                                            Text(
-                                              'opening hours- 9pm to 2am      ',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontFamily: 'Comfortaa',
-                                              ),
-                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                print("Tapped ");
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            PublicArtistProfile(
+                                                                data['UID'].toString())));
+                                                print("nav pushed");
+                                              },
+
+                                              //radius vairacha somehow
+                                              child: FutureBuilder(
+                                                  future: storage.downloadURL(data['UID'].toString()),
+                                                  builder: (BuildContext context,
+                                                      AsyncSnapshot<String> snapshot) {
+                                                    // print(
+                                                    // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+                                                    //extractData().getUserUID();
+                                                    print("IMG================================");
+                                                    if (snapshot.connectionState == ConnectionState.done &&
+                                                        snapshot.hasData) {
+                                                      print("IMG================================");
+                                                      return Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: CircleAvatar(
+                                                            radius: 70,
+                                                            backgroundImage: NetworkImage(
+                                                              snapshot.data!,
+                                                            )),
+                                                      );
+
+                                                    }
+                                                    else {
+                                                      return CircleAvatar(
+                                                        radius: 70,
+                                                        child: Image.asset('assets/images/profile2.webp'),
+                                                      );
+                                                    }
+                                                    // print("CONNECTION STATE IS UN-STABLE");
+                                                    return Container();
+                                                  }),
+                                              // child: CircleAvatar(
+                                              //   backgroundImage: NetworkImage(snapshots.data!),
+                                              //   child: Text(data['Name'].toString()),
+                                              //   radius: 50,
+                                              // ),
+                                            )
                                           ],
-                                        )),
-                                  )
-                                ],
-                              ),
+                                        );
+                                        // return ListTile(
+                                        //
+                                        //   onTap: () {
+                                        //     print("Tapped ");
+                                        //     Navigator.push(
+                                        //         context,
+                                        //         MaterialPageRoute(
+                                        //             builder: (context) =>
+                                        //                 PublicArtistProfile(
+                                        //                     data['UID'].toString())));
+                                        //     print("nav pushed");
+                                        //   },
+                                        //
+                                        //   //radius vairacha somehow
+                                        //   visualDensity: VisualDensity(vertical: 4),
+                                        //   leading: CircleAvatar(
+                                        //
+                                        //     //backgroundImage: NetworkImage(),
+                                        //     child: Text(data['Name'].toString()),
+                                        //     radius: 50,
+                                        //
+                                        //   ),
+                                        // );
+                                      }),
+                                ),
+                              ],
                             ),
-                            //second venue
-                            Container(
-                              margin: EdgeInsets.symmetric(horizontal: 20),
-                              height: 180,
-                              width: 180,
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: 10),
-                                  GestureDetector(
-                                    onTap: () {
-                                      print('image pressed');
-                                    },
-                                    child:
-                                    Image.asset('assets/images/club.jpg'),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(height: 10),
-                                            Text(
-                                              'LOD Club',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Comfortaa',
-                                              ),
-                                            ),
-                                            Text(
-                                              'opening hours- 9pm to 2am      ',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontFamily: 'Comfortaa',
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-                                  )
-                                ],
-                              ),
-                            ),
-                            //third venue
-                            Container(
-                              margin: EdgeInsets.symmetric(horizontal: 20),
-                              height: 180,
-                              width: 180,
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: 10),
-                                  GestureDetector(
-                                    onTap: () {
-                                      print('image pressed');
-                                    },
-                                    child: Image.asset(
-                                      'assets/images/club.jpg',
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(height: 10),
-                                            Text(
-                                              'LOD Club',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Comfortaa',
-                                              ),
-                                            ),
-                                            Text(
-                                              'opening hours- 9pm to 2am      ',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontFamily: 'Comfortaa',
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                          );
+                        },
                       ),
+
+                      // SingleChildScrollView(
+                      //   scrollDirection: Axis.horizontal,
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      //     children: [
+                      //       //first venue
+                      //       Container(
+                      //         margin: EdgeInsets.symmetric(horizontal: 20),
+                      //         height: 180,
+                      //         width: 180,
+                      //         decoration: BoxDecoration(
+                      //           color: Colors.transparent,
+                      //           borderRadius: BorderRadius.circular(10),
+                      //         ),
+                      //         child: Column(
+                      //           crossAxisAlignment: CrossAxisAlignment.start,
+                      //           children: [
+                      //             SizedBox(height: 10),
+                      //             GestureDetector(
+                      //               onTap: () {
+                      //                 print('image pressed');
+                      //                 Navigator.push(
+                      //                   context,
+                      //                   MaterialPageRoute(
+                      //                     builder: (context) =>
+                      //                         VenuePublicPage(),
+                      //                   ),
+                      //                 );
+                      //               },
+                      //               child:
+                      //               Image.asset('assets/images/club.jpg'),
+                      //             ),
+                      //             Expanded(
+                      //               child: Padding(
+                      //                   padding: const EdgeInsets.symmetric(
+                      //                       horizontal: 10),
+                      //                   child: Column(
+                      //                     crossAxisAlignment:
+                      //                     CrossAxisAlignment.start,
+                      //                     children: [
+                      //                       SizedBox(height: 10),
+                      //                       Text(
+                      //                         'LOD Club',
+                      //                         style: TextStyle(
+                      //                           color: Colors.black,
+                      //                           fontWeight: FontWeight.bold,
+                      //                           fontFamily: 'Comfortaa',
+                      //                         ),
+                      //                       ),
+                      //                       Text(
+                      //                         'opening hours- 9pm to 2am      ',
+                      //                         style: TextStyle(
+                      //                           color: Colors.black,
+                      //                           fontFamily: 'Comfortaa',
+                      //                         ),
+                      //                       ),
+                      //                     ],
+                      //                   )),
+                      //             )
+                      //           ],
+                      //         ),
+                      //       ),
+                      //       //second venue
+                      //       Container(
+                      //         margin: EdgeInsets.symmetric(horizontal: 20),
+                      //         height: 180,
+                      //         width: 180,
+                      //         decoration: BoxDecoration(
+                      //           color: Colors.transparent,
+                      //           borderRadius: BorderRadius.circular(10),
+                      //         ),
+                      //         child: Column(
+                      //           crossAxisAlignment: CrossAxisAlignment.start,
+                      //           children: [
+                      //             SizedBox(height: 10),
+                      //             GestureDetector(
+                      //               onTap: () {
+                      //                 print('image pressed');
+                      //               },
+                      //               child:
+                      //               Image.asset('assets/images/club.jpg'),
+                      //             ),
+                      //             Expanded(
+                      //               child: Padding(
+                      //                   padding: const EdgeInsets.symmetric(
+                      //                       horizontal: 10),
+                      //                   child: Column(
+                      //                     crossAxisAlignment:
+                      //                     CrossAxisAlignment.start,
+                      //                     children: [
+                      //                       SizedBox(height: 10),
+                      //                       Text(
+                      //                         'LOD Club',
+                      //                         style: TextStyle(
+                      //                           color: Colors.black,
+                      //                           fontWeight: FontWeight.bold,
+                      //                           fontFamily: 'Comfortaa',
+                      //                         ),
+                      //                       ),
+                      //                       Text(
+                      //                         'opening hours- 9pm to 2am      ',
+                      //                         style: TextStyle(
+                      //                           color: Colors.black,
+                      //                           fontFamily: 'Comfortaa',
+                      //                         ),
+                      //                       ),
+                      //                     ],
+                      //                   )),
+                      //             )
+                      //           ],
+                      //         ),
+                      //       ),
+                      //       //third venue
+                      //       Container(
+                      //         margin: EdgeInsets.symmetric(horizontal: 20),
+                      //         height: 180,
+                      //         width: 180,
+                      //         decoration: BoxDecoration(
+                      //           color: Colors.transparent,
+                      //           borderRadius: BorderRadius.circular(10),
+                      //         ),
+                      //         child: Column(
+                      //           crossAxisAlignment: CrossAxisAlignment.start,
+                      //           children: [
+                      //             SizedBox(height: 10),
+                      //             GestureDetector(
+                      //               onTap: () {
+                      //                 print('image pressed');
+                      //               },
+                      //               child: Image.asset(
+                      //                 'assets/images/club.jpg',
+                      //                 fit: BoxFit.fill,
+                      //               ),
+                      //             ),
+                      //             Expanded(
+                      //               child: Padding(
+                      //                   padding: const EdgeInsets.symmetric(
+                      //                       horizontal: 10),
+                      //                   child: Column(
+                      //                     crossAxisAlignment:
+                      //                     CrossAxisAlignment.start,
+                      //                     children: [
+                      //                       SizedBox(height: 10),
+                      //                       Text(
+                      //                         'LOD Club',
+                      //                         style: TextStyle(
+                      //                           color: Colors.black,
+                      //                           fontWeight: FontWeight.bold,
+                      //                           fontFamily: 'Comfortaa',
+                      //                         ),
+                      //                       ),
+                      //                       Text(
+                      //                         'opening hours- 9pm to 2am      ',
+                      //                         style: TextStyle(
+                      //                           color: Colors.black,
+                      //                           fontFamily: 'Comfortaa',
+                      //                         ),
+                      //                       ),
+                      //                     ],
+                      //                   )),
+                      //             )
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   )
                 ],
