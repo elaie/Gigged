@@ -120,7 +120,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           //final fileName = results.files.single.name;
 
           storage.uploadFile(path, ExtractData.getUserUID()).then(
-              (value) => print("profile picture uploaded   FILENAME:" + path));
+                  (value) => print("profile picture uploaded   FILENAME:" + path));
 
           print("PATH" + path);
           print("FILENAME: " + ExtractData.getUserEmail());
@@ -136,7 +136,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   snapshot.hasData) {
                 print("CONNECTION STATE IS STABLE");
                 return Container(
-                 padding: EdgeInsets.all(2),
+                  padding: EdgeInsets.all(2),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
                       Radius.circular(100),
@@ -156,8 +156,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                   child: CircleAvatar(
                     radius: 70,
-                      backgroundImage: NetworkImage(snapshot.data!),
-                      //child: Image.network(snapshot.data!, fit: BoxFit.cover)
+                    backgroundImage: NetworkImage(snapshot.data!),
+                    //child: Image.network(snapshot.data!, fit: BoxFit.cover)
                   ),
                 );
               }
@@ -186,7 +186,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           //final fileName = results.files.single.name;
 
           storage.uploadFile(path, ExtractData.getUserUID()).then(
-              (value) => print("profile picture uploaded   FILENAME:" + path));
+                  (value) => print("profile picture uploaded   FILENAME:" + path));
 
           print("PATH" + path);
           print("FILENAME: " + ExtractData.getUserEmail());
@@ -286,7 +286,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           'Name': _nameTextController.text,
           'Bio':_bioTextController.text
         };
-       // FirebaseFirestore.instance.collection("Artist");
+        // FirebaseFirestore.instance.collection("Artist");
         //print(_nameTextController.text + "is printed");
         Navigator.pop(context);
       },

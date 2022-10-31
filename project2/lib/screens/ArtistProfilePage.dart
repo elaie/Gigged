@@ -107,7 +107,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                           // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
                           extractData().getUserUID();
                           if (snapshot.connectionState ==
-                                  ConnectionState.done &&
+                              ConnectionState.done &&
                               snapshot.hasData) {
                             //print("CONNECTION STATE IS STABLE");
                             return Container(
@@ -241,14 +241,14 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(
                         5,
-                        (index) => IconButton(
+                            (index) => IconButton(
                           icon: index < _rating
                               ? Icon(Icons.star, size: 32)
                               : Icon(Icons.star_border, size: 32),
                           color: kPrimaryColor,
                           onPressed: () {
                             setState(
-                              () {
+                                  () {
                                 _rating = index + 1;
                               },
                             );
@@ -294,7 +294,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                               child: child,
                             );
                           }),
-                          (Route route) => false);
+                              (Route route) => false);
                     });
                   },
                 ),
@@ -312,53 +312,53 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                 ),
               ),
               Positioned(
-                top: 450,
+                  top: 450,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    Container(
-                      height: 100,
-                      width: 150,
-                      margin: EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Image.asset(
-                        'assets/images/club.jpg',
-                        fit: BoxFit.fill,
-                      ),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 100,
+                          width: 150,
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Image.asset(
+                            'assets/images/club.jpg',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        Container(
+                          height: 100,
+                          width: 150,
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Image.asset(
+                            'assets/images/club.jpg',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        Container(
+                          height: 100,
+                          width: 150,
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Image.asset(
+                            'assets/images/club.jpg',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ],
                     ),
-                    Container(
-                      height: 100,
-                      width: 150,
-                      margin: EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Image.asset(
-                        'assets/images/club.jpg',
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    Container(
-                      height: 100,
-                      width: 150,
-                      margin: EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Image.asset(
-                        'assets/images/club.jpg',
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ],
-                ),
-              ))
+                  ))
             ],
           ),
         ),
@@ -376,7 +376,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
 Route _createRoute() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) =>
-        const EditProfilePage(),
+    const EditProfilePage(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(0.0, 1.0);
       const end = Offset.zero;
