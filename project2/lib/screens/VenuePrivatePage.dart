@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project2/screens/CreateEvent.dart';
 import 'package:project2/screens/SeeAllArtist.dart';
 import 'package:project2/screens/constraints.dart';
 
@@ -163,9 +164,40 @@ class _VenuePrivatePage extends State<VenuePrivatePage> {
                                       ),
                                     ),
                                   ),
-                                )
+                                ),
+
                               ],
                             ),
+                                SizedBox(height: 15,),
+                                //create event button
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => CreateEvent(),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    'Create Event',
+                                    style: TextStyle(
+                                        fontFamily: 'Comfortaa',
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                      (kPrimaryColor),
+                                    ),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(25.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                             SizedBox(height: 20),
                             //ratings
                             Text(
