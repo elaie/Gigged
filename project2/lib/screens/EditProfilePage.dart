@@ -120,7 +120,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           //final fileName = results.files.single.name;
 
           storage.uploadFile(path, ExtractData.getUserUID()).then(
-              (value) => print("profile picture uploaded   FILENAME:" + path));
+                  (value) => print("profile picture uploaded   FILENAME:" + path));
 
           print("PATH" + path);
           print("FILENAME: " + ExtractData.getUserEmail());
@@ -136,7 +136,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   snapshot.hasData) {
                 print("CONNECTION STATE IS STABLE");
                 return Container(
-                 padding: EdgeInsets.all(2),
+                  padding: EdgeInsets.all(2),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
                       Radius.circular(100),
@@ -156,8 +156,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                   child: CircleAvatar(
                     radius: 70,
-                      backgroundImage: NetworkImage(snapshot.data!),
-                      //child: Image.network(snapshot.data!, fit: BoxFit.cover)
+                    backgroundImage: NetworkImage(snapshot.data!),
+                    //child: Image.network(snapshot.data!, fit: BoxFit.cover)
                   ),
                 );
               }
@@ -167,38 +167,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
     Widget ChangeProfilePic = GestureDetector(
         onTap: () async {
-<<<<<<< HEAD
-
-
-
-          //
-          // print('image pressed');
-          // final results = await FilePicker.platform.pickFiles(
-          //   allowMultiple: false,
-          //   type: FileType.custom,
-          //   allowedExtensions: ['png', 'jpg'],
-          // );
-          // if (results == null) {
-          //   ScaffoldMessenger.of(context).showSnackBar(
-          //     const SnackBar(
-          //       content: Text("No File Selected"),
-          //     ),
-          //   );
-          //   return null;
-          // }
-          //
-          // final path = results.files.single.path!;
-          // //final fileName = results.files.single.name;
-          //
-          //
-          // storage
-          //     .uploadFile(path, ExtractData.getUserUID())
-          //     .then((value) => print("profile picture uploaded   FILENAME:"+path));
-          //
-          // print("PATH" + path);
-          // print("FILENAME: " + ExtractData.getUserEmail());
-
-=======
           print('image pressed');
           final results = await FilePicker.platform.pickFiles(
             allowMultiple: false,
@@ -218,11 +186,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
           //final fileName = results.files.single.name;
 
           storage.uploadFile(path, ExtractData.getUserUID()).then(
-              (value) => print("profile picture uploaded   FILENAME:" + path));
+                  (value) => print("profile picture uploaded   FILENAME:" + path));
 
           print("PATH" + path);
           print("FILENAME: " + ExtractData.getUserEmail());
->>>>>>> e22825326288787dd02b5799ae6c48d2855d6935
         },
         child: Text(
           'Change Profile Picture',
@@ -319,7 +286,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           'Name': _nameTextController.text,
           'Bio':_bioTextController.text
         };
-       // FirebaseFirestore.instance.collection("Artist");
+        // FirebaseFirestore.instance.collection("Artist");
         //print(_nameTextController.text + "is printed");
         Navigator.pop(context);
       },

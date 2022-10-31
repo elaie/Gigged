@@ -63,61 +63,6 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
             alignment: AlignmentDirectional.center,
             children: [
               SizedBox(
-<<<<<<< HEAD
-                height: 30,
-              ),
-              Text(
-                "Hello there!",
-                style: TextStyle(
-                    fontFamily: 'Comfortaa',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: kPrimaryColor),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                extractData().getUserName(),
-                style: TextStyle(
-                    fontFamily: 'Comfortaa',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: kPrimaryColor),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              //profile picture
-              GestureDetector(
-                  onTap: () {
-                    print('image pressed');
-                  },
-                  child: FutureBuilder(
-                      future: storage.downloadURL(ExtractData.getUserUID()),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<String> snapshot) {
-                        // print(
-                        // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
-                        extractData().getUserUID();
-                        if (snapshot.connectionState == ConnectionState.done &&
-                            snapshot.hasData) {
-                          //print("CONNECTION STATE IS STABLE");
-                          return CircleAvatar(
-                              radius: 70,
-                              backgroundImage: NetworkImage(
-                                snapshot.data!,
-                              ));
-                        }
-                        // print("CONNECTION STATE IS UN-STABLE");
-                        return Container();
-                      })
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              //bio
-=======
                 height: 20,
               ),
               //for white container
@@ -133,7 +78,6 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                 ),
               ),
               //username
->>>>>>> e22825326288787dd02b5799ae6c48d2855d6935
               Container(
                 alignment: Alignment.topCenter,
                 child: Text(
@@ -163,7 +107,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                           // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
                           extractData().getUserUID();
                           if (snapshot.connectionState ==
-                                  ConnectionState.done &&
+                              ConnectionState.done &&
                               snapshot.hasData) {
                             //print("CONNECTION STATE IS STABLE");
                             return Container(
@@ -202,22 +146,6 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                 child: Column(
                   children: [
                     Text(
-<<<<<<< HEAD
-                      'About me',
-                      style: TextStyle(
-                        color: kPrimaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        fontFamily: 'Comfortaa',
-                      ),
-                    ),
-                    Divider(
-                      thickness: 1,
-                      color: kPrimaryDarkColor,
-                    ),
-                    Text(
-=======
->>>>>>> e22825326288787dd02b5799ae6c48d2855d6935
                       displayBio,
                       style: TextStyle(
                           fontFamily: 'Comfortaa',
@@ -227,89 +155,6 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                   ],
                 ),
               ),
-<<<<<<< HEAD
-              SizedBox(
-                height: 30,
-              ),
-              //edit button
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    child: Text(
-                      "Edit Profile",
-                      style: TextStyle(
-                          fontFamily: 'Comfortaa', fontWeight: FontWeight.bold),
-                    ),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                        (kPrimaryColor),
-                      ),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                      ),
-                    ),
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(20),
-                          ),
-                        ),
-                        builder: (context) => EditProfilePage(),
-                      );
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              //ratings
-              Text(
-                "Ratings",
-                style: TextStyle(
-                    fontFamily: 'Comfortaa',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: kPrimaryColor),
-              ),
-              //stars
-              AnimatedPositioned(
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                      5,
-                      (index) => IconButton(
-                        icon: index < _rating
-                            ? Icon(Icons.star, size: 32)
-                            : Icon(Icons.star_border, size: 32),
-                        color: kPrimaryColor,
-                        onPressed: () {
-                          setState(
-                            () {
-                              _rating = index + 1;
-                            },
-                          );
-                        },
-                      ),
-                    )),
-                duration: Duration(milliseconds: 300),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              //logout button
-              ElevatedButton(
-                child: Text("Logout"),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    (kPrimaryColor),
-=======
 
               SizedBox(
                 height: 30,
@@ -322,7 +167,6 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                   height: 33,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
->>>>>>> e22825326288787dd02b5799ae6c48d2855d6935
                   ),
                   child: GestureDetector(
                       onTap: () {},
@@ -356,33 +200,6 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                     backgroundColor: MaterialStateProperty.all(
                       (kPrimaryColor),
                     ),
-<<<<<<< HEAD
-                  ),
-                ),
-                onPressed: () {
-                  FirebaseAuth.instance.signOut().then((value) {
-                    print("Signed Out");
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        PageRouteBuilder(pageBuilder: (BuildContext context,
-                            Animation animation, Animation secondaryAnimation) {
-                          return WelcomeScreen();
-                        }, transitionsBuilder: (BuildContext context,
-                            Animation<double> animation,
-                            Animation<double> secondaryAnimation,
-                            Widget child) {
-                          return new SlideTransition(
-                            position: new Tween<Offset>(
-                              begin: const Offset(1.0, 0.0),
-                              end: Offset.zero,
-                            ).animate(animation),
-                            child: child,
-                          );
-                        }),
-                        (Route route) => false);
-                  });
-                },
-=======
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25.0),
@@ -402,7 +219,6 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                     );
                   },
                 ),
->>>>>>> e22825326288787dd02b5799ae6c48d2855d6935
               ),
               //ratings
               Positioned(
@@ -425,14 +241,14 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(
                         5,
-                        (index) => IconButton(
+                            (index) => IconButton(
                           icon: index < _rating
                               ? Icon(Icons.star, size: 32)
                               : Icon(Icons.star_border, size: 32),
                           color: kPrimaryColor,
                           onPressed: () {
                             setState(
-                              () {
+                                  () {
                                 _rating = index + 1;
                               },
                             );
@@ -478,7 +294,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                               child: child,
                             );
                           }),
-                          (Route route) => false);
+                              (Route route) => false);
                     });
                   },
                 ),
@@ -496,53 +312,53 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                 ),
               ),
               Positioned(
-                top: 450,
+                  top: 450,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    Container(
-                      height: 100,
-                      width: 150,
-                      margin: EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Image.asset(
-                        'assets/images/club.jpg',
-                        fit: BoxFit.fill,
-                      ),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 100,
+                          width: 150,
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Image.asset(
+                            'assets/images/club.jpg',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        Container(
+                          height: 100,
+                          width: 150,
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Image.asset(
+                            'assets/images/club.jpg',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        Container(
+                          height: 100,
+                          width: 150,
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Image.asset(
+                            'assets/images/club.jpg',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ],
                     ),
-                    Container(
-                      height: 100,
-                      width: 150,
-                      margin: EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Image.asset(
-                        'assets/images/club.jpg',
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    Container(
-                      height: 100,
-                      width: 150,
-                      margin: EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Image.asset(
-                        'assets/images/club.jpg',
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ],
-                ),
-              ))
+                  ))
             ],
           ),
         ),
@@ -560,7 +376,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
 Route _createRoute() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) =>
-        const EditProfilePage(),
+    const EditProfilePage(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(0.0, 1.0);
       const end = Offset.zero;
