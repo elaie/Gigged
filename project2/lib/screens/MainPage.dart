@@ -300,95 +300,110 @@ class _MainPageState extends State<MainPage> {
                               ),
                             ),
                           ])),
-
+                  //images for trending artists
                   StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
                         .collection('Artist')
                         .snapshots(),
                     builder: (context, snapshots) {
                       print("*********about to return ");
-                      return ListView.builder(
-                        //scrollDirection: Axis.horizontal,
-                        //   padding: const EdgeInsets.all(0),
-                          shrinkWrap: true,
-                          itemCount: snapshots.data!.docs.length,
-                          itemBuilder: (context, index) {
-                            var data = snapshots.data!.docs[index].data()
-                            as Map<String, dynamic>;
-                            return Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    print("Tapped ");
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                PublicArtistProfile(
-                                                    data['UID'].toString())));
-                                    print("nav pushed");
-                                  },
+                      return SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              height:200.0,
+                              child: ListView.builder(
+                                physics: ClampingScrollPhysics(),
+                                  shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                padding: const EdgeInsets.all(10),
 
-                                  //radius vairacha somehow
-                                  child: FutureBuilder(
-                                      future: storage.downloadURL(data['UID'].toString()),
-                                      builder: (BuildContext context,
-                                          AsyncSnapshot<String> snapshot) {
-                                        // print(
-                                        // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
-                                        //extractData().getUserUID();
-                                        print("IMG================================");
-                                        if (snapshot.connectionState == ConnectionState.done &&
-                                            snapshot.hasData) {
-                                          print("IMG================================");
-                                          return CircleAvatar(
-                                              radius: 70,
-                                              backgroundImage: NetworkImage(
-                                                snapshot.data!,
-                                              ));
+                                  itemCount: snapshots.data!.docs.length,
+                                  itemBuilder: (context, index) {
+                                    var data = snapshots.data!.docs[index].data()
+                                    as Map<String, dynamic>;
+                                    return Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            print("Tapped ");
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        PublicArtistProfile(
+                                                            data['UID'].toString())));
+                                            print("nav pushed");
+                                          },
 
-                                        }
-                                        else {
-                                          return CircleAvatar(
-                                            radius: 70,
-                                            child: Image.asset('assets/images/profile2.webp'),
-                                          );
-                                        }
-                                        // print("CONNECTION STATE IS UN-STABLE");
-                                        return Container();
-                                      }),
-                                  // child: CircleAvatar(
-                                  //   backgroundImage: NetworkImage(snapshots.data!),
-                                  //   child: Text(data['Name'].toString()),
-                                  //   radius: 50,
-                                  // ),
-                                )
-                              ],
-                            );
-                            // return ListTile(
-                            //
-                            //   onTap: () {
-                            //     print("Tapped ");
-                            //     Navigator.push(
-                            //         context,
-                            //         MaterialPageRoute(
-                            //             builder: (context) =>
-                            //                 PublicArtistProfile(
-                            //                     data['UID'].toString())));
-                            //     print("nav pushed");
-                            //   },
-                            //
-                            //   //radius vairacha somehow
-                            //   visualDensity: VisualDensity(vertical: 4),
-                            //   leading: CircleAvatar(
-                            //
-                            //     //backgroundImage: NetworkImage(),
-                            //     child: Text(data['Name'].toString()),
-                            //     radius: 50,
-                            //
-                            //   ),
-                            // );
-                          });
+                                          //radius vairacha somehow
+                                          child: FutureBuilder(
+                                              future: storage.downloadURL(data['UID'].toString()),
+                                              builder: (BuildContext context,
+                                                  AsyncSnapshot<String> snapshot) {
+                                                // print(
+                                                // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+                                                //extractData().getUserUID();
+                                                print("IMG================================");
+                                                if (snapshot.connectionState == ConnectionState.done &&
+                                                    snapshot.hasData) {
+                                                  print("IMG================================");
+                                                  return Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: CircleAvatar(
+                                                        radius: 70,
+                                                        backgroundImage: NetworkImage(
+                                                          snapshot.data!,
+                                                        )),
+                                                  );
+
+                                                }
+                                                else {
+                                                  return CircleAvatar(
+                                                    radius: 70,
+                                                    child: Image.asset('assets/images/profile2.webp'),
+                                                  );
+                                                }
+                                                // print("CONNECTION STATE IS UN-STABLE");
+                                                return Container();
+                                              }),
+                                          // child: CircleAvatar(
+                                          //   backgroundImage: NetworkImage(snapshots.data!),
+                                          //   child: Text(data['Name'].toString()),
+                                          //   radius: 50,
+                                          // ),
+                                        )
+                                      ],
+                                    );
+                                    // return ListTile(
+                                    //
+                                    //   onTap: () {
+                                    //     print("Tapped ");
+                                    //     Navigator.push(
+                                    //         context,
+                                    //         MaterialPageRoute(
+                                    //             builder: (context) =>
+                                    //                 PublicArtistProfile(
+                                    //                     data['UID'].toString())));
+                                    //     print("nav pushed");
+                                    //   },
+                                    //
+                                    //   //radius vairacha somehow
+                                    //   visualDensity: VisualDensity(vertical: 4),
+                                    //   leading: CircleAvatar(
+                                    //
+                                    //     //backgroundImage: NetworkImage(),
+                                    //     child: Text(data['Name'].toString()),
+                                    //     radius: 50,
+                                    //
+                                    //   ),
+                                    // );
+                                  }),
+                            ),
+                          ],
+                        ),
+                      );
                     },
                   ),
 
