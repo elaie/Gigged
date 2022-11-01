@@ -23,8 +23,8 @@ class _HomePageState extends State<HomePage> {
     MainPage(),
     MapPage(),
     SearchPage(),
-    //ArtistProfilePage(),
-    VenuePrivatePage(),
+    ArtistProfilePage(),
+    //VenuePrivatePage(),
     //ProfilePage(widget.userName),
   ];
 
