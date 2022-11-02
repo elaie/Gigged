@@ -110,7 +110,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           stream: FirebaseAuth.instance.authStateChanges(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              return HomePage("");
+                              return HomePage("Venue");
                             } else {
                               return LoginPage();
                             }

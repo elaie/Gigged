@@ -40,16 +40,24 @@ class _HomePageState extends State<HomePage> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      print("INDEX VALUE "+index.toString());
+      if ((widget.accType
+          == 'Venue')&&index==3) {
+        print("THIS IS VENUE");
+        _selectedIndex=index+1;
+        print("SELECTED INDEX ON TAP"+_selectedIndex.toString());
+      }
+      else
+        _selectedIndex = index;
+      print("SELECTED INDEX ON TAP"+_selectedIndex.toString());
     });
   }
 
   @override
   void initState() {
-    checkAccountType();
+    //checkAccountType();
     super.initState();
     //widget.userName use gana ko lagi initialize garna parcha paila
-    super.initState();
     _screens = [
       MainPage(),
       MapPage(),
@@ -57,18 +65,23 @@ class _HomePageState extends State<HomePage> {
       //DummyProfile(widget.accType),
       ArtistProfilePage(),
       VenuePrivatePage(),
-      UserProfilePage()
+      UserProfilePage(),
     ];
   }
 
   Future<void> checkAccountType() async {
    final prefs = await SharedPreferences.getInstance();
    final account = prefs.getString(widget.accType);
-    if ((account == 'Venue')&&_selectedIndex==3) {
-      setState(() {
-          _selectedIndex=_selectedIndex+13;
-      });
+   print("Checkacctype Init");
+   print("ACC TYPE"+widget.accType);
+   print("Selectedindex"+_selectedIndex.toString());
+   setState(() {
+    if ((widget.accType
+        == 'Venue')&&_selectedIndex==3) {
+        print("THIS IS VENUE");
+          _selectedIndex=_selectedIndex+1;
     }
+   });
   }
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,6 +122,7 @@ class _HomePageState extends State<HomePage> {
                 icon: Icon(Icons.account_circle_rounded),
                 label: 'Profile',
               ),
+
             ],
             currentIndex: _selectedIndex,
             selectedItemColor: kPrimaryColor,
