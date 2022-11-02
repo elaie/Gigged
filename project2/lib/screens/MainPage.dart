@@ -358,8 +358,8 @@ class _MainPageState extends State<MainPage> {
                                                       "IMG================================");
                                                   return Padding(
                                                     padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
+                                                        const EdgeInsets.only(left:
+                                                            8.0, right: 8.0),
                                                     child: Column(
                                                       children: [
                                                         CircleAvatar(
@@ -646,7 +646,7 @@ class _MainPageState extends State<MainPage> {
                                                               ),
                                                             ),
                                                             //username
-                                                            SizedBox(height: 10,),
+                                                            SizedBox(height: 5,),
                                                             Text( 'username',
                                                               style: TextStyle(
                                                                 color: kPrimaryDarkColor,

@@ -15,6 +15,7 @@ class WhoAreYou extends StatefulWidget {
   final value;
   WhoAreYou(this.value);
 
+
   @override
   State<WhoAreYou> createState() => _WhoAreYouState();
 }
@@ -23,6 +24,7 @@ class _WhoAreYouState extends State<WhoAreYou> {
 
   final _database = FirebaseDatabase.instance.reference();
   final extractData ExtractData = extractData();
+  var user_type="null";
   @override
   Widget build(BuildContext context) {
     final setAccType = _database.child(ExtractData.getUserUID()+'/');
@@ -52,18 +54,21 @@ class _WhoAreYouState extends State<WhoAreYou> {
                 ),
                 //artist icon
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     print("Artist icon tapped");
                     print("value: "+widget.value);
                     //FirebaseFirestore.instance.collection('Artist').doc(widget.value).set({"UID":widget.value});
                     //FirebaseFirestore.instance.collection('Artist').doc(widget.value).set({"Name":widget.value});
                     setAccType.set({'Account Type':'Artist'});
-                    Navigator.push(
+                    await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => EditProfilePageSignin(widget.value.toString(),"Artist"),
                       ),
                     );
+                    setState(() {
+                       user_type = "Artist";
+                    });
                   },
                   child: Lottie.asset(
                       'assets/anim/118914-woman-singer-in-recording-studio.json',
@@ -90,6 +95,9 @@ class _WhoAreYouState extends State<WhoAreYou> {
                         builder: (context) => EditProfilePageSignin(widget.value,"User"),
                       ),
                     );
+                    setState(() {
+                      user_type = "User";
+                    });
                   },
                   child: Lottie.asset('assets/anim/71367-person.json',
                       height: 200, width: 200),
@@ -114,6 +122,9 @@ class _WhoAreYouState extends State<WhoAreYou> {
                         builder: (context) => EditProfilePageSignin(widget.value,"Venue"),
                       ),
                     );
+                    setState(() {
+                      user_type = "Venue";
+                    });
                   },
                   child: Lottie.asset(
                       'assets/anim/22446-house-cafe-restouran-building-maison-005-mocca-animation.json',

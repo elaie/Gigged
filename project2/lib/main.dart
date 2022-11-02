@@ -7,6 +7,7 @@ import 'package:project2/screens/Homepage.dart';
 import 'package:project2/screens/Login.dart';
 import 'package:project2/screens/MessageListPage.dart';
 import 'package:project2/screens/MessagePage.dart';
+import 'package:project2/screens/UserProfilePage.dart';
 import 'package:project2/screens/VenuePrivatePage.dart';
 import 'package:project2/screens/VenuePublicPage.dart';
 import 'package:project2/screens/PublicArtistProfile.dart';
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
 
-      home: VenuePrivatePage(),//this page runs first
+      home: WelcomeScreen(),//this page runs first
 
     );
   }
