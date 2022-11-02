@@ -275,7 +275,7 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
         Navigator.push(
             context,
             MaterialPageRoute(
-            builder: (context) => HomePage(),
+            builder: (context) => HomePage(widget.accType),
         ),
         );
       },

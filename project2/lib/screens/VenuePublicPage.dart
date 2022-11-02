@@ -83,7 +83,7 @@ class _VenuePublicPage extends State<VenuePublicPage> {
                       color: Colors.black38,
                     ),
                     Text(
-                      'kunai na kunai thau ma definately cha',
+                      'Located in Kathmandu, great ambience',
                       style: TextStyle(
                         color: Colors.black,
                         fontFamily: 'Comfortaa',

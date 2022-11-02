@@ -27,13 +27,6 @@ class _MessageListPageState extends State<MessageListPage> {
             color: Colors.white,
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.search),
-            color: Colors.white,
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -100,7 +93,7 @@ class _MessageListPageState extends State<MessageListPage> {
                               Container(
                                 constraints: BoxConstraints(maxWidth: 175),
                                 child: Text(
-                                  'Khattra Manche',
+                                  'Jhon Doe',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -124,7 +117,7 @@ class _MessageListPageState extends State<MessageListPage> {
                           Container(
                             alignment: Alignment.topLeft,
                             child: Text(
-                              'Kati bolchas k kaile kai ta chup lag kati text gareko block handinchu talai',
+                              'hey!',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.black54,
@@ -193,7 +186,7 @@ class _MessageListPageState extends State<MessageListPage> {
                             Container(
                               constraints: BoxConstraints(maxWidth: 175),
                               child: Text(
-                                'Arko Khattra Manche',
+                                'Jane Doe',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -217,7 +210,7 @@ class _MessageListPageState extends State<MessageListPage> {
                         Container(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            'Kati bolchas k kaile kai ta chup lag kati text gareko block handinchu talai',
+                            'Whars up?',
                             style: TextStyle(
                               fontSize: 13,
                               color: Colors.black54,

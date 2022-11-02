@@ -206,33 +206,13 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
                   alignment: Alignment.topCenter,
                   padding: EdgeInsets.all(15),
                   decoration: BoxDecoration(
-                      color: Colors.green,
+                     // color: Colors.green,
                       borderRadius: BorderRadius.circular(25)),
-                  child: Text(
-                      '*Content here\n fyi it is green just so we can see the size of container ik it looks weird*'),
-                ),
+                  child: Image.asset('assets/images/club.jpg')),
                 SizedBox(height: 20),
                 //highlights
-                Text(
-                  'Highlights',
-                  style: TextStyle(
-                    fontFamily: 'Comfortaa',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: kPrimaryColor,
-                  ),
-                ),
-                Container(
-                  height: 170,
-                  width: 300,
-                  alignment: Alignment.topCenter,
-                  padding: EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(25)),
-                  child: Text(
-                      '*Content here\n are we adding highlights? idk lmk*'),
-                ),
+
+
               ],
             ),
           ),

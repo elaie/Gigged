@@ -2,13 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:project2/screens/ArtistProfilePage.dart';
 import 'package:project2/screens/MainPage.dart';
 import 'package:project2/screens/MapPage.dart';
+import 'package:project2/screens/VenuePrivatePage.dart';
 import 'package:project2/screens/VenuePublicPage.dart';
 import 'package:project2/screens/SearchPage.dart';
 import 'package:project2/screens/UserProfilePage.dart';
 import 'package:project2/screens/constraints.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'dummyProfile.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  //const HomePage({Key? key}) : super(key: key);
+  final accType;
+  HomePage(this.accType);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -18,13 +24,14 @@ class _HomePageState extends State<HomePage> {
   var _selectedIndex = 0;
   var _screens = [];
 
-  static const List<Widget> _widgetOptions = <Widget>[
+ /* static const List<Widget> _widgetOptions = <Widget>[
     MainPage(),
     MapPage(),
     SearchPage(),
-    ArtistProfilePage(),
+   // ArtistProfilePage(),
+    DummyProfile(widget.accType),
     //ProfilePage(widget.userName),
-  ];
+  ];*/
 
   void _onItemTapped(int index) {
     setState(() {
@@ -33,10 +40,33 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void initState() {
+    checkAccountType();
+    super.initState();
+    //widget.userName use gana ko lagi initialize garna parcha paila
+    super.initState();
+    _screens = [
+      MainPage(),
+      MapPage(),
+      SearchPage(),
+      DummyProfile(widget.accType)
+      //ArtistProfilePage(),
+    ];
+  }
+
+  Future<void> checkAccountType() async {
+   final prefs = await SharedPreferences.getInstance();
+   final account = prefs.getInt('User');
+    if (account == 'Venue') {
+      setState(() {
+        _screens[4] = VenuePrivatePage();
+      });
+    }
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: _screens[_selectedIndex],
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(

@@ -52,6 +52,7 @@ dependencies:
   location: ^4.4.0
   flutter_svg: ^1.1.5
   cloud_firestore: ^3.5.1
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:
