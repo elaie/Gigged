@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project2/screens/ArtistProfilePage.dart';
 import 'package:project2/screens/MainPage.dart';
@@ -14,8 +16,8 @@ import 'dummyProfile.dart';
 class HomePage extends StatefulWidget {
   //const HomePage({Key? key}) : super(key: key);
   final accType;
+  String mainAccType = "Venue";
   HomePage(this.accType);
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -41,13 +43,14 @@ class _HomePageState extends State<HomePage> {
   void _onItemTapped(int index) {
     setState(() {
       print("INDEX VALUE "+index.toString());
-      if ((widget.accType
-          == 'Venue')&&index==3) {
-        print("THIS IS VENUE");
-        _selectedIndex=index+1;
-        print("SELECTED INDEX ON TAP"+_selectedIndex.toString());
-      }
-      else
+
+      // if ((widget.accType
+      //     == 'Venue')&&index==3) {
+      //   print("THIS IS VENUE");
+      //   _selectedIndex=index+1;
+      //   print("SELECTED INDEX ON TAP"+_selectedIndex.toString());
+      // }
+      // else
         _selectedIndex = index;
       print("SELECTED INDEX ON TAP"+_selectedIndex.toString());
     });
@@ -55,17 +58,35 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    //checkAccountType();
     super.initState();
+    // print("THIS IS ACC TYPE======================="+widget.accType);
+    // print(FirebaseAuth.instance.currentUser?.uid.toString());
+    // FirebaseFirestore.instance.collection("Venue")
+    //     .doc(FirebaseAuth.instance.currentUser?.uid.toString()).get()
+    //     .then((value) {
+    //   if (value.exists){
+    //     print("IF INIT==============");
+    //     widget.mainAccType="Venue";
+    //     print("WIDGET TYPE================="+widget.mainAccType);
+    //     (widget.mainAccType== 'Venue')?print("VENUE HO"):print("ARTIST HO");
+    //   }
+    //   else{
+    //     print("ELSE INIT");
+    //   }
+    //
+    // });
+    //checkAccountType();
+
     //widget.userName use gana ko lagi initialize garna parcha paila
     _screens = [
       MainPage(),
       MapPage(),
       SearchPage(),
       //DummyProfile(widget.accType),
-      ArtistProfilePage(),
-      VenuePrivatePage(),
-      UserProfilePage(),
+      //widget.test
+      (widget.accType == "Venue")?VenuePrivatePage():ArtistProfilePage(),
+      // VenuePrivatePage(),
+      // UserProfilePage(),
     ];
   }
 
@@ -122,7 +143,6 @@ class _HomePageState extends State<HomePage> {
                 icon: Icon(Icons.account_circle_rounded),
                 label: 'Profile',
               ),
-
             ],
             currentIndex: _selectedIndex,
             selectedItemColor: kPrimaryColor,
