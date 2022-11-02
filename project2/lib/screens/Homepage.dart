@@ -54,17 +54,19 @@ class _HomePageState extends State<HomePage> {
       MainPage(),
       MapPage(),
       SearchPage(),
-      DummyProfile(widget.accType)
-      //ArtistProfilePage(),
+      //DummyProfile(widget.accType),
+      ArtistProfilePage(),
+      VenuePrivatePage(),
+      UserProfilePage()
     ];
   }
 
   Future<void> checkAccountType() async {
    final prefs = await SharedPreferences.getInstance();
-   final account = prefs.getInt('User');
-    if (account == 'Venue') {
+   final account = prefs.getString(widget.accType);
+    if ((account == 'Venue')&&_selectedIndex==3) {
       setState(() {
-        _screens[4] = VenuePrivatePage();
+          _selectedIndex=_selectedIndex+13;
       });
     }
   }
