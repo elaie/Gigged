@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:project2/screens/Homepage.dart';
+import 'package:project2/screens/ArtistHomepage.dart';
 import 'package:project2/screens/Login.dart';
 import 'package:project2/screens/MainPage.dart';
 import 'package:project2/screens/Signup.dart';
@@ -165,7 +165,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                   }
                                 });
                                 if (snapshot.hasData) {
-                                  return HomePage(accType);
+                                  return ArtistHomePage(accType);
                                 } else {
                                   return LoginPage();
                                 }
