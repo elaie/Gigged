@@ -6,6 +6,7 @@ import 'package:project2/screens/CreateEvent.dart';
 import 'package:project2/screens/EventDiscriptionPage.dart';
 import 'package:project2/screens/Homepage.dart';
 import 'package:project2/screens/Login.dart';
+import 'package:project2/screens/MainPage.dart';
 import 'package:project2/screens/MessageListPage.dart';
 import 'package:project2/screens/MessagePage.dart';
 import 'package:project2/screens/UserProfilePage.dart';
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
 
-      home: EventDiscription(),//this page runs first
+      home: WelcomeScreen(),//this page runs first
 
     );
   }

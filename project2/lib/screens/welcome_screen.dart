@@ -148,23 +148,24 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           body: StreamBuilder<User?>(
                               stream: FirebaseAuth.instance.authStateChanges(),
                               builder: (context, snapshot) {
-                                print("SNAPSHOT DATA=============");
-                                print("UID===============================");
+                                
+                                print("SNAPSHOT DATA OF WELCOME PAGE=============");
+                                print("UID FROM WELCOME PAGE===============================");
                                 print(snapshot.data?.uid);
+                                FirebaseFirestore.instance.collection("Venue")
+                                    .doc(snapshot.data?.uid.toString()).get()
+                                    .then((value) {
+                                  print("UID2===============================");
+                                  print(FirebaseAuth.instance.currentUser?.uid.toString());
+                                  if (value.exists){
+                                    accType="Venue";
+                                    print("IF ACC TYPE=========================");
+                                  }
+                                  else{
+                                    print("ELSE ACC TYPE=========================");
+                                  }
+                                });
 
-                                // FirebaseFirestore.instance.collection("Venue")
-                                //     .doc(FirebaseAuth.instance.currentUser?.uid.toString()).get()
-                                //     .then((value) {
-                                //   print("UID2===============================");
-                                //   print(FirebaseAuth.instance.currentUser?.uid.toString());
-                                //   if (value.exists){
-                                //     accType="Venue";
-                                //     print("IF ACC TYPE=========================");
-                                //   }
-                                //   else{
-                                //     print("ELSE ACC TYPE=========================");
-                                //   }
-                                // });
                                 if (snapshot.hasData) {
                                   return HomePage(
                                       accType);
