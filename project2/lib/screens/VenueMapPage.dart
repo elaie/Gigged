@@ -4,11 +4,12 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:project2/userClass.dart';
 //import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import '../getData.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
-
+import '../storage_services.dart';
 class VenueMapPage extends StatefulWidget {
   const VenueMapPage({Key? key}) : super(key: key);
 
@@ -20,6 +21,34 @@ const kGoogleApiKey = 'AIzaSyCqs5UJDkVWs1CcNZx25v8hf3fAIuY5YEg';
 final homeScaffoldKey = GlobalKey<ScaffoldState>();
 
 class _VenuMapPageState extends State<VenueMapPage> {
+
+  //list of markers
+  final Set<Marker> markers = new Set();
+  List<Object> _ListM = [];
+  void addMarkerMap()
+  {
+    markers.add(Marker( //add first marker
+      markerId: MarkerId("showLocation.toString()"),
+      position: LatLng(27.7099116, 85.3132343), //position of marker
+      infoWindow: InfoWindow( //popup info
+        title: 'My Custom Title ',
+        snippet: 'My Custom Subtitle',
+      ),
+      icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+    ));
+
+    markers.add(Marker( //add second marker
+      markerId: MarkerId("showLocation.toString()"),
+      position: LatLng(27.7099116, 85.3132343), //position of marker
+      infoWindow: InfoWindow( //popup info
+        title: 'My Custom Title ',
+        snippet: 'My Custom Subtitle',
+      ),
+      icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+    ));
+
+  }
+  final Storage storage = Storage();
   Set<Marker> markersList = {};
   double Lat = 0;
   double Long = 0;
@@ -27,10 +56,12 @@ class _VenuMapPageState extends State<VenueMapPage> {
   final Mode _mode = Mode.overlay;
   static const CameraPosition initialCameraPosition = CameraPosition(
       target: LatLng(37.42796133580664, -122.085749655962), zoom: 14);
-  Set<Marker> markers = {};
+  //Set<Marker> markers = {};
 
   @override
   void initState() {
+    addMarkerMap();
+    getMarkerFromDb();
     activateListner();
     super.initState();
   }
@@ -43,10 +74,66 @@ class _VenuMapPageState extends State<VenueMapPage> {
     //markersList.clear();
     markersList.add(Marker(
         markerId: const MarkerId('currentLocation'),
-        position: LatLng(position.latitude, position.longitude)));
+        position: LatLng(position.latitude, position.longitude),
+        icon: BitmapDescriptor.defaultMarker,
+        infoWindow: const InfoWindow(
+          title: "Update Venue Location",
+        ))
+    );
 
     setState(() {});
   }
+Future getMarkerFromDb() async {
+    var data = await FirebaseFirestore.instance
+        .collection("Venue")
+        .doc()
+        .get();
+    print("DATA FROM GETMARKERDB"+data.data().toString());
+
+    // setState(() {
+    //   _ListM = List.from(data.map((doc)=>User.fromSnapShot(doc)));
+    // });
+
+
+}
+  Set<Marker> getmarkers() {
+    setState(() {
+      markers.add(Marker( //add first marker
+        markerId: MarkerId("1"),
+        position: LatLng(37.42796133580664, -122.085749655962), //position of marker
+        infoWindow: InfoWindow( //popup info
+          title: 'Marker Title First ',
+          snippet: 'My Custom Subtitle',
+        ),
+        icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+      ));
+
+      markers.add(Marker( //add second marker
+        markerId: MarkerId("2"),
+        position: LatLng(57.42796133580664, -126.085749655962), //position of marker
+        infoWindow: InfoWindow( //popup info
+          title: 'Marker Title Second ',
+          snippet: 'My Custom Subtitle',
+        ),
+        icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+      ));
+
+      markers.add(Marker( //add third marker
+        markerId: MarkerId("3"),
+        position: LatLng(57.7137735, -85.315626), //position of marker
+        infoWindow: InfoWindow( //popup info
+          title: 'Marker Title Third ',
+          snippet: 'My Custom Subtitle',
+        ),
+        icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+      ));
+
+      //add more markers here
+    });
+
+    return markers;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +146,7 @@ class _VenuMapPageState extends State<VenueMapPage> {
         children: [
           GoogleMap(
             initialCameraPosition: initialCameraPosition,
-            markers: markersList,
+            markers: getmarkers(),
             mapType: MapType.normal,
             onMapCreated: (GoogleMapController controller) {
               googleMapController = controller;
