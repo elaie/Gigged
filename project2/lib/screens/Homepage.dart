@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:project2/screens/ArtistProfilePage.dart';
 import 'package:project2/screens/MainPage.dart';
@@ -10,7 +13,9 @@ import 'package:project2/screens/SearchPage.dart';
 import 'package:project2/screens/UserProfilePage.dart';
 import 'package:project2/screens/constraints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import '../storage_services.dart';
+import '../getData.dart';
+import '../local_data.dart';
 import 'dummyProfile.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,6 +28,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _database = FirebaseDatabase.instance.reference();
+  late StreamSubscription _userBio;
+  String accTypeMain="";
+  final Storage storage = Storage();
+  final extractData ExtractData = extractData();
+  final local_data Local_data = local_data();
+
   var _selectedIndex = 0;
   var _screens = [];
 
@@ -59,6 +71,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    print("INIT STATE FOR HOMEPAGE");
+    activateListner();
     // print("THIS IS ACC TYPE======================="+widget.accType);
     // print(FirebaseAuth.instance.currentUser?.uid.toString());
     // FirebaseFirestore.instance.collection("Venue")
@@ -78,18 +92,50 @@ class _HomePageState extends State<HomePage> {
     //checkAccountType();
 
     //widget.userName use gana ko lagi initialize garna parcha paila
+    print("INIT IN HOME PAGE SCREEN");
     _screens = [
       MainPage(),
       MapPage(),
       SearchPage(),
       //DummyProfile(widget.accType),
       //widget.test
-      (widget.accType == "Venue")?VenuePrivatePage():ArtistProfilePage(),
+      (accTypeMain == "Venue")?VenuePrivatePage():ArtistProfilePage(),
       // VenuePrivatePage(),
       // UserProfilePage(),
     ];
   }
+  void activateListner(){
+    setState(() {
+      print("LISTENER UID in HOMEPAGE: " + ExtractData.getUserUID());
+      print(ExtractData.getUserUID().toString());
+      FirebaseFirestore.instance.collection("Venue")
+          .doc(FirebaseAuth.instance.currentUser?.uid.toString()).get()
+          .then((value) {
+        if (value.exists){
+          print("IF INIT==============");
+          widget.mainAccType="Venue";
+          print("WIDGET TYPE================="+widget.mainAccType);
+          (widget.mainAccType== 'Venue')?print("VENUE HO"):print("ARTIST HO");
+        }
+        else{
+          print("ELSE INIT IN HOMEPAGE");
+        }
 
+      });
+      _userBio = _database
+          .child(extractData().getUserUID() + "/Account Type")
+          .onValue
+          .listen((event) {
+        final String description = event.snapshot.value.toString();
+        //print("LISTENER UID: " + ExtractData.getUserUID());
+        print("LISTENER FOR ACC TYPE in HOMEPAGE: " + description);
+        setState(() {
+          accTypeMain = '$description';
+        });
+      });
+    });
+
+  }
   Future<void> checkAccountType() async {
    final prefs = await SharedPreferences.getInstance();
    final account = prefs.getString(widget.accType);
