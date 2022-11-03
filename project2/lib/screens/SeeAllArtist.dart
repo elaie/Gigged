@@ -130,104 +130,108 @@ class _SeeAllArtistState extends State<SeeAllArtist> {
     //   );
     // }
     return Scaffold(
-        // appBar: AppBar(
-        //     title: Card(
-        //   child: TextField(
-        //     decoration: InputDecoration(
-        //         prefixIcon: Icon(Icons.search), hintText: 'Search...'),
-        //     onChanged: (val) {
-        //       setState(() {
-        //         //name = val;
-        //       });
-        //     },
-        //   ),
-        // )),
-        body: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('Artist').snapshots(),
-          builder: (context, snapshots) {
-            return (snapshots.connectionState == ConnectionState.waiting)
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : ListView.separated(
-                    separatorBuilder: (context, index) {
-                      return Divider();
-                    },
-                    itemCount: snapshots.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      var data = snapshots.data!.docs[index].data()
-                          as Map<String, dynamic>;
-                      print("data printing");
-                      print(data);
-                      getUID(data.toString());
-                      DisplayUid;
-                      return GestureDetector(
+      // appBar: AppBar(
+      //     title: Card(
+      //   child: TextField(
+      //     decoration: InputDecoration(
+      //         prefixIcon: Icon(Icons.search), hintText: 'Search...'),
+      //     onChanged: (val) {
+      //       setState(() {
+      //         //name = val;
+      //       });
+      //     },
+      //   ),
+      // )),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('Artist').snapshots(),
+        builder: (context, snapshots) {
+          return (snapshots.connectionState == ConnectionState.waiting)
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : ListView.separated(
+                  separatorBuilder: (context, index) {
+                    return Divider();
+                  },
+                  itemCount: snapshots.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    var data = snapshots.data!.docs[index].data()
+                        as Map<String, dynamic>;
+                    print("data printing");
+                    print(data);
+                    getUID(data.toString());
+                    DisplayUid;
+                    return GestureDetector(
                         onTap: () {
                           print("Tapped ");
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      PublicArtistProfile(
-                                          data['UID'].toString())));
+                                  builder: (context) => PublicArtistProfile(
+                                      data['UID'].toString())));
                           print("nav pushed");
                         },
 
                         //radius vairacha somehow
-                        child: Card(child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-
-                          children: [
-                          FutureBuilder(
-                              future: storage.downloadURL(data['UID'].toString()),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<String> snapshot) {
-
-                                // print(
-                                // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
-                                //extractData().getUserUID();
-                                print("IMG================================");
-                                if (snapshot.connectionState == ConnectionState.done &&
-                                    snapshot.hasData) {
-                                  print("IMG================================");
-                                  return CircleAvatar(
-                                      radius: 40,
-                                      backgroundImage: NetworkImage(
-                                        snapshot.data!,
-                                      ));
-                                }
-                                else {
-                                  return CircleAvatar(
-                                    radius: 40,
-                                    child: Image.asset('assets/images/profile2.webp'),
-
-                                  );
-                                }
-                              }),
-                            SizedBox(width: 20,),
-                            Text(data['Name'].toString()),
-                        ],),)
-
-                      );
-                      // return ListTile(
-                      //   onTap: () {
-                      //     print("Tapped ");
-                      //     Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //             builder: (context) => PublicArtistProfile(
-                      //                 data['Name'].toString())));
-                      //     print("nav pushed");
-                      //   },
-                      //   leading: CircleAvatar(
-                      //     backgroundColor: const Color(0xff764abc),
-                      //   ),
-                      //   subtitle: Text('Artist'),
-                      //   title: Text(data['Name'].toString()),
-                      // );
-                    });
-          },
-        ));
+                        child: Card(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              FutureBuilder(
+                                  future: storage
+                                      .downloadURL(data['UID'].toString()),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<String> snapshot) {
+                                    // print(
+                                    // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+                                    //extractData().getUserUID();
+                                    print(
+                                        "IMG================================");
+                                    if (snapshot.connectionState ==
+                                            ConnectionState.done &&
+                                        snapshot.hasData) {
+                                      print(
+                                          "IMG================================");
+                                      return CircleAvatar(
+                                          radius: 40,
+                                          backgroundImage: NetworkImage(
+                                            snapshot.data!,
+                                          ));
+                                    } else {
+                                      return CircleAvatar(
+                                        radius: 40,
+                                        child: Image.asset(
+                                            'assets/images/profile2.webp'),
+                                      );
+                                    }
+                                  }),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(data['Name'].toString()),
+                            ],
+                          ),
+                        ));
+                    // return ListTile(
+                    //   onTap: () {
+                    //     print("Tapped ");
+                    //     Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //             builder: (context) => PublicArtistProfile(
+                    //                 data['Name'].toString())));
+                    //     print("nav pushed");
+                    //   },
+                    //   leading: CircleAvatar(
+                    //     backgroundColor: const Color(0xff764abc),
+                    //   ),
+                    //   subtitle: Text('Artist'),
+                    //   title: Text(data['Name'].toString()),
+                    // );
+                  });
+        },
+      ),
+    );
   }
 
 // // Widget build(BuildContext context) {
