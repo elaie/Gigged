@@ -53,8 +53,13 @@ dependencies:
   flutter_svg: ^1.1.5
   cloud_firestore: ^3.5.1
   shared_preferences: ^2.0.15
+<<<<<<< HEAD
   fluttertoast: ^8.1.1
   intl: ^0.17.0
+=======
+  flutter_google_places: ^0.3.0
+  geolocator: ^9.0.2
+>>>>>>> 6fa1627c4ddfefe63f369663319725ea5686c312
 
 dev_dependencies:
   flutter_test:

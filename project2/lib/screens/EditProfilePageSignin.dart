@@ -268,7 +268,7 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
           'Name': _nameTextController.text,
           'Bio':_bioTextController.text
         };
-        FirebaseFirestore.instance.collection(widget.accType.toString()).add(dataToSave);
+        FirebaseFirestore.instance.collection(widget.accType.toString()).doc(widget.value).set(dataToSave);
         //FirebaseFirestore.instance.collection('Artist').doc().set({"Name":_nameTextController.text});
         //FirebaseFirestore.instance.collection('Artist').doc().set({"UID":});
         print("USER UID================"+widget.value);
