@@ -14,6 +14,8 @@ import 'package:project2/screens/constraints.dart';
 import '../storage_services.dart';
 import '../getData.dart';
 import '../local_data.dart';
+import 'UserHomePage.dart';
+import 'VenueHomePage.dart';
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
 
@@ -142,35 +144,75 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      Scaffold(
-                          body: StreamBuilder<User?>(
-                              stream: FirebaseAuth.instance.authStateChanges(),
-                              builder: (context, snapshot) {
-                                print("SNAPSHOT DATA OF WELCOME PAGE=============");
-                                print("UID FROM WELCOME PAGE===============================");
-                                print(snapshot.data?.uid);
-                                FirebaseFirestore.instance.collection("Venue")
-                                    .doc(snapshot.data?.uid.toString()).get()
-                                    .then((value) {
-                                  print("UID2===============================");
-                                  print(FirebaseAuth.instance.currentUser?.uid.toString());
-                                  if (value.exists){
-                                    accType="Venue";
-                                    print("IF ACC TYPE=========================");
-                                  }
-                                  else{
-                                    print("ELSE ACC TYPE=========================");
-                                  }
-                                });
-                                if (snapshot.hasData) {
-                                  return ArtistHomePage(accType);
-                                } else {
-                                  return LoginPage();
-                                }
-                              }))),
+              MaterialPageRoute(builder: (context) => LoginPage()),
             );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //       builder: (context) =>
+            //           Scaffold(
+                          // body: StreamBuilder<User?>(
+                          //     stream: FirebaseAuth.instance.authStateChanges(),
+                          //     builder: (context, snapshot) {
+                          //       print("SNAPSHOT DATA OF WELCOME PAGE=============");
+                          //       print("UID FROM WELCOME PAGE===============================");
+                          //       print(snapshot.data?.uid);
+                          //       FirebaseFirestore.instance.collection("Artist")
+                          //           .doc(snapshot.data?.uid.toString()).get()
+                          //           .then((value) {
+                          //         print("UID2===============================");
+                          //         print(FirebaseAuth.instance.currentUser?.uid.toString());
+                          //         if (value.exists){
+                          //           accType="Venue";
+                          //           if (snapshot.hasData) {
+                          //             return ArtistHomePage(accType);
+                          //           } else {
+                          //             return LoginPage();
+                          //           }
+                          //           print("IF ACC TYPE=========================");
+                          //         }
+                          //         else{
+                          //           print("ELSE ACC TYPE=========================");
+                          //         }
+                          //       });
+                          //       FirebaseFirestore.instance.collection("User")
+                          //           .doc(snapshot.data?.uid.toString()).get()
+                          //           .then((value) {
+                          //         print("UID2===============================");
+                          //         print(FirebaseAuth.instance.currentUser?.uid.toString());
+                          //         if (value.exists){
+                          //           if (snapshot.hasData) {
+                          //             return UserHomePage(accType);
+                          //           } else {
+                          //             return LoginPage();
+                          //           }
+                          //           accType="Venue";
+                          //           print("IF ACC TYPE=========================");
+                          //         }
+                          //         else{
+                          //           print("ELSE ACC TYPE=========================");
+                          //         }
+                          //       });
+                          //       FirebaseFirestore.instance.collection("Venue")
+                          //           .doc(snapshot.data?.uid.toString()).get()
+                          //           .then((value) {
+                          //         print("UID2===============================");
+                          //         print(FirebaseAuth.instance.currentUser?.uid.toString());
+                          //         if (value.exists){
+                          //           if (snapshot.hasData) {
+                          //             return VenueHomePage(accType);
+                          //           } else {
+                          //             return LoginPage();
+                          //           }
+                          //           accType="Venue";
+                          //           print("IF ACC TYPE=========================");
+                          //         }
+                          //         else{
+                          //           print("ELSE ACC TYPE=========================");
+                          //         }
+                          //       });
+                          //       return Container();
+                          //     })
           },
           child: const Text(
             'Login',

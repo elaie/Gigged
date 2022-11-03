@@ -141,125 +141,133 @@ class _MainPageState extends State<MainPage> {
                     height: 20,
                   ),
                   //images for upcoming events
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        //event 1
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          height: 150,
-                          width: 180,
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            EventDiscription(),
-                                      ),
-                                    );
-                                    print('first image pressed');
-                                  },
-                                  child: Image.network(
-                                    'https://www.pngplay.com/wp-content/uploads/6/Party-Concert-Background-PNG-Image.png',
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                  StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('Events')
+                        .snapshots(),
+                    builder: (context, snapshots) {
+                      print("*********about to return ");
+                      return SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              height: 200.0,
+                              child: ListView.builder(
+                                  physics: ClampingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  padding: const EdgeInsets.all(10),
+                                  itemCount: snapshots.data!.docs.length,
+                                  itemBuilder: (context, index) {
+                                    var data = snapshots.data!.docs[index]
+                                        .data() as Map<String, dynamic>;
+                                    data['ID']=snapshots.data!.docs[index].id.toString();
+
+                                    return (data['Artist Verification']=='ACCEPT')?Row(
                                       children: [
-                                        Text(
-                                          'Arbitary Event',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Comfortaa',
-                                          ),
-                                        ),
-                                        Text(
-                                          'From 9 oct-10 oct          '
-                                          'Venue - LOD club',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: 'Comfortaa',
-                                          ),
-                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            print("Tapped ");
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EventDiscription(data['ID'])));
+                                            print("nav pushed");
+                                          },
+
+                                          //radius vairacha somehow
+                                          child: FutureBuilder(
+                                              future: storage.downloadURL(
+                                                  data['UID'].toString()),
+                                              builder: (BuildContext context,
+                                                  AsyncSnapshot<String>
+                                                      snapshot) {
+                                                // print(
+                                                // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+                                                //extractData().getUserUID();
+                                                print(
+                                                    "IMG================================");
+                                                if (snapshot.connectionState ==
+                                                        ConnectionState.done &&
+                                                    snapshot.hasData) {
+                                                  print(
+                                                      "IMG================================");
+                                                  return Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Column(
+                                                      children: [
+                                                        Container(
+                                                          height: 100,
+                                                          width: 150,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                  50),
+                                                            ),
+                                                          ),
+                                                          child: Image.network(
+                                                            snapshot.data!,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
+                                                        //username
+                                                        SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Text(
+                                                          data['Event Name']
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            color:
+                                                                kPrimaryDarkColor,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontFamily:
+                                                                'Comfortaa',
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                } else {
+                                                  return Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            20.0),
+                                                    //aaaaaaa child: CircleAvatar(
+                                                    //   radius: 50,
+                                                    //   backgroundColor:
+                                                    //       Colors.transparent,
+                                                    //   child: Image.asset(
+                                                    //       'assets/images/user.png'),
+                                                    // ),
+                                                    child:Text(
+                                                    data['Event Name']
+                                                        .toString(),
+                                                style: TextStyle(
+                                                color: kPrimaryDarkColor,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'Comfortaa',
+                                                ),
+                                                  ));
+                                                }
+                                              }),
+                                        )
                                       ],
-                                    ),
-                                  ),
-                                )
-                              ]),
+                                    ): Container();
+                                  }),
+                            ),
+                          ],
                         ),
-                        //event 2
-                        Container(
-                          height: 150,
-                          width: 180,
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    print('image pressed');
-                                  },
-                                  child: Image.network(
-                                    'https://www.pngplay.com/wp-content/uploads/6/Party-Concert-Background-PNG-Image.png',
-                                  ),
-                                ),
-                                //texts for upcoming events
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'ABCD Event',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Comfortaa',
-                                            ),
-                                          ),
-                                          Text(
-                                            'From 11 oct-15 oct         '
-                                            'Venue - dorsia Club',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontFamily: 'Comfortaa',
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                )
-                              ]),
-                        )
-                      ],
-                    ),
+                      );
+                    },
                   ),
                   SizedBox(
                     height: 20,
@@ -358,25 +366,33 @@ class _MainPageState extends State<MainPage> {
                                                       "IMG================================");
                                                   return Padding(
                                                     padding:
-                                                        const EdgeInsets.only(left:
-                                                            8.0, right: 8.0),
+                                                        const EdgeInsets.only(
+                                                            left: 8.0,
+                                                            right: 8.0),
                                                     child: Column(
                                                       children: [
                                                         CircleAvatar(
                                                             radius: 70,
-                                                            backgroundColor: Colors.transparent,
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .transparent,
                                                             backgroundImage:
                                                                 NetworkImage(
                                                               snapshot.data!,
                                                             )),
-                                                        SizedBox(height: 10,),
+                                                        SizedBox(
+                                                          height: 10,
+                                                        ),
                                                         Text(
                                                           data['Name']
                                                               .toString(),
                                                           style: TextStyle(
-                                                            color: kPrimaryDarkColor,
-                                                            fontWeight: FontWeight.bold,
-                                                            fontFamily: 'Comfortaa',
+                                                            color:
+                                                                kPrimaryDarkColor,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontFamily:
+                                                                'Comfortaa',
                                                           ),
                                                         ),
                                                       ],
@@ -384,10 +400,13 @@ class _MainPageState extends State<MainPage> {
                                                   );
                                                 } else {
                                                   return Padding(
-                                                    padding: const EdgeInsets.all(30.0),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            30.0),
                                                     child: CircleAvatar(
                                                       radius: 50,
-                                                      backgroundColor: Colors.transparent,
+                                                      backgroundColor:
+                                                          Colors.transparent,
                                                       child: Image.asset(
                                                           'assets/images/user.png'),
                                                     ),
@@ -647,13 +666,20 @@ class _MainPageState extends State<MainPage> {
                                                               ),
                                                             ),
                                                             //username
-                                                            SizedBox(height: 5,),
-                                                            Text( data['Name']
-                                                                .toString(),
+                                                            SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                            Text(
+                                                              data['Name']
+                                                                  .toString(),
                                                               style: TextStyle(
-                                                                color: kPrimaryDarkColor,
-                                                                fontWeight: FontWeight.bold,
-                                                                fontFamily: 'Comfortaa',
+                                                                color:
+                                                                    kPrimaryDarkColor,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontFamily:
+                                                                    'Comfortaa',
                                                               ),
                                                             ),
                                                           ],
@@ -661,10 +687,14 @@ class _MainPageState extends State<MainPage> {
                                                       );
                                                     } else {
                                                       return Padding(
-                                                        padding: const EdgeInsets.all(20.0),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(20.0),
                                                         child: CircleAvatar(
                                                           radius: 50,
-                                                          backgroundColor: Colors.transparent,
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .transparent,
                                                           child: Image.asset(
                                                               'assets/images/user.png'),
                                                         ),
@@ -711,174 +741,6 @@ class _MainPageState extends State<MainPage> {
                           );
                         },
                       ),
-
-                      // SingleChildScrollView(
-                      //   scrollDirection: Axis.horizontal,
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //     children: [
-                      //       //first venue
-                      //       Container(
-                      //         margin: EdgeInsets.symmetric(horizontal: 20),
-                      //         height: 180,
-                      //         width: 180,
-                      //         decoration: BoxDecoration(
-                      //           color: Colors.transparent,
-                      //           borderRadius: BorderRadius.circular(10),
-                      //         ),
-                      //         child: Column(
-                      //           crossAxisAlignment: CrossAxisAlignment.start,
-                      //           children: [
-                      //             SizedBox(height: 10),
-                      //             GestureDetector(
-                      //               onTap: () {
-                      //                 print('image pressed');
-                      //                 Navigator.push(
-                      //                   context,
-                      //                   MaterialPageRoute(
-                      //                     builder: (context) =>
-                      //                         VenuePublicPage(),
-                      //                   ),
-                      //                 );
-                      //               },
-                      //               child:
-                      //               Image.asset('assets/images/club.jpg'),
-                      //             ),
-                      //             Expanded(
-                      //               child: Padding(
-                      //                   padding: const EdgeInsets.symmetric(
-                      //                       horizontal: 10),
-                      //                   child: Column(
-                      //                     crossAxisAlignment:
-                      //                     CrossAxisAlignment.start,
-                      //                     children: [
-                      //                       SizedBox(height: 10),
-                      //                       Text(
-                      //                         'LOD Club',
-                      //                         style: TextStyle(
-                      //                           color: Colors.black,
-                      //                           fontWeight: FontWeight.bold,
-                      //                           fontFamily: 'Comfortaa',
-                      //                         ),
-                      //                       ),
-                      //                       Text(
-                      //                         'opening hours- 9pm to 2am      ',
-                      //                         style: TextStyle(
-                      //                           color: Colors.black,
-                      //                           fontFamily: 'Comfortaa',
-                      //                         ),
-                      //                       ),
-                      //                     ],
-                      //                   )),
-                      //             )
-                      //           ],
-                      //         ),
-                      //       ),
-                      //       //second venue
-                      //       Container(
-                      //         margin: EdgeInsets.symmetric(horizontal: 20),
-                      //         height: 180,
-                      //         width: 180,
-                      //         decoration: BoxDecoration(
-                      //           color: Colors.transparent,
-                      //           borderRadius: BorderRadius.circular(10),
-                      //         ),
-                      //         child: Column(
-                      //           crossAxisAlignment: CrossAxisAlignment.start,
-                      //           children: [
-                      //             SizedBox(height: 10),
-                      //             GestureDetector(
-                      //               onTap: () {
-                      //                 print('image pressed');
-                      //               },
-                      //               child:
-                      //               Image.asset('assets/images/club.jpg'),
-                      //             ),
-                      //             Expanded(
-                      //               child: Padding(
-                      //                   padding: const EdgeInsets.symmetric(
-                      //                       horizontal: 10),
-                      //                   child: Column(
-                      //                     crossAxisAlignment:
-                      //                     CrossAxisAlignment.start,
-                      //                     children: [
-                      //                       SizedBox(height: 10),
-                      //                       Text(
-                      //                         'LOD Club',
-                      //                         style: TextStyle(
-                      //                           color: Colors.black,
-                      //                           fontWeight: FontWeight.bold,
-                      //                           fontFamily: 'Comfortaa',
-                      //                         ),
-                      //                       ),
-                      //                       Text(
-                      //                         'opening hours- 9pm to 2am      ',
-                      //                         style: TextStyle(
-                      //                           color: Colors.black,
-                      //                           fontFamily: 'Comfortaa',
-                      //                         ),
-                      //                       ),
-                      //                     ],
-                      //                   )),
-                      //             )
-                      //           ],
-                      //         ),
-                      //       ),
-                      //       //third venue
-                      //       Container(
-                      //         margin: EdgeInsets.symmetric(horizontal: 20),
-                      //         height: 180,
-                      //         width: 180,
-                      //         decoration: BoxDecoration(
-                      //           color: Colors.transparent,
-                      //           borderRadius: BorderRadius.circular(10),
-                      //         ),
-                      //         child: Column(
-                      //           crossAxisAlignment: CrossAxisAlignment.start,
-                      //           children: [
-                      //             SizedBox(height: 10),
-                      //             GestureDetector(
-                      //               onTap: () {
-                      //                 print('image pressed');
-                      //               },
-                      //               child: Image.asset(
-                      //                 'assets/images/club.jpg',
-                      //                 fit: BoxFit.fill,
-                      //               ),
-                      //             ),
-                      //             Expanded(
-                      //               child: Padding(
-                      //                   padding: const EdgeInsets.symmetric(
-                      //                       horizontal: 10),
-                      //                   child: Column(
-                      //                     crossAxisAlignment:
-                      //                     CrossAxisAlignment.start,
-                      //                     children: [
-                      //                       SizedBox(height: 10),
-                      //                       Text(
-                      //                         'LOD Club',
-                      //                         style: TextStyle(
-                      //                           color: Colors.black,
-                      //                           fontWeight: FontWeight.bold,
-                      //                           fontFamily: 'Comfortaa',
-                      //                         ),
-                      //                       ),
-                      //                       Text(
-                      //                         'opening hours- 9pm to 2am      ',
-                      //                         style: TextStyle(
-                      //                           color: Colors.black,
-                      //                           fontFamily: 'Comfortaa',
-                      //                         ),
-                      //                       ),
-                      //                     ],
-                      //                   )),
-                      //             )
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
                     ],
                   )
                 ],

@@ -41,7 +41,7 @@ class _SeeAllPageEvent extends State<SeeAllPageEvent> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => VenuePublicPage()));
+                              builder: (context) => VenuePublicPage("")));
                       print("nav pushed");
                     },
                     leading: CircleAvatar(

@@ -55,13 +55,13 @@ class _VenuMapPageState extends State<VenueMapPage> {
   late GoogleMapController googleMapController;
   final Mode _mode = Mode.overlay;
   static const CameraPosition initialCameraPosition = CameraPosition(
-      target: LatLng(37.42796133580664, -122.085749655962), zoom: 14);
+      target: LatLng(37.42796133580664, -122.085749655962), zoom: 100);
   //Set<Marker> markers = {};
 
   @override
   void initState() {
-    addMarkerMap();
-    getMarkerFromDb();
+    //addMarkerMap();
+    //getMarkerFromDb();
     activateListner();
     super.initState();
   }
@@ -72,7 +72,7 @@ class _VenuMapPageState extends State<VenueMapPage> {
         CameraPosition(
             target: LatLng(position.latitude, position.longitude), zoom: 14)));
     //markersList.clear();
-    markersList.add(Marker(
+    markers.add(Marker(
         markerId: const MarkerId('currentLocation'),
         position: LatLng(position.latitude, position.longitude),
         icon: BitmapDescriptor.defaultMarker,
@@ -98,6 +98,7 @@ Future getMarkerFromDb() async {
 }
   Set<Marker> getmarkers() {
     setState(() {
+
       markers.add(Marker( //add first marker
         markerId: MarkerId("1"),
         position: LatLng(37.42796133580664, -122.085749655962), //position of marker
@@ -137,11 +138,14 @@ Future getMarkerFromDb() async {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+
       key: homeScaffoldKey,
       appBar: AppBar(
         title: const Text("Google Search Places"),
       ),
+
       body: Stack(
         children: [
           GoogleMap(
@@ -155,6 +159,29 @@ Future getMarkerFromDb() async {
           ElevatedButton(
               onPressed: _handlePressButton,
               child: const Text("Search Places")),
+        FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+            future: FirebaseFirestore.instance
+                .collection('Events')
+                .doc()
+                .get(),
+            builder: (_, snapshot) {
+              // if (snapshot.connectionState == ConnectionState.waiting) {
+              // return const Center(
+              // child: CircularProgressIndicator(),
+              //);
+              // }
+              // var data = snapshot.data!.data();
+              // var eventName = data!['Event Name'];
+              // //print("UID IN EVENT===========" + );
+              // var eventDescription = data['Event Description'].toString();
+              // var specialAttraction = data['Special Attraction'];
+              // var venueDescription = data['Venue Description'].toString();
+              // var eventType = data['Event Type'].toString();
+              // var artistUID = data['Artist UID'].toString();
+              return Container();
+            }
+              )
+
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(

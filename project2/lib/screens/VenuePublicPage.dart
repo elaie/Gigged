@@ -4,7 +4,9 @@ import 'package:project2/screens/welcome_screen.dart';
 import 'package:flutter/src/rendering/stack.dart';
 
 class VenuePublicPage extends StatefulWidget {
-  const VenuePublicPage({Key? key}) : super(key: key);
+  final uid;
+  VenuePublicPage(this.uid);
+  //const VenuePublicPage({Key? key}) : super(key: key);
 
   @override
   State<VenuePublicPage> createState() => _VenuePublicPage();
@@ -123,7 +125,7 @@ class _VenuePublicPage extends State<VenuePublicPage> {
                                   top: Radius.circular(20),
                                 ),
                               ),
-                              builder: (context) => VenuePublicPage(),
+                              builder: (context) => VenuePublicPage(widget.uid),
                             );
                           },
                         ),

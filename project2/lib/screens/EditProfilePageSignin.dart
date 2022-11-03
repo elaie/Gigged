@@ -13,6 +13,8 @@ import 'package:project2/local_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../storage_services.dart';
+import 'UserHomePage.dart';
+import 'VenueHomePage.dart';
 import 'constraints.dart';
 import '../getData.dart';
 import 'ArtistProfilePage.dart';
@@ -280,12 +282,32 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
         //FirebaseFirestore.instance.collection('Artist').doc().set({"Name":_nameTextController.text});
         //FirebaseFirestore.instance.collection('Artist').doc().set({"UID":});
         print("USER UID================" + widget.value);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ArtistHomePage(widget.accType),
-          ),
-        );
+        if(widget.accType=="Artist"){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ArtistHomePage(widget.accType),
+            ),
+          );
+        }
+        else if(widget.accType=="User"){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserHomePage(widget.accType),
+            ),
+          );
+        }
+        else
+          {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => VenueHomePage(widget.accType),
+              ),
+            );
+          }
+
       },
     );
 
