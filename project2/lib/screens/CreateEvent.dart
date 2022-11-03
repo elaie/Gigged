@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project2/screens/SeeAllArtist.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import 'constraints.dart';
@@ -16,7 +17,9 @@ class CreateEvent extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SizedBox(height: 70,),
+                SizedBox(
+                  height: 70,
+                ),
                 Text(
                   "Create an Event",
                   style: TextStyle(
@@ -29,7 +32,45 @@ class CreateEvent extends StatelessWidget {
                   thickness: 1,
                   color: kPrimaryColor,
                 ),
-                SizedBox(height: 25,),
+                SizedBox(
+                  height: 25,
+                ),
+                Center(
+                  child: SizedBox(
+                    height: 50,
+                    width: 150,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SeeAllArtist(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Hire Artist',
+                        style: TextStyle(
+                            fontFamily: 'Comfortaa',
+                            fontWeight: FontWeight.bold),
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                          (kPrimaryColor),
+                        ),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
                 Center(
                   child: Row(
                     children: [
@@ -62,7 +103,9 @@ class CreateEvent extends StatelessWidget {
                   ),
                 ),
                 //name of event
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 TextFormField(
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -84,7 +127,9 @@ class CreateEvent extends StatelessWidget {
                   ),
                 ),
                 //description od event
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 TextFormField(
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -106,7 +151,9 @@ class CreateEvent extends StatelessWidget {
                   ),
                 ),
                 //venue
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 TextFormField(
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -128,7 +175,9 @@ class CreateEvent extends StatelessWidget {
                   ),
                 ),
                 //venue discription
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 TextFormField(
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -150,7 +199,9 @@ class CreateEvent extends StatelessWidget {
                   ),
                 ),
                 //special attractions
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 TextFormField(
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -172,7 +223,9 @@ class CreateEvent extends StatelessWidget {
                   ),
                 ),
                 //Button
-                SizedBox(height: 25,),
+                SizedBox(
+                  height: 25,
+                ),
                 SizedBox(
                   height: 50,
                   width: 150,
@@ -180,8 +233,8 @@ class CreateEvent extends StatelessWidget {
                     onPressed: () {},
                     child: const Text(
                       'Create Event',
-                      style:
-                      TextStyle(fontFamily: 'Comfortaa', fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontFamily: 'Comfortaa', fontWeight: FontWeight.bold),
                     ),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
