@@ -34,6 +34,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
   }
 
   void activateListeners() {
+    print("LISTENER UID ARITS: "+ExtractData.getUserUID());
     _userBio = _database
         .child(ExtractData.getUserUID() + "/BIO/Bio")
         .onValue
@@ -369,6 +370,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
 
   @override
   void deactivate() {
+    print("LISTENER UID ARTiST PROFILE DEACTIVATED");
     _userBio.cancel();
     super.deactivate();
   }

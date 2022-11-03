@@ -371,7 +371,8 @@ class _MainPageState extends State<MainPage> {
                                                             )),
                                                         SizedBox(height: 10,),
                                                         Text(
-                                                          'Username',
+                                                          data['Name']
+                                                              .toString(),
                                                           style: TextStyle(
                                                             color: kPrimaryDarkColor,
                                                             fontWeight: FontWeight.bold,
@@ -647,7 +648,8 @@ class _MainPageState extends State<MainPage> {
                                                             ),
                                                             //username
                                                             SizedBox(height: 5,),
-                                                            Text( 'username',
+                                                            Text( data['Name']
+                                                                .toString(),
                                                               style: TextStyle(
                                                                 color: kPrimaryDarkColor,
                                                                 fontWeight: FontWeight.bold,
