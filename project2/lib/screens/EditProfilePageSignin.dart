@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project2/screens/Homepage.dart';
+import 'package:project2/screens/ArtistHomepage.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:file_picker/file_picker.dart';
@@ -283,7 +283,7 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => HomePage(widget.accType),
+            builder: (context) => ArtistHomePage(widget.accType),
           ),
         );
       },

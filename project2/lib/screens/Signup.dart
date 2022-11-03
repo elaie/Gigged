@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project2/screens/EditProfilePage.dart';
-import 'package:project2/screens/Homepage.dart';
+import 'package:project2/screens/ArtistHomepage.dart';
 import 'package:project2/screens/Login.dart';
 import 'package:project2/screens/WhoAreYou.dart';
 import 'package:project2/screens/constraints.dart';

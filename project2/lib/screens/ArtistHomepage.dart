@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:project2/screens/ArtistProfilePage.dart';
 import 'package:project2/screens/MainPage.dart';
 import 'package:project2/screens/MapPage.dart';
+import 'package:project2/screens/NotificationPage.dart';
 import 'package:project2/screens/VenueMapPage.dart';
 import 'package:project2/screens/VenuePrivatePage.dart';
 import 'package:project2/screens/VenuePublicPage.dart';
@@ -19,16 +20,16 @@ import '../getData.dart';
 import '../local_data.dart';
 import 'dummyProfile.dart';
 
-class HomePage extends StatefulWidget {
+class ArtistHomePage extends StatefulWidget {
   //const HomePage({Key? key}) : super(key: key);
   final accType;
   String mainAccType = "Venue";
-  HomePage(this.accType);
+  ArtistHomePage(this.accType);
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<ArtistHomePage> createState() => _ArtistHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ArtistHomePageState extends State<ArtistHomePage> {
   final _database = FirebaseDatabase.instance.reference();
   late StreamSubscription _userBio;
   String accTypeMain="";
@@ -97,10 +98,13 @@ class _HomePageState extends State<HomePage> {
     _screens = [
       MainPage(),
       VenueMapPage(),
+      NotificationPage(),
       SearchPage(),
       //DummyProfile(widget.accType),
       //widget.test
-      (accTypeMain == "Venue")?VenuePrivatePage():ArtistProfilePage(),
+      ArtistProfilePage(),
+
+      //(accTypeMain == "Venue")?VenuePrivatePage():ArtistProfilePage(),
       // VenuePrivatePage(),
       // UserProfilePage(),
     ];
@@ -183,6 +187,10 @@ class _HomePageState extends State<HomePage> {
                 label: 'Map',
               ),
               BottomNavigationBarItem(
+                icon: Icon(Icons.notifications_none),
+                label: 'Notification',
+              ),
+              BottomNavigationBarItem(
                 icon: Icon(Icons.search),
                 label: 'Search',
               ),
@@ -190,6 +198,7 @@ class _HomePageState extends State<HomePage> {
                 icon: Icon(Icons.account_circle_rounded),
                 label: 'Profile',
               ),
+
             ],
             currentIndex: _selectedIndex,
             selectedItemColor: kPrimaryColor,

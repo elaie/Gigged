@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project2/main.dart';
-import 'package:project2/screens/Homepage.dart';
+import 'package:project2/screens/ArtistHomepage.dart';
 import 'package:project2/screens/Signup.dart';
 import 'package:project2/screens/constraints.dart';
 import 'package:email_validator/email_validator.dart';

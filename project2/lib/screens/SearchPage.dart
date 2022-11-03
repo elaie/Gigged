@@ -18,7 +18,11 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            backgroundColor: kPrimaryColor,
             title: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(40.0),
+              ),
               child: TextField(
                 decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search), hintText: 'Search...'),
