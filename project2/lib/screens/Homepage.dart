@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:project2/screens/ArtistProfilePage.dart';
 import 'package:project2/screens/MainPage.dart';
 import 'package:project2/screens/MapPage.dart';
+import 'package:project2/screens/VenueMapPage.dart';
 import 'package:project2/screens/VenuePrivatePage.dart';
 import 'package:project2/screens/VenuePublicPage.dart';
 import 'package:project2/screens/SearchPage.dart';
@@ -95,7 +96,7 @@ class _HomePageState extends State<HomePage> {
     print("INIT IN HOME PAGE SCREEN");
     _screens = [
       MainPage(),
-      MapPage(),
+      VenueMapPage(),
       SearchPage(),
       //DummyProfile(widget.accType),
       //widget.test

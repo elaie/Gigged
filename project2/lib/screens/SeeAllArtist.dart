@@ -40,27 +40,6 @@ class _SeeAllArtistState extends State<SeeAllArtist> {
     print(allData);
   }
 
-  // void testData(){
-  //   print("DATANASE: "+database.onValue.toString());
-  //
-  //   database.onValue.listen((DatabaseEvent event) {
-  //     final data = event.snapshot.value;
-  //     final DATA = event.snapshot.child("BIO").value.toString();
-  //
-  //     //final data2=event.snapshot.child(path)
-  //     final setBio = database.orderByChild("/BIO");
-  //
-  //     print("DATANEW: "+data.toString());
-  //     print("DATANEW22222: "+DATA.toString());
-  //     //print("DATANEW3333333: "+setBio.toString());
-  //   });
-  // }
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getData();
-  //   testData();
-  // }
 
   @override
   void initState() {
@@ -78,70 +57,10 @@ class _SeeAllArtistState extends State<SeeAllArtist> {
     });
   }
 
-  // String name = "";
-  // artistCollection ArtistCollection = artistCollection();
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   print("ARTIST COL TEST");
-  //   print(ArtistCollection.artistUID);
-  //   ArtistCollection.getData();
-  // }
-  // void getData()
-  // {
-  //   ArtistCollection.getData();
-  //   print("TEST ARTIST CLASS :");
-  //   print(ArtistCollection.artistUID);
-  // }
-  //
-  // @override
-
   Widget build(BuildContext context) {
-    //   return Scaffold(
-    //     appBar: AppBar(
-    //         title: Card(
-    //       child: TextField(
-    //         decoration: InputDecoration(
-    //             prefixIcon: Icon(Icons.search), hintText: 'Search...'),
-    //         onChanged: (val) {
-    //           setState(() {
-    //             //name = val;
-    //           });
-    //         },
-    //       ),
-    //     )),
-    //     body: SafeArea(
-    //       child: SingleChildScrollView(
-    //         child: Column(
-    //           children: [
-    //             Expanded(
-    //               child: FirebaseAnimatedList(query: database, itemBuilder: (BuildContext context,DataSnapshot snapshot,Animation<double> animation,int index){
-    //                 return Text("TEST DATA");
-    //               }),
-    //             )
-    //       //    ListTile(
-    //       //   title: Text("test"),
-    //       // ),
-    //           ],
-    //         ),
-    //       ),
-    //     ),
-    //   );
-    // }
+
     return Scaffold(
-      // appBar: AppBar(
-      //     title: Card(
-      //   child: TextField(
-      //     decoration: InputDecoration(
-      //         prefixIcon: Icon(Icons.search), hintText: 'Search...'),
-      //     onChanged: (val) {
-      //       setState(() {
-      //         //name = val;
-      //       });
-      //     },
-      //   ),
-      // )),
+
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('Artist').snapshots(),
         builder: (context, snapshots) {
@@ -212,244 +131,18 @@ class _SeeAllArtistState extends State<SeeAllArtist> {
                             ],
                           ),
                         ));
-                    // return ListTile(
-                    //   onTap: () {
-                    //     print("Tapped ");
-                    //     Navigator.push(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //             builder: (context) => PublicArtistProfile(
-                    //                 data['Name'].toString())));
-                    //     print("nav pushed");
-                    //   },
-                    //   leading: CircleAvatar(
-                    //     backgroundColor: const Color(0xff764abc),
-                    //   ),
-                    //   subtitle: Text('Artist'),
-                    //   title: Text(data['Name'].toString()),
-                    // );
                   });
         },
       ),
     );
   }
-
-// // Widget build(BuildContext context) {
-// //   return Scaffold(
-// //     body: SafeArea(
-// //       child: SingleChildScrollView(
-// //         child: Column(
-// //           children: [
-// //             //first block
-// //             GestureDetector(
-// //               onTap: () {
-// //                 Navigator.push(
-// //                   context,
-// //                   MaterialPageRoute(
-// //                     builder: (context) => PublicArtistProfile(''),
-// //                   ),
-// //                 );
-// //               },
-// //               child: Container(
-// //                 decoration: BoxDecoration(
-// //                   border: Border(
-// //                     bottom: BorderSide(
-// //                       color: Colors.black12,
-// //                       width: 1,
-// //                     ),
-// //                   ),
-// //                 ),
-// //                 padding: EdgeInsets.symmetric(
-// //                   horizontal: 20,
-// //                   vertical: 15,
-// //                 ),
-// //                 child: Row(
-// //                   children: [
-// //                     Container(
-// //                       padding: EdgeInsets.all(2),
-// //                       decoration: BoxDecoration(
-// //                         borderRadius: BorderRadius.all(
-// //                           Radius.circular(40),
-// //                         ),
-// //                         //for unread messages
-// //                         border: Border.all(
-// //                           width: 2,
-// //                           color: kPrimaryColor,
-// //                         ),
-// //                         //shape: BoxShape.circle,
-// //                         boxShadow: [
-// //                           BoxShadow(
-// //                             color: Colors.grey.withOpacity(0.5),
-// //                             spreadRadius: 2,
-// //                             blurRadius: 5,
-// //                           ),
-// //                         ],
-// //                       ),
-// //                       child: CircleAvatar(
-// //                         radius: 35,
-// //                         backgroundImage:
-// //                         AssetImage('assets/images/singerImage.jpg'),
-// //                       ),
-// //                     ),
-// //                     Container(
-// //                       width: MediaQuery.of(context).size.width * 0.65,
-// //                       padding: EdgeInsets.only(left: 20),
-// //                       child: Column(
-// //                         children: [
-// //                           Row(
-// //                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-// //                             children: [
-// //                               Container(
-// //                                 constraints: BoxConstraints(maxWidth: 175),
-// //                                 child: Text(
-// //                                   'Khattra artist',
-// //                                   style: TextStyle(
-// //                                     fontSize: 16,
-// //                                     fontWeight: FontWeight.bold,
-// //                                     fontFamily: 'Comfortaa',
-// //                                   ),
-// //                                 ),
-// //                               ),
-// //                             ],
-// //                           ),
-// //                           SizedBox(
-// //                             height: 10,
-// //                           ),
-// //                           Container(
-// //                             alignment: Alignment.topLeft,
-// //                             child: Text(
-// //                               'Kati bolchas k kaile kai ta chup lag kati text gareko block handinchu talai',
-// //                               style: TextStyle(
-// //                                 fontSize: 13,
-// //                                 color: Colors.black54,
-// //                               ),
-// //                               overflow: TextOverflow.ellipsis,
-// //                               maxLines: 2,
-// //                             ),
-// //                           ),
-// //                         ],
-// //                       ),
-// //                     ),
-// //                   ],
-// //                 ),
-// //               ),
-// //             ),
-// //             //second message
-// //             GestureDetector(
-// //               onTap: () {
-// //                 Navigator.push(
-// //                   context,
-// //                   MaterialPageRoute(
-// //                     builder: (context) => PublicArtistProfile(''),
-// //                   ),
-// //                 );
-// //               },
-// //               child: Container(
-// //                 decoration: BoxDecoration(
-// //                   border: Border(
-// //                     bottom: BorderSide(
-// //                       color: Colors.black12,
-// //                       width: 1,
-// //                     ),
-// //                   ),
-// //                 ),
-// //                 padding: EdgeInsets.symmetric(
-// //                   horizontal: 20,
-// //                   vertical: 15,
-// //                 ),
-// //                 child: Row(
-// //                   children: [
-// //                     Container(
-// //                       padding: EdgeInsets.all(2),
-// //                       decoration: BoxDecoration(
-// //                         borderRadius: BorderRadius.all(
-// //                           Radius.circular(40),
-// //                         ),
-// //                         //for unread messages
-// //                         border: Border.all(
-// //                           width: 2,
-// //                           color: kPrimaryColor,
-// //                         ),
-// //                         //shape: BoxShape.circle,
-// //                         boxShadow: [
-// //                           BoxShadow(
-// //                             color: Colors.grey.withOpacity(0.5),
-// //                             spreadRadius: 2,
-// //                             blurRadius: 5,
-// //                           ),
-// //                         ],
-// //                       ),
-// //                       child: CircleAvatar(
-// //                         radius: 35,
-// //                         backgroundImage:
-// //                         AssetImage('assets/images/singerImage.jpg'),
-// //                       ),
-// //                     ),
-// //                     Container(
-// //                       width: MediaQuery.of(context).size.width * 0.65,
-// //                       padding: EdgeInsets.only(left: 20),
-// //                       child: Column(
-// //                         children: [
-// //                           Row(
-// //                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-// //                             children: [
-// //                               Container(
-// //                                 constraints: BoxConstraints(maxWidth: 175),
-// //                                 child: Text(
-// //                                   'Arko Khattra Artist',
-// //                                   style: TextStyle(
-// //                                     fontSize: 16,
-// //                                     fontWeight: FontWeight.bold,
-// //                                     fontFamily: 'Comfortaa',
-// //                                   ),
-// //                                 ),
-// //                               ),
-// //                             ],
-// //                           ),
-// //                           SizedBox(
-// //                             height: 10,
-// //                           ),
-// //                           Container(
-// //                             alignment: Alignment.topLeft,
-// //                             child: Text(
-// //                               'Kati bolchas k kaile kai ta chup lag kati text gareko block handinchu talai',
-// //                               style: TextStyle(
-// //                                 fontSize: 13,
-// //                                 color: Colors.black54,
-// //                               ),
-// //                               overflow: TextOverflow.ellipsis,
-// //                               maxLines: 2,
-// //                             ),
-// //                           ),
-// //                         ],
-// //                       ),
-// //                     ),
-// //                   ],
-// //                 ),
-// //               ),
-// //             ),
-// //           ],
-// //         ),
-// //       ),
-// //     ),
-// //   );
-// // }
   String getUID(String uid) {
     String result = "";
     String displayName = "";
     result = uid.replaceAll(RegExp('[^A-Za-z0-9]'), '');
     result = result.substring(3);
     print("results: " + result);
-
-    // _userName =
-    //     database.child(result + "/Name/Name").onValue.listen((event) {
-    //       final String description1 = event.snapshot.value.toString();
-    //       print("LISTENER: " + description1);
-    //         displayName = '$description1';
-    //
-    //     });
     print("DISPLAY NAME: " + displayName);
-    //activateListeners(result);
     return displayName;
   }
 }

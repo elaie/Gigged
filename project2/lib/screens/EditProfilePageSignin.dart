@@ -21,7 +21,8 @@ import 'constraints.dart';
 class EditProfilePageSignin extends StatefulWidget {
   final value;
   final accType;
-  EditProfilePageSignin(this.value,this.accType);
+
+  EditProfilePageSignin(this.value, this.accType);
 
   @override
   State<EditProfilePageSignin> createState() => _EditProfilePageSigninState();
@@ -31,7 +32,6 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
   final _database = FirebaseDatabase.instance.reference();
   TextEditingController _nameTextController = TextEditingController();
   TextEditingController _bioTextController = TextEditingController();
-
 
   get path => null;
 
@@ -64,16 +64,17 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
   //   });
   // }
   @override
-
   Widget build(BuildContext context) {
     final Storage storage = Storage();
     final extractData ExtractData = extractData();
-    final setName= _database.child(ExtractData.getUserUID()+'/Name/');
-    final setBio = _database.child(ExtractData.getUserUID()+'/BIO/');
-    FutureBuilder(future: storage.listFiles(),
+    final setName = _database.child(ExtractData.getUserUID() + '/Name/');
+    final setBio = _database.child(ExtractData.getUserUID() + '/BIO/');
+    FutureBuilder(
+        future: storage.listFiles(),
         builder: (BuildContext context,
             AsyncSnapshot<firebase_storage.ListResult> snapshot) {
-          print("===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+          print(
+              "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
             return Container();
@@ -84,17 +85,19 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
           }
           return Container();
         });
-    child : FutureBuilder(future: storage.downloadURL("IMG_20221008_012520_386.jpg"),
-        builder: (BuildContext context,
-            AsyncSnapshot<String> snapshot) {
-          print("===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+    child:
+    FutureBuilder(
+        future: storage.downloadURL("IMG_20221008_012520_386.jpg"),
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          print(
+              "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
             print("CONNECTION STATE IS STABLE");
-            return Container(width: 300,
+            return Container(
+                width: 300,
                 height: 250,
-                child: Image.network(snapshot.data!,
-                    fit:BoxFit.cover));
+                child: Image.network(snapshot.data!, fit: BoxFit.cover));
           }
           print("CONNECTION STATE IS UN-STABLE");
           return Container();
@@ -120,37 +123,33 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
           final path = results.files.single.path!;
           //final fileName = results.files.single.name;
 
-          storage
-              .uploadFile(path, ExtractData.getUserUID())
-              .then((value) => print("profile picture uploaded   FILENAME:"+path));
+          storage.uploadFile(path, ExtractData.getUserUID()).then(
+              (value) => print("profile picture uploaded   FILENAME:" + path));
 
           print("PATH" + path);
           print("FILENAME: " + ExtractData.getUserEmail());
         },
         // TO INITIALIZE THE PROFILE PICTURE
-        child : FutureBuilder(future: storage.downloadURL(ExtractData.getUserUID()),
-            builder: (BuildContext context,
-                AsyncSnapshot<String> snapshot) {
-
-              print("===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+        child: FutureBuilder(
+            future: storage.downloadURL(ExtractData.getUserUID()),
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              print(
+                  "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
               ExtractData.getUserUID();
               if (snapshot.connectionState == ConnectionState.done &&
                   snapshot.hasData) {
                 print("CONNECTION STATE IS STABLE");
-                return Container(width: 300,
+                return Container(
+                    width: 300,
                     height: 250,
-                    child: Image.network(snapshot.data!,
-                        fit:BoxFit.cover));
+                    child: Image.network(snapshot.data!, fit: BoxFit.cover));
               }
               print("CONNECTION STATE IS UN-STABLE");
               return Container();
-            })
-    );
-
+            }));
 
     Widget ChangeProfilePic = GestureDetector(
         onTap: () async {
-
           print('image pressed');
           final results = await FilePicker.platform.pickFiles(
             allowMultiple: false,
@@ -169,9 +168,8 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
           final path = results.files.single.path!;
           //final fileName = results.files.single.name;
 
-          storage
-              .uploadFile(path, ExtractData.getUserUID())
-              .then((value) => print("profile picture uploaded   FILENAME:"+path));
+          storage.uploadFile(path, ExtractData.getUserUID()).then(
+              (value) => print("profile picture uploaded   FILENAME:" + path));
 
           print("PATH" + path);
           print("FILENAME: " + ExtractData.getUserEmail());
@@ -179,7 +177,6 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
         child: Text(
           'Change Profile Picture',
           style: TextStyle(color: kPrimaryDarkColor),
-
         ));
 
     Widget FullName = TextFormField(
@@ -193,9 +190,12 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
       },
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(30.0),),
-            borderSide: BorderSide(color: kPrimaryLightColor,)
-        ),
+            borderRadius: BorderRadius.all(
+              Radius.circular(30.0),
+            ),
+            borderSide: BorderSide(
+              color: kPrimaryLightColor,
+            )),
         labelStyle: TextStyle(color: kPrimaryDarkColor),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
@@ -218,9 +218,12 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
       },
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(30.0),),
-            borderSide: BorderSide(color: kPrimaryLightColor,)
-        ),
+            borderRadius: BorderRadius.all(
+              Radius.circular(30.0),
+            ),
+            borderSide: BorderSide(
+              color: kPrimaryLightColor,
+            )),
         labelStyle: TextStyle(color: kPrimaryDarkColor),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
@@ -260,23 +263,28 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
       onPressed: () {
         //final userInformation = database.child('USERS'+getUserEmail()+"/");
         setBio.set({'Bio': _bioTextController.text});
-        setName.set({'Name':_nameTextController.text});
+        setName.set({'Name': _nameTextController.text});
         FirebaseAuth.instance.currentUser
             ?.updateDisplayName(_nameTextController.text);
-        Map<String,String> dataToSave= {
+        Map<String, String> dataToSave = {
           'UID': widget.value,
           'Name': _nameTextController.text,
-          'Bio':_bioTextController.text
+          'Bio': _bioTextController.text,
+          'Latitude': " ",
+          'Longitude': " ",
         };
-        FirebaseFirestore.instance.collection(widget.accType.toString()).doc(widget.value).set(dataToSave);
+        FirebaseFirestore.instance
+            .collection(widget.accType.toString())
+            .doc(widget.value)
+            .set(dataToSave);
         //FirebaseFirestore.instance.collection('Artist').doc().set({"Name":_nameTextController.text});
         //FirebaseFirestore.instance.collection('Artist').doc().set({"UID":});
-        print("USER UID================"+widget.value);
+        print("USER UID================" + widget.value);
         Navigator.push(
-            context,
-            MaterialPageRoute(
+          context,
+          MaterialPageRoute(
             builder: (context) => HomePage(widget.accType),
-        ),
+          ),
         );
       },
     );

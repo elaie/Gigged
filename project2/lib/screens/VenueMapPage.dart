@@ -1,71 +1,38 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
 //import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-
+import '../getData.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 
-class MapPage extends StatefulWidget {
-  const MapPage({Key? key}) : super(key: key);
+class VenueMapPage extends StatefulWidget {
+  const VenueMapPage({Key? key}) : super(key: key);
 
   @override
-  State<MapPage> createState() => _MapPageState();
+  State<VenueMapPage> createState() => _VenuMapPageState();
 }
 
 const kGoogleApiKey = 'AIzaSyCqs5UJDkVWs1CcNZx25v8hf3fAIuY5YEg';
 final homeScaffoldKey = GlobalKey<ScaffoldState>();
 
-class _MapPageState extends State<MapPage> {
+class _VenuMapPageState extends State<VenueMapPage> {
   Set<Marker> markersList = {};
+  double Lat = 0;
+  double Long = 0;
   late GoogleMapController googleMapController;
   final Mode _mode = Mode.overlay;
   static const CameraPosition initialCameraPosition = CameraPosition(
       target: LatLng(37.42796133580664, -122.085749655962), zoom: 14);
   Set<Marker> markers = {};
 
-  //
-  // static const double _defaultLat = 8.85577417427599;
-  // static const double _defaultLng = 38.85577417427599;
-  // static const CameraPosition _defaultLocation =
-  //     CameraPosition(target: LatLng(_defaultLat, _defaultLng), zoom: 15);
-  //
-  // LocationData? currentLocation;
-  //
-  // void getCurrentLocation() {
-  //   Location location = Location();
-  //   location.getLocation().then(
-  //     (location) {
-  //       currentLocation = location;
-  //     },
-  //   );
-  // }
-  //
-  // final Set<Marker> _markers = {};
-  //
-  // void _addMarker() {
-  //   setState(() {
-  //     _markers.add(
-  //       Marker(
-  //         markerId: MarkerId('defaultLocation'),
-  //         position: _defaultLocation.target,
-  //         icon: BitmapDescriptor.defaultMarker,
-  //         infoWindow: const InfoWindow(
-  //           title: "PLACE NAME",
-  //           snippet: "RATINGS",
-  //         ),
-  //       ),
-  //     );
-  //   });
-  // }
-  //
   @override
   void initState() {
     activateListner();
     super.initState();
-    // getCurrentLocation();
   }
 
   void activateListner() async {
@@ -105,25 +72,41 @@ class _MapPageState extends State<MapPage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
+          final uid = extractData().getUserUID();
+          final docUser = FirebaseFirestore.instance.collection('Venue').doc(uid);
+          docUser.update(
+            {
+
+            }
+          );
           Position position = await _determinePosition();
-          googleMapController.animateCamera(CameraUpdate.newCameraPosition(
-              CameraPosition(
-                  target: LatLng(position.latitude, position.longitude),
-                  zoom: 14)));
-          //markersList.clear();
-          markersList.add(Marker(
-              markerId: const MarkerId('currentLocation'),
-              position: LatLng(position.latitude, position.longitude),
-            infoWindow: const InfoWindow(
-              title: "Current Location",
-            )
-              ));
+          Lat=position.latitude;
+          Long=position.longitude;
+          docUser.update(
+              {
+                  "Latitude":Lat,
+                  "Longitude":Long
+              }
+          );
+          // googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+          //     CameraPosition(
+          //         target: LatLng(position.latitude, position.longitude),
+          //         zoom: 14)));
+          // //markersList.clear();
+          // markersList.add(Marker(
+          //     markerId: const MarkerId('currentLocation'),
+          //     position: LatLng(position.latitude, position.longitude),
+          //     infoWindow: const InfoWindow(
+          //       title: "Update Venue Location",
+          //     )
+          // ));
 
           setState(() {});
         },
-        label: const Text("Current Location"),
+        label: const Text("Update Venue Location"),
         icon: const Icon(Icons.location_history),
       ),
+
     );
   }
 
@@ -211,5 +194,5 @@ class _MapPageState extends State<MapPage> {
     Position position = await Geolocator.getCurrentPosition();
 
     return position;
-  } // ck
+  } //
 }

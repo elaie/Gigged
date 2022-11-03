@@ -148,7 +148,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           body: StreamBuilder<User?>(
                               stream: FirebaseAuth.instance.authStateChanges(),
                               builder: (context, snapshot) {
-                                
                                 print("SNAPSHOT DATA OF WELCOME PAGE=============");
                                 print("UID FROM WELCOME PAGE===============================");
                                 print(snapshot.data?.uid);
@@ -165,10 +164,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                     print("ELSE ACC TYPE=========================");
                                   }
                                 });
-
                                 if (snapshot.hasData) {
-                                  return HomePage(
-                                      accType);
+                                  return HomePage(accType);
                                 } else {
                                   return LoginPage();
                                 }
