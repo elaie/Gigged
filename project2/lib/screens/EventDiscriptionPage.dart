@@ -41,8 +41,9 @@ class _EventDiscriptionState extends State<EventDiscription> {
       print("UID IN EVENT===========" + widget.uid);
       var eventDescription = data['Event Description'].toString();
       var specialAttraction = data['Special Attraction'];
-      var venueDescription = data['Venue Description'].toString();
-      var eventType = data['Event Type'].toString();
+      var date = data['Date'].toString();
+      var time = data['Time'].toString();
+      var venueUID = data['Venue UID'].toString();
       var artistUID = data['Artist UID'].toString();
       return SafeArea(
         child: Container(
@@ -232,7 +233,7 @@ class _EventDiscriptionState extends State<EventDiscription> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => BookingOrReg(),
+                          builder: (context) => BookingOrReg(venueUID.toString()),
                         ),
                       );
                     }),
