@@ -188,8 +188,12 @@ class _NotificationPageState extends State<NotificationPage> {
                                                       icon: Icon(Icons.check, color: kPrimaryDarkColor,)),
                                                 ],
                                               )
-                                            : Text(data['Artist Verification'],style: TextStyle(
+                                            :
+                                        (data['Artist Verification']=='ACCEPT')?
+                                        Text(data['Artist Verification'],style: TextStyle(
                                           color: kPrimaryDarkColor
+                                        ),): Text(data['Artist Verification'],style: TextStyle(
+                                            color: Colors.red
                                         ),)
                                       ],
                                     ),
