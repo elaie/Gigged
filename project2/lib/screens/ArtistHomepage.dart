@@ -97,7 +97,8 @@ class _ArtistHomePageState extends State<ArtistHomePage> {
     print("INIT IN HOME PAGE SCREEN");
     _screens = [
       MainPage(),
-      VenueMapPage(),
+      MapPage(),
+      //VenueMapPage(),
       NotificationPage(),
       SearchPage(),
       //DummyProfile(widget.accType),

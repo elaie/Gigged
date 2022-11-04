@@ -163,7 +163,6 @@ class _MainPageState extends State<MainPage> {
                                     var data = snapshots.data!.docs[index]
                                         .data() as Map<String, dynamic>;
                                     data['ID']=snapshots.data!.docs[index].id.toString();
-
                                     return (data['Artist Verification']=='ACCEPT')?Row(
                                       children: [
                                         GestureDetector(
@@ -614,7 +613,7 @@ class _MainPageState extends State<MainPage> {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            PublicArtistProfile(
+                                                            VenuePublicPage(
                                                                 data['UID']
                                                                     .toString())));
                                                 print("nav pushed");

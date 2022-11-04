@@ -96,7 +96,8 @@ class _UserHomePageState extends State<UserHomePage> {
     print("INIT IN HOME PAGE SCREEN");
     _screens = [
       MainPage(),
-      VenueMapPage(),
+      MapPage(),
+      //VenueMapPage(),
       SearchPage(),
       //DummyProfile(widget.accType),
       //widget.test
