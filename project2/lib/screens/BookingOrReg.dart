@@ -28,7 +28,7 @@ class _BookingOrRegState extends State<BookingOrReg> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  'EVENT NAME',
+                  'BOOKING PAGE',
                   style: TextStyle(
                     fontSize: 30,
                     fontFamily: 'Comfortaa',
@@ -37,57 +37,9 @@ class _BookingOrRegState extends State<BookingOrReg> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 100,
                 ),
-                Text(
-                  'Discription',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'Comfortaa',
-                    color: kPrimaryColor,
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  '*write about event here. just very long discription. explain about how great the event is. why are you hosting this event. i am just making this long ignore me*',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontFamily: 'Comfortaa',
-                    color: Colors.black45,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Venue: ' + '*enter venue here*',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'Comfortaa',
-                    color: kPrimaryColor,
-                  ),
-                ),
-                Text(
-                  'Time: ' + '*enter time here*',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'Comfortaa',
-                    color: kPrimaryColor,
-                  ),
-                ),
-                Text(
-                  'Price of ticket: ' + '*enter price here*',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'Comfortaa',
-                    color: kPrimaryColor,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
+
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0, right: 10),
                   child: TextFormField(
