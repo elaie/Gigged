@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project2/screens/CreateEvent.dart';
 import 'package:project2/screens/SeeAllArtist.dart';
 import 'package:project2/screens/constraints.dart';
+import 'BookingListPage.dart';
 import 'welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'EditProfilePage.dart';
@@ -212,12 +213,12 @@ class _VenuePrivatePage extends State<VenuePrivatePage> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => SeeAllArtist(),
+                                          builder: (context) => BookingListPage(),
                                         ),
                                       );
                                     },
                                     child: Text(
-                                      'Hire Artists',
+                                      'Booking List',
                                       style: TextStyle(
                                           fontFamily: 'Comfortaa',
                                           fontWeight: FontWeight.bold),
