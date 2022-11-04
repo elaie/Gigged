@@ -4,6 +4,8 @@ import 'package:project2/screens/HireArtist.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import '../getData.dart';
 import 'constraints.dart';
+import 'package:date_format/date_format.dart';
+import 'package:intl/intl.dart';
 
 class CreateEvent extends StatefulWidget {
   const CreateEvent({Key? key}) : super(key: key);
@@ -13,7 +15,53 @@ class CreateEvent extends StatefulWidget {
 }
 
 class _CreateEventState extends State<CreateEvent> {
+  double _height = 0.0;
+  String val1='';
+  String val2='';
+  double _width = 0.0;
   String aUID = " ";
+  String _setTime = '';
+  String _setDate = '';
+  String _hour = '';
+  String _minute = '';
+  String dateTime = '';
+  String _time = '';
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
+  TextEditingController _dateController = TextEditingController();
+  TextEditingController _timeController = TextEditingController();
+
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        initialDatePickerMode: DatePickerMode.day,
+        firstDate: DateTime(2015),
+        lastDate: DateTime(2101));
+    if (picked != null)
+      setState(() {
+        selectedDate = picked;
+        _dateController.text = DateFormat.yMd().format(selectedDate);
+      });
+  }
+
+  Future<Null> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+    );
+    if (picked != null)
+      setState(() {
+        selectedTime = picked;
+        _hour = selectedTime.hour.toString();
+        _minute = selectedTime.minute.toString();
+        _time = _hour + ' : ' + _minute;
+        _timeController.text = _time;
+        _timeController.text = formatDate(
+            DateTime(2019, 08, 1, selectedTime.hour, selectedTime.minute),
+            [hh, ':', nn, " ", am]).toString();
+      });
+  }
 
   Future<void> _navigateAndDisplaySelection(BuildContext context) async {
     // Navigator.push returns a Future that completes after calling
@@ -40,7 +88,20 @@ class _CreateEventState extends State<CreateEvent> {
   TextEditingController _specialAttTextController = TextEditingController();
 
   @override
+  void initState() {
+    _dateController.text = DateFormat.yMd().format(DateTime.now());
+
+    _timeController.text = formatDate(
+        DateTime(2019, 08, 1, DateTime.now().hour, DateTime.now().minute),
+        [hh, ':', nn, " ", am]).toString();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    _height = MediaQuery.of(context).size.height;
+    _width = MediaQuery.of(context).size.width;
+    dateTime = DateFormat.yMd().format(DateTime.now());
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -195,32 +256,6 @@ class _CreateEventState extends State<CreateEvent> {
                 SizedBox(
                   height: 20,
                 ),
-
-                TextFormField(
-                  controller: _venueDescriptionTextController,
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(30.0),
-                        ),
-                        borderSide: BorderSide(
-                          color: kPrimaryLightColor,
-                        )),
-                    labelStyle: TextStyle(color: kPrimaryDarkColor),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide(color: kPrimaryLightColor),
-                    ),
-                    labelText: 'Describe your venue',
-                    fillColor: kPrimaryLightColor,
-                    filled: true,
-                    contentPadding: EdgeInsets.all(20.0),
-                  ),
-                ),
-                //special attractions
-                SizedBox(
-                  height: 20,
-                ),
                 TextFormField(
                   controller: _specialAttTextController,
                   decoration: InputDecoration(
@@ -242,6 +277,99 @@ class _CreateEventState extends State<CreateEvent> {
                     contentPadding: EdgeInsets.all(20.0),
                   ),
                 ),
+                SizedBox(
+                  height: 20,
+                ),
+                //date and time picker
+                Container(
+                  //decoration: BoxDecoration(color: Colors.green),
+                  width: _width,
+                  //height: _height,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            'Choose date ',
+                            style: TextStyle(
+                                fontFamily: 'Comfortaa',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: kPrimaryColor),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              _selectDate(context);
+                            },
+                            child: Container(
+                              width: _width / 1.7,
+                              height: _height / 9,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(color: Colors.transparent),
+                              child: TextFormField(
+                                style: TextStyle(fontSize: 40,color: kPrimaryDarkColor),
+                                textAlign: TextAlign.center,
+                                enabled: false,
+                                keyboardType: TextInputType.text,
+                                controller: _dateController,
+                                onSaved: (val1) {
+                                  _setDate = val1.toString();
+                                },
+                                decoration: InputDecoration(
+                                  disabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide.none),
+                                  contentPadding: EdgeInsets.only(top: 0.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            'Choose time ',
+                            style: TextStyle(
+                                fontFamily: 'Comfortaa',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: kPrimaryColor),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              _selectTime(context);
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: _width / 1.7,
+                              height: _height / 15,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(color: Colors.transparent),
+                              child: TextFormField(
+                                style: TextStyle(fontSize: 40,color: kPrimaryDarkColor),
+                                textAlign: TextAlign.center,
+                                onSaved: (val2) {
+                                  _setTime = val2.toString();
+                                },
+                                enabled: false,
+                                keyboardType: TextInputType.text,
+                                controller: _timeController,
+                                decoration: InputDecoration(
+                                  disabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide.none),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                //special attractions
+
                 //Button
                 SizedBox(
                   height: 25,
@@ -264,7 +392,8 @@ class _CreateEventState extends State<CreateEvent> {
                       };
                       FirebaseFirestore.instance
                           .collection("Events")
-                          .add(dataToSave).then((value) {
+                          .add(dataToSave)
+                          .then((value) {
                         value.id.toString();
                         FirebaseFirestore.instance
                             .collection("Artist")
@@ -276,7 +405,7 @@ class _CreateEventState extends State<CreateEvent> {
                           'Event UID': value.id.toString(),
                           'Venue UID': ExtractData.getUserUID().toString(),
                           'Artist Verification': 'WAITING',
-                          'UPDATABLE':'TRUE',
+                          'UPDATABLE': 'TRUE',
                         });
                       });
 
