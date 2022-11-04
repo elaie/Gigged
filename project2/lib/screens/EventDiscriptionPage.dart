@@ -38,11 +38,12 @@ class _EventDiscriptionState extends State<EventDiscription> {
               var eventName = data!['Event Name'];
               print("UID IN EVENT===========" + widget.uid);
               var eventDescription = data['Event Description'].toString();
-              var specialAttraction = data['Special Attraction'];
+              var specialAttraction = data['Special Attraction'].toString();
               var date = data['Date'].toString();
               var time = data['Time'].toString();
               var venueUID = data['Venue UID'].toString();
               var artistUID = data['Artist UID'].toString();
+              var eventType = data['Event Type'].toString();
               return SafeArea(
                 child: Container(
                   padding: EdgeInsets.only(top: 30, left: 20, right: 20),
@@ -70,6 +71,44 @@ class _EventDiscriptionState extends State<EventDiscription> {
                       SizedBox(
                         height: 40,
                       ),
+                      Text(
+                        'Date',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'Comfortaa',
+                          color: kPrimaryColor,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        date,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Comfortaa',
+                          color: Colors.black45,
+                        ),
+                      ),
+                      Text(
+                        'Time',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'Comfortaa',
+                          color: kPrimaryColor,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        time,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Comfortaa',
+                          color: Colors.black45,
+                        ),
+                      ),
                       //discription
                       Text(
                         'Discription',
@@ -93,6 +132,25 @@ class _EventDiscriptionState extends State<EventDiscription> {
                       SizedBox(
                         height: 40,
                       ),
+                      // Text(
+                      //   'Event Type',
+                      //   style: TextStyle(
+                      //     fontSize: 20,
+                      //     fontFamily: 'Comfortaa',
+                      //     color: kPrimaryColor,
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
+                      // Text(
+                      //   eventType,
+                      //   style: TextStyle(
+                      //     fontSize: 15,
+                      //     fontFamily: 'Comfortaa',
+                      //     color: Colors.black45,
+                      //   ),
+                      // ),
                       //Venue
                       Text(
                         'Venue',
@@ -105,51 +163,21 @@ class _EventDiscriptionState extends State<EventDiscription> {
                       SizedBox(
                         height: 10,
                       ),
-                      Text(
-                        eventDescription,
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontFamily: 'Comfortaa',
-                          color: Colors.black45,
-                        ),
-                      ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                                margin: EdgeInsets.symmetric(horizontal: 20),
-                                height: 150,
-                                width: 200,
-                                decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Image.asset('assets/images/club.jpg')),
-                            Container(
-                                margin: EdgeInsets.symmetric(horizontal: 20),
-                                height: 150,
-                                width: 200,
-                                decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Image.asset('assets/images/club.jpg')),
-                            Container(
-                                margin: EdgeInsets.symmetric(horizontal: 20),
-                                height: 150,
-                                width: 200,
-                                decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Image.asset('assets/images/club.jpg')),
-                          ],
-                        ),
-                      ),
-
+                      FutureBuilder(
+                          future: storage.downloadURL(artistUID+date),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<String> snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done &&
+                                snapshot.hasData) {
+                              return CircleAvatar(
+                                  radius: 70,
+                                  backgroundImage: NetworkImage(
+                                    snapshot.data!,
+                                  ));
+                            }
+                            return Container();
+                          }),
                       SizedBox(
                         height: 20,
                       ),

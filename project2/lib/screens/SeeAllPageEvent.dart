@@ -136,9 +136,9 @@ class _SeeAllPageEvent extends State<SeeAllPageEvent> {
                               ),
                             ),
                           ],
-                        ):Text(data['Event Name'].toString()),
+                        ):null),
                       ),
-                    ));
+                    );
               });
         },
       ),
