@@ -179,7 +179,6 @@ class _MainPageState extends State<MainPage> {
                                                                   data['ID'])));
                                                   print("nav pushed");
                                                 },
-
                                                 //radius vairacha somehow
                                                 child: FutureBuilder(
                                                     future: storage.downloadURL(

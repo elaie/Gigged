@@ -123,7 +123,7 @@ class _NotificationPageState extends State<NotificationPage> {
                                         borderRadius: BorderRadius.circular(20)
                                     ),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: [
                                         SizedBox(
                                           width: 20,
@@ -133,7 +133,7 @@ class _NotificationPageState extends State<NotificationPage> {
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20.0,
                                           color: kPrimaryDarkColor,),),
-                                        SizedBox(width: 200),
+                                        SizedBox(width: 100),
                                         (data['UPDATABLE'] == 'TRUE')
                                             ? Row(
                                                 children: [

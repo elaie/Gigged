@@ -76,9 +76,6 @@ class _CreateEventState extends State<CreateEvent> {
     );
 
     aUID = '$result';
-    ScaffoldMessenger.of(context)
-      ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text('$result')));
     print("UID FROM ANOTHER PAGE" + aUID);
   }
 

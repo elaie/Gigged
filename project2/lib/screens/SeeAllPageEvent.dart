@@ -136,7 +136,7 @@ class _SeeAllPageEvent extends State<SeeAllPageEvent> {
                               ),
                             ),
                           ],
-                        ):null),
+                        ):SizedBox()),
                       ),
                     );
               });

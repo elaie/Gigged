@@ -253,18 +253,17 @@ class _VenuePublicPage extends State<VenuePublicPage> {
                                       itemBuilder: (context, index) {
                                         var data = snapshots.data!.docs[index]
                                             .data() as Map<String, dynamic>;
-                                        return Row(
+                                        return (data['Artist Verification'] ==
+                                            'ACCEPT')? Row(
                                           children: [
                                             GestureDetector(
                                               onTap: () {
                                                 print("Tapped ");
-                                                // Navigator.push(
-                                                //     context,
-                                                //     MaterialPageRoute(
-                                                //         builder: (context) =>
-                                                //             PublicArtistProfile(
-                                                //                 data['UID']
-                                                //                     .toString())));
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) => EventDiscription(
+                                                            data['ID'].toString())));
                                                 print("nav pushed");
                                               },
 
@@ -343,7 +342,7 @@ class _VenuePublicPage extends State<VenuePublicPage> {
                                               // ),
                                             )
                                           ],
-                                        );
+                                        ):SizedBox();
                                         // return ListTile(
                                         //
                                         //   onTap: () {
