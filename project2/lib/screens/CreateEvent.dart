@@ -429,8 +429,8 @@ class _CreateEventState extends State<CreateEvent> {
                         'Venue UID': ExtractData.getUserUID().toString(),
                         'Event Name': _eventNameTextController.text,
                         'Event Description': _DescriptionTextController.text,
-                        'Venue Description':
-                        _venueDescriptionTextController.text,
+                        'Date':_dateController.text,
+                        'Time':_timeController.text,
                         'Special Attraction': _specialAttTextController.text,
                         'Event Type': eventType,
                         'Artist UID': aUID,
@@ -448,6 +448,8 @@ class _CreateEventState extends State<CreateEvent> {
                             .add({
                           'Event Name': _eventNameTextController.text,
                           'Event Type': eventType,
+                          'Date':_dateController.text,
+                          'Time':_timeController.text,
                           'Event UID': value.id.toString(),
                           'Venue UID': ExtractData.getUserUID().toString(),
                           'Artist Verification': 'WAITING',
