@@ -5,11 +5,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:project2/userClass.dart';
+
 //import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import '../getData.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import '../storage_services.dart';
+
 class VenueMapPage extends StatefulWidget {
   const VenueMapPage({Key? key}) : super(key: key);
 
@@ -21,46 +23,55 @@ const kGoogleApiKey = 'AIzaSyCqs5UJDkVWs1CcNZx25v8hf3fAIuY5YEg';
 final homeScaffoldKey = GlobalKey<ScaffoldState>();
 
 class _VenuMapPageState extends State<VenueMapPage> {
-
   //list of markers
+  List<Object> _maList = [];
   final Set<Marker> markers = new Set();
   List<Object> _ListM = [];
-  void addMarkerMap()
-  {
-    markers.add(Marker( //add first marker
+
+  void addMarkerMap() {
+    markers.add(Marker(
+      //add first marker
       markerId: MarkerId("showLocation.toString()"),
       position: LatLng(27.7099116, 85.3132343), //position of marker
-      infoWindow: InfoWindow( //popup info
+      infoWindow: InfoWindow(
+        //popup info
         title: 'My Custom Title ',
         snippet: 'My Custom Subtitle',
       ),
       icon: BitmapDescriptor.defaultMarker, //Icon for Marker
     ));
 
-    markers.add(Marker( //add second marker
+    markers.add(Marker(
+      //add second marker
       markerId: MarkerId("showLocation.toString()"),
       position: LatLng(27.7099116, 85.3132343), //position of marker
-      infoWindow: InfoWindow( //popup info
+      infoWindow: InfoWindow(
+        //popup info
         title: 'My Custom Title ',
         snippet: 'My Custom Subtitle',
       ),
       icon: BitmapDescriptor.defaultMarker, //Icon for Marker
     ));
-
   }
+
+  var venueName;
+  var venueLat ;
+  var venueLong;
   final Storage storage = Storage();
   Set<Marker> markersList = {};
+  Set<Marker> markersListall = {};
   double Lat = 0;
   double Long = 0;
   late GoogleMapController googleMapController;
   final Mode _mode = Mode.overlay;
   static const CameraPosition initialCameraPosition = CameraPosition(
       target: LatLng(37.42796133580664, -122.085749655962), zoom: 100);
+
   //Set<Marker> markers = {};
 
   @override
   void initState() {
-    //addMarkerMap();
+    addMarkerMap();
     //getMarkerFromDb();
     activateListner();
     super.initState();
@@ -78,51 +89,45 @@ class _VenuMapPageState extends State<VenueMapPage> {
         icon: BitmapDescriptor.defaultMarker,
         infoWindow: const InfoWindow(
           title: "Update Venue Location",
-        ))
-    );
+        )));
 
     setState(() {});
   }
-Future getMarkerFromDb() async {
-    var data = await FirebaseFirestore.instance
-        .collection("Venue")
-        .doc()
-        .get();
-    print("DATA FROM GETMARKERDB"+data.data().toString());
 
-    // setState(() {
-    //   _ListM = List.from(data.map((doc)=>User.fromSnapShot(doc)));
-    // });
-
-
-}
   Set<Marker> getmarkers() {
     setState(() {
-
-      markers.add(Marker( //add first marker
+      markers.add(const Marker(
+        //add first marker
         markerId: MarkerId("1"),
-        position: LatLng(37.42796133580664, -122.085749655962), //position of marker
-        infoWindow: InfoWindow( //popup info
+        position: LatLng(37.42796133580664, -122.085749655962),
+        //position of marker
+        infoWindow: InfoWindow(
+          //popup info
           title: 'Marker Title First ',
           snippet: 'My Custom Subtitle',
         ),
         icon: BitmapDescriptor.defaultMarker, //Icon for Marker
       ));
 
-      markers.add(Marker( //add second marker
+      markers.add(const Marker(
+        //add second marker
         markerId: MarkerId("2"),
-        position: LatLng(57.42796133580664, -126.085749655962), //position of marker
-        infoWindow: InfoWindow( //popup info
+        position: LatLng(57.42796133580664, -126.085749655962),
+        //position of marker
+        infoWindow: InfoWindow(
+          //popup info
           title: 'Marker Title Second ',
           snippet: 'My Custom Subtitle',
         ),
         icon: BitmapDescriptor.defaultMarker, //Icon for Marker
       ));
 
-      markers.add(Marker( //add third marker
+      markers.add(const Marker(
+        //add third marker
         markerId: MarkerId("3"),
         position: LatLng(57.7137735, -85.315626), //position of marker
-        infoWindow: InfoWindow( //popup info
+        infoWindow: InfoWindow(
+          //popup info
           title: 'Marker Title Third ',
           snippet: 'My Custom Subtitle',
         ),
@@ -135,73 +140,87 @@ Future getMarkerFromDb() async {
     return markers;
   }
 
+  Set<Marker> getmarkersall() {
+
+      print("VENUELAT==============="+venueLat);
+      markers.add(Marker(
+        //add first marker
+        markerId: MarkerId("1"),
+        position: LatLng(venueLat.toDouble(), venueLong.toDouble()),
+        //position of marker
+        infoWindow: InfoWindow(
+          //popup info
+          title: 'TEST MARKER',
+          snippet: 'My Custom Subtitle',
+        ),
+        icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+      ));
+
+    return markers;
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       key: homeScaffoldKey,
       appBar: AppBar(
         title: const Text("Google Search Places"),
       ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('Artist').snapshots(),
+        builder: (context, snapshots) {
+          return (snapshots.connectionState == ConnectionState.waiting)
+              ? Center(
+            child: CircularProgressIndicator(),
+          )
+              : ListView.builder(
 
-      body: Stack(
-        children: [
-          GoogleMap(
-            initialCameraPosition: initialCameraPosition,
-            markers: getmarkers(),
-            mapType: MapType.normal,
-            onMapCreated: (GoogleMapController controller) {
-              googleMapController = controller;
-            },
-          ),
-          ElevatedButton(
-              onPressed: _handlePressButton,
-              child: const Text("Search Places")),
-        FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-            future: FirebaseFirestore.instance
-                .collection('Events')
-                .doc()
-                .get(),
-            builder: (_, snapshot) {
-              // if (snapshot.connectionState == ConnectionState.waiting) {
-              // return const Center(
-              // child: CircularProgressIndicator(),
-              //);
-              // }
-              // var data = snapshot.data!.data();
-              // var eventName = data!['Event Name'];
-              // //print("UID IN EVENT===========" + );
-              // var eventDescription = data['Event Description'].toString();
-              // var specialAttraction = data['Special Attraction'];
-              // var venueDescription = data['Venue Description'].toString();
-              // var eventType = data['Event Type'].toString();
-              // var artistUID = data['Artist UID'].toString();
-              return Container();
-            }
-              )
-
-        ],
+              itemCount: snapshots.data!.docs.length,
+              itemBuilder: (context, index) {
+                var data = snapshots.data!.docs[index].data()
+                as Map<String, dynamic>;
+                print("data printing");
+                print(data);
+                return Container();
+              });
+        },
       ),
+
+      // body: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      //     future: FirebaseFirestore.instance
+      //         .collection('Venue')
+      //         .doc()
+      //         .get(),
+      //     builder: (_, snapshot) {
+      //       if (snapshot.connectionState == ConnectionState.waiting) {
+      //         return const Center(
+      //           child: CircularProgressIndicator(),
+      //         );
+      //       } else {}
+      //       var data = snapshot.data!.data();
+      //       venueName = data!['Name'];
+      //
+      //       venueLat = data['Latitude'];
+      //       print("VENUE LAT==================="+venueLat.toString());
+      //       venueLong = data['Longitude'];
+      //       return Stack(
+      //
+      //
+      //       );
+      //
+      //     }),
+
+
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           final uid = extractData().getUserUID();
-          final docUser = FirebaseFirestore.instance.collection('Venue').doc(uid);
-          docUser.update(
-            {
-
-            }
-          );
+          final docUser =
+              FirebaseFirestore.instance.collection('Venue').doc(uid);
+          docUser.update({});
           Position position = await _determinePosition();
-          Lat=position.latitude;
-          Long=position.longitude;
-          docUser.update(
-              {
-                  "Latitude":Lat,
-                  "Longitude":Long
-              }
-          );
+          Lat = position.latitude;
+          Long = position.longitude;
+          docUser.update({"Latitude": Lat, "Longitude": Long});
           // googleMapController.animateCamera(CameraUpdate.newCameraPosition(
           //     CameraPosition(
           //         target: LatLng(position.latitude, position.longitude),
@@ -220,7 +239,6 @@ Future getMarkerFromDb() async {
         label: const Text("Update Venue Location"),
         icon: const Icon(Icons.location_history),
       ),
-
     );
   }
 

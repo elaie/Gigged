@@ -162,103 +162,120 @@ class _MainPageState extends State<MainPage> {
                                   itemBuilder: (context, index) {
                                     var data = snapshots.data!.docs[index]
                                         .data() as Map<String, dynamic>;
-                                    data['ID']=snapshots.data!.docs[index].id.toString();
-                                    return (data['Artist Verification']=='ACCEPT')?Row(
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            print("Tapped ");
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        EventDiscription(data['ID'])));
-                                            print("nav pushed");
-                                          },
+                                    data['ID'] = snapshots.data!.docs[index].id
+                                        .toString();
+                                    return (data['Artist Verification'] ==
+                                            'ACCEPT')
+                                        ? Row(
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  print("Tapped ");
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              EventDiscription(
+                                                                  data['ID'])));
+                                                  print("nav pushed");
+                                                },
 
-                                          //radius vairacha somehow
-                                          child: FutureBuilder(
-                                              future: storage.downloadURL(
-                                                  data['UID'].toString()),
-                                              builder: (BuildContext context,
-                                                  AsyncSnapshot<String>
-                                                      snapshot) {
-                                                // print(
-                                                // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
-                                                //extractData().getUserUID();
-                                                print(
-                                                    "IMG================================");
-                                                if (snapshot.connectionState ==
-                                                        ConnectionState.done &&
-                                                    snapshot.hasData) {
-                                                  print(
-                                                      "IMG================================");
-                                                  return Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Column(
-                                                      children: [
-                                                        Container(
-                                                          height: 100,
-                                                          width: 150,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(
-                                                              Radius.circular(
-                                                                  50),
+                                                //radius vairacha somehow
+                                                child: FutureBuilder(
+                                                    future: storage.downloadURL(
+                                                        data['UID'].toString()),
+                                                    builder: (BuildContext
+                                                            context,
+                                                        AsyncSnapshot<String>
+                                                            snapshot) {
+                                                      // print(
+                                                      // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+                                                      //extractData().getUserUID();
+                                                      print(
+                                                          "IMG================================");
+                                                      if (snapshot.connectionState ==
+                                                              ConnectionState
+                                                                  .done &&
+                                                          snapshot.hasData) {
+                                                        print(
+                                                            "IMG================================");
+                                                        return Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Column(
+                                                            children: [
+                                                              Container(
+                                                                height: 100,
+                                                                width: 150,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .all(
+                                                                    Radius
+                                                                        .circular(
+                                                                            50),
+                                                                  ),
+                                                                ),
+                                                                child: Image
+                                                                    .network(
+                                                                  snapshot
+                                                                      .data!,
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                ),
+                                                              ),
+                                                              //username
+                                                              SizedBox(
+                                                                height: 5,
+                                                              ),
+                                                              Text(
+                                                                data['Event Name']
+                                                                    .toString(),
+                                                                style:
+                                                                    TextStyle(
+                                                                  color:
+                                                                      kPrimaryDarkColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontFamily:
+                                                                      'Comfortaa',
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      } else {
+                                                        return Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(20.0),
+                                                          child: CircleAvatar(
+                                                            radius: 50,
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      bottom:
+                                                                          20.0),
+                                                              child: Image.asset(
+                                                                  'assets/images/Concert.png'),
                                                             ),
                                                           ),
-                                                          child: Image.asset(
-                                                              'assets/images/Concert.png'),
-                                                        ),
-                                                        //username
-                                                        SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Text(
-                                                          data['Event Name']
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                            color:
-                                                                kPrimaryDarkColor,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontFamily:
-                                                                'Comfortaa',
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  );
-                                                } else {
-                                                  return Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            20.0),
-                                                    //aaaaaaa child: CircleAvatar(
-                                                    //   radius: 50,
-                                                    //   backgroundColor:
-                                                    //       Colors.transparent,
-                                                    //   child: Image.asset(
-                                                    //       'assets/images/user.png'),
-                                                    // ),
-                                                    child:Text(
-                                                    data['Event Name']
-                                                        .toString(),
-                                                style: TextStyle(
-                                                color: kPrimaryDarkColor,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Comfortaa',
-                                                ),
-                                                  ));
-                                                }
-                                              }),
-                                        )
-                                      ],
-                                    ): Container();
+                                                        );
+                                                      }
+                                                      // print("CONNECTION STATE IS UN-STABLE");
+                                                      return Container();
+                                                    }),
+                                              )
+                                            ],
+                                          )
+                                        : Container();
                                   }),
                             ),
                           ],
@@ -611,9 +628,9 @@ class _MainPageState extends State<MainPage> {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            VenuePublicPage(
-                                                                data['UID']
-                                                                    .toString())));
+                                                            VenuePublicPage(data[
+                                                                    'UID']
+                                                                .toString())));
                                                 print("nav pushed");
                                               },
 
@@ -693,7 +710,11 @@ class _MainPageState extends State<MainPage> {
                                                               Colors
                                                                   .transparent,
                                                           child: Padding(
-                                                            padding: const EdgeInsets.only(bottom: 20.0),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    bottom:
+                                                                        20.0),
                                                             child: Image.asset(
                                                                 'assets/images/Concert.png'),
                                                           ),
