@@ -128,40 +128,86 @@ class _CreateEventState extends State<CreateEvent> {
                 SizedBox(
                   height: 25,
                 ),
-                Center(
-                  child: SizedBox(
-                    height: 50,
-                    width: 150,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _navigateAndDisplaySelection(context);
-                        print("aUID====================" + aUID);
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => SeeAllArtist(),
-                        //   ),
-                        // );
-                      },
-                      child: const Text(
-                        'Hire Artist',
-                        style: TextStyle(
-                            fontFamily: 'Comfortaa',
-                            fontWeight: FontWeight.bold),
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                          (kPrimaryColor),
-                        ),
-                        shape:
-                        MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 50,
+                      width: 150,
+                      child: Row(
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              _navigateAndDisplaySelection(context);
+                              print("aUID====================" + aUID);
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => SeeAllArtist(),
+                              //   ),
+                              // );
+                            },
+                            child: const Text(
+                              'Hire Artist',
+                              style: TextStyle(
+                                  fontFamily: 'Comfortaa',
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                (kPrimaryColor),
+                              ),
+                              shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+
+                        ],
                       ),
                     ),
-                  ),
+                    SizedBox(
+                      height: 50,
+                      width: 150,
+                      child: Row(
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                            //  _navigateAndDisplaySelection(context);
+                              print("aUID====================" + aUID);
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => SeeAllArtist(),
+                              //   ),
+                              // );
+                            },
+                            child: const Text(
+                              'Upload Images',
+                              style: TextStyle(
+                                  fontFamily: 'Comfortaa',
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                (kPrimaryColor),
+                              ),
+                              shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 25,
