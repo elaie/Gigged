@@ -145,7 +145,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
               ),
               //bio
               Container(
-                height: 300,
+                height: 275,
                 child: Column(
                   children: [
                     Text(
@@ -163,36 +163,12 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                 height: 30,
               ),
               //instagrams ans youtubes
-              Positioned(
-                top: 213,
-                left: 130,
-                child: Container(
-                  height: 33,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: GestureDetector(
-                      onTap: () {},
-                      child: Image.asset('assets/images/instagram.png')),
-                ),
-              ),
-              Positioned(
-                top: 210,
-                left: 200,
-                child: Container(
-                  height: 40,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: GestureDetector(
-                      onTap: () {},
-                      child: Image.asset('assets/images/youtube.png')),
-                ),
-              ),
+
+
 
               //edit button
               Positioned(
-                top: 260,
+                top: 240,
                 child: ElevatedButton(
                   child: Text(
                     "Edit Profile",
@@ -225,7 +201,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
               ),
               //ratings
               Positioned(
-                top: 325,
+                top: 320,
                 child: Text(
                   "Ratings",
                   style: TextStyle(
