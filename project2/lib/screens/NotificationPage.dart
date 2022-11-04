@@ -61,99 +61,146 @@ class _NotificationPageState extends State<NotificationPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('Artist')
-            .doc(_auth.currentUser!.uid)
-            .collection("Events")
-            .snapshots(),
-        builder: (context, snapshots) {
-          return (snapshots.connectionState == ConnectionState.waiting)
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : ListView.separated(
-                  separatorBuilder: (context, index) {
-                    return Divider();
-                  },
-                  itemCount: snapshots.data!.docs.length,
-                  itemBuilder: (context, index) {
-                    var data = snapshots.data!.docs[index].data()
-                        as Map<String, dynamic>;
-                    data['ID'] = snapshots.data!.docs[index].id;
-                    print("data printing" + data['ID']);
-                    print(data);
-                    // getUID(data.toString());
-                    // DisplayUid;
-                    return GestureDetector(
-                        onTap: () {
-                          print("Tapped ");
+      body: SafeArea(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/main_top.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('Artist')
+                .doc(_auth.currentUser!.uid)
+                .collection("Events")
+                .snapshots(),
+            builder: (context, snapshots) {
+              return (snapshots.connectionState == ConnectionState.waiting)
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : ListView.builder(
+                      itemCount: snapshots.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        var data = snapshots.data!.docs[index].data()
+                            as Map<String, dynamic>;
+                        data['ID'] = snapshots.data!.docs[index].id;
+                        print("data printing" + data['ID']);
+                        print(data);
+                        // getUID(data.toString());
+                        // DisplayUid;
+                        return GestureDetector(
+                            onTap: () {
+                              print("Tapped ");
 
-                          print("nav pushed");
-                        },
+                              print("nav pushed");
+                            },
 
-                        //radius vairacha somehow
-                        child: Card(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Text(data['Event Name'].toString()),
-                              SizedBox(width: 200),
-                              (data['UPDATABLE']=='TRUE') ?
-                              Row(
-                                children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        FirebaseFirestore.instance
-                                            .collection("Events")
-                                            .doc(data['Venue UID'])
-                                            .collection('Events')
-                                            .doc(data['Event UID'])
-                                            .update({
-                                          'Artist Verification': "REJECT",
-                                        }).then((value) {
-                                          FirebaseFirestore.instance
-                                              .collection("Artist")
-                                              .doc(_auth.currentUser!.uid)
-                                              .collection('Events')
-                                              .doc(data['ID'])
-                                              .update({
-                                            'Artist Verification': "REJECT",
-                                            'UPDATABLE':'FALSE',
-                                          });
-                                        });
-                                      },
-                                      icon: Icon(Icons.crop_square_sharp)),
-                                  IconButton(
-                                      onPressed: () {
-                                        FirebaseFirestore.instance
-                                            .collection("Events")
-                                            .doc(data['Event UID'])
-                                            .update({
-                                          'Artist Verification': "ACCEPT",
-                                        }).then((value) {
-                                          FirebaseFirestore.instance
-                                              .collection("Artist")
-                                              .doc(_auth.currentUser!.uid)
-                                              .collection('Events')
-                                              .doc(data['ID'])
-                                              .update({
-                                            'Artist Verification': "ACCEPT",
-                                            'UPDATABLE':'FALSE',
-                                          });
-                                        });
-                                      },
-                                      icon: Icon(Icons.check)),
-                                ],
-                              ):Text(data['Artist Verification'])
-                            ],
-                          ),
-                        ));
-                  });
-        },
+                            //radius vairacha somehow
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.center,
+                                      height: 140,
+                                      child: Image.asset(
+                                          'assets/images/Gigged-1.png',
+                                          fit: BoxFit.fill),
+                                    ),
+
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                                  child: Container(
+                                    height: 70,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white60,
+                                        borderRadius: BorderRadius.circular(20)
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text(data['Event Name'].toString(),style: TextStyle(
+                                          fontFamily: 'Comfortaa',
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20.0,
+                                          color: kPrimaryDarkColor,),),
+                                        SizedBox(width: 200),
+                                        (data['UPDATABLE'] == 'TRUE')
+                                            ? Row(
+                                                children: [
+                                                  IconButton(
+                                                      onPressed: () {
+                                                        FirebaseFirestore.instance
+                                                            .collection("Events")
+                                                            .doc(data['Venue UID'])
+                                                            .collection('Events')
+                                                            .doc(data['Event UID'])
+                                                            .update({
+                                                          'Artist Verification':
+                                                              "REJECT",
+                                                        }).then((value) {
+                                                          FirebaseFirestore.instance
+                                                              .collection("Artist")
+                                                              .doc(_auth
+                                                                  .currentUser!.uid)
+                                                              .collection('Events')
+                                                              .doc(data['ID'])
+                                                              .update({
+                                                            'Artist Verification':
+                                                                "REJECT",
+                                                            'UPDATABLE': 'FALSE',
+                                                          });
+                                                        });
+                                                      },
+                                                      icon: Icon(
+                                                          Icons.close_outlined, color: kPrimaryDarkColor,)),
+                                                  IconButton(
+                                                      onPressed: () {
+                                                        FirebaseFirestore.instance
+                                                            .collection("Events")
+                                                            .doc(data['Event UID'])
+                                                            .update({
+                                                          'Artist Verification':
+                                                              "ACCEPT",
+                                                        }).then((value) {
+                                                          FirebaseFirestore.instance
+                                                              .collection("Artist")
+                                                              .doc(_auth
+                                                                  .currentUser!.uid)
+                                                              .collection('Events')
+                                                              .doc(data['ID'])
+                                                              .update({
+                                                            'Artist Verification':
+                                                                "ACCEPT",
+                                                            'UPDATABLE': 'FALSE',
+                                                          });
+                                                        });
+                                                      },
+                                                      icon: Icon(Icons.check, color: kPrimaryDarkColor,)),
+                                                ],
+                                              )
+                                            : Text(data['Artist Verification'],style: TextStyle(
+                                          color: kPrimaryDarkColor
+                                        ),)
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ));
+                      });
+            },
+          ),
+        ),
       ),
     );
   }

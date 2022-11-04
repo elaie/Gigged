@@ -211,10 +211,8 @@ class _MainPageState extends State<MainPage> {
                                                                   50),
                                                             ),
                                                           ),
-                                                          child: Image.network(
-                                                            snapshot.data!,
-                                                            fit: BoxFit.cover,
-                                                          ),
+                                                          child: Image.asset(
+                                                              'assets/images/Concert.png'),
                                                         ),
                                                         //username
                                                         SizedBox(
@@ -694,8 +692,11 @@ class _MainPageState extends State<MainPage> {
                                                           backgroundColor:
                                                               Colors
                                                                   .transparent,
-                                                          child: Image.asset(
-                                                              'assets/images/user.png'),
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.only(bottom: 20.0),
+                                                            child: Image.asset(
+                                                                'assets/images/Concert.png'),
+                                                          ),
                                                         ),
                                                       );
                                                     }
