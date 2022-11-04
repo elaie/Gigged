@@ -27,11 +27,15 @@ class _EventDiscriptionState extends State<EventDiscription> {
         .doc(widget.uid)
         .get(),
     builder: (_, snapshot) {
-      // if (snapshot.connectionState == ConnectionState.waiting) {
-      // return const Center(
-      // child: CircularProgressIndicator(),
-      //);
-      // }
+      if (snapshot.connectionState == ConnectionState.waiting) {
+      return const Center(
+      child: CircularProgressIndicator(),
+      );
+      }
+      else
+        {
+
+        }
       var data = snapshot.data!.data();
       var eventName = data!['Event Name'];
       print("UID IN EVENT===========" + widget.uid);
