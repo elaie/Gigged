@@ -475,9 +475,9 @@ class _CreateEventState extends State<CreateEvent> {
                           'Artist Verification': 'WAITING',
                           'UPDATABLE': 'TRUE',
                         }).then((value) => {
-                          String va = value
-                        storage.uploadFile(path, va).then(
-                        (value) => print("profile picture uploaded   FILENAME:" + path));
+                        //   String va = value
+                        // storage.uploadFile(path, va).then(
+                        // (value) => print("profile picture uploaded   FILENAME:" + path));
                         });
                       });
 

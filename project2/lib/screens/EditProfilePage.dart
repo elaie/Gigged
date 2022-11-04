@@ -65,23 +65,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     final Storage storage = Storage();
     final extractData ExtractData = extractData();
     final setBio = _database.child(ExtractData.getUserUID() + '/BIO/');
-    FutureBuilder(
-        future: storage.listFiles(),
-        builder: (BuildContext context,
-            AsyncSnapshot<firebase_storage.ListResult> snapshot) {
-          print(
-              "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData) {
-            return Container();
-          }
-          if (snapshot.connectionState == ConnectionState.waiting ||
-              !snapshot.hasData) {
-            return CircularProgressIndicator();
-          }
-          return Container();
-        });
-    child:
+
     FutureBuilder(
         future: storage.downloadURL("IMG_20221008_012520_386.jpg"),
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
