@@ -289,13 +289,13 @@ class _LoginPageState extends State<LoginPage> {
             });
           }).onError((error, stackTrace) {
             print('***********************does not Exist');
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => UserHomePage("accType")));
+            // Navigator.push(
+            //     context, MaterialPageRoute(builder: (context) => UserHomePage("accType")));
             // Navigator.of(context).pushReplacement(MaterialPageRoute(
             //   builder: (context) => const serviceDashboard()));
           });
         // .then((uid) => {
-        Fluttertoast.showToast(msg: "Login Successful");
+
         print(_auth.currentUser!.uid);
         print('#############################S');
 

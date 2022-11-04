@@ -6,7 +6,8 @@ import '../getData.dart';
 import 'constraints.dart';
 import 'package:date_format/date_format.dart';
 import 'package:intl/intl.dart';
-
+import 'package:file_picker/file_picker.dart';
+import '../storage_services.dart';
 class CreateEvent extends StatefulWidget {
   const CreateEvent({Key? key}) : super(key: key);
 
@@ -15,6 +16,7 @@ class CreateEvent extends StatefulWidget {
 }
 
 class _CreateEventState extends State<CreateEvent> {
+
   double _height = 0.0;
   String val1='';
   String val2='';
@@ -26,11 +28,12 @@ class _CreateEventState extends State<CreateEvent> {
   String _minute = '';
   String dateTime = '';
   String _time = '';
+  String path = '';
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
   TextEditingController _dateController = TextEditingController();
   TextEditingController _timeController = TextEditingController();
-
+  final Storage storage = Storage();
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -175,15 +178,31 @@ class _CreateEventState extends State<CreateEvent> {
                       child: Row(
                         children: [
                           ElevatedButton(
-                            onPressed: () {
-                            //  _navigateAndDisplaySelection(context);
-                              print("aUID====================" + aUID);
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => SeeAllArtist(),
-                              //   ),
-                              // );
+                            onPressed: () async {
+                              print('image pressed');
+                              final results = await FilePicker.platform.pickFiles(
+                                allowMultiple: false,
+                                type: FileType.custom,
+                                allowedExtensions: ['png', 'jpg'],
+                              );
+                              if (results == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("No File Selected"),
+                                  ),
+                                );
+                                return null;
+                              }
+
+                              path = results.files.single.path!;
+                              //final fileName = results.files.single.name;
+
+
+
+                              print("PATH" + path);
+                              print("FILENAME: " + ExtractData.getUserEmail());
+
+
                             },
                             child: const Text(
                               'Upload Images',
@@ -425,6 +444,7 @@ class _CreateEventState extends State<CreateEvent> {
                   width: 150,
                   child: ElevatedButton(
                     onPressed: () {
+
                       Map<String, String> dataToSave = {
                         'Venue UID': ExtractData.getUserUID().toString(),
                         'Event Name': _eventNameTextController.text,
@@ -454,6 +474,10 @@ class _CreateEventState extends State<CreateEvent> {
                           'Venue UID': ExtractData.getUserUID().toString(),
                           'Artist Verification': 'WAITING',
                           'UPDATABLE': 'TRUE',
+                        }).then((value) => {
+                        //   String va = value
+                        // storage.uploadFile(path, va).then(
+                        // (value) => print("profile picture uploaded   FILENAME:" + path));
                         });
                       });
 
