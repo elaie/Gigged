@@ -40,7 +40,6 @@ class _SeeAllArtistState extends State<SeeAllArtist> {
     print(allData);
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -58,9 +57,7 @@ class _SeeAllArtistState extends State<SeeAllArtist> {
   }
 
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('Artist').snapshots(),
         builder: (context, snapshots) {
@@ -68,10 +65,8 @@ class _SeeAllArtistState extends State<SeeAllArtist> {
               ? Center(
                   child: CircularProgressIndicator(),
                 )
-              : ListView.separated(
-                  separatorBuilder: (context, index) {
-                    return Divider();
-                  },
+              : ListView.builder(
+
                   itemCount: snapshots.data!.docs.length,
                   itemBuilder: (context, index) {
                     var data = snapshots.data!.docs[index].data()
@@ -92,43 +87,63 @@ class _SeeAllArtistState extends State<SeeAllArtist> {
                         },
 
                         //radius vairacha somehow
-                        child: Card(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              FutureBuilder(
-                                  future: storage
-                                      .downloadURL(data['UID'].toString()),
-                                  builder: (BuildContext context,
-                                      AsyncSnapshot<String> snapshot) {
-                                    // print(
-                                    // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
-                                    //extractData().getUserUID();
-                                    print(
-                                        "IMG================================");
-                                    if (snapshot.connectionState ==
-                                            ConnectionState.done &&
-                                        snapshot.hasData) {
-                                      print(
-                                          "IMG================================");
-                                      return CircleAvatar(
-                                          radius: 40,
-                                          backgroundImage: NetworkImage(
-                                            snapshot.data!,
-                                          ));
-                                    } else {
-                                      return CircleAvatar(
-                                        radius: 40,
-                                        child: Image.asset(
-                                            'assets/images/profile2.webp'),
-                                      );
-                                    }
-                                  }),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Text(data['Name'].toString()),
-                            ],
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10),
+                          child: Container(
+                            height: 100,
+                            decoration: BoxDecoration(
+                              color: kPrimaryLightColor,
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                FutureBuilder(
+                                    future:
+                                        storage.downloadURL(data['UID'].toString()),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<String> snapshot) {
+                                      // print(
+                                      // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+                                      //extractData().getUserUID();
+                                      print("IMG================================");
+                                      if (snapshot.connectionState ==
+                                              ConnectionState.done &&
+                                          snapshot.hasData) {
+                                        print(
+                                            "IMG================================");
+                                        return Padding(
+                                          padding: const EdgeInsets.only(left: 20.0),
+                                          child: CircleAvatar(
+                                              radius: 40,
+                                              backgroundImage: NetworkImage(
+                                                snapshot.data!,
+                                              )),
+                                        );
+                                      } else {
+                                        return Padding(
+                                          padding: const EdgeInsets.only(left: 20.0),
+                                          child: CircleAvatar(
+                                            radius: 40,
+                                            child:Image.asset (
+                                                'assets/images/user.png',),
+                                            backgroundColor: Colors.transparent,
+                                          ),
+                                        );
+                                      }
+                                    }),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Text(
+                                  data['Name'].toString(),
+                                  style: TextStyle(
+                                    fontFamily: 'Comfortaa',
+                                    color: kPrimaryDarkColor
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ));
                   });
@@ -136,6 +151,7 @@ class _SeeAllArtistState extends State<SeeAllArtist> {
       ),
     );
   }
+
   String getUID(String uid) {
     String result = "";
     String displayName = "";
