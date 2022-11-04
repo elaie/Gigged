@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:project2/screens/EditProfilePage.dart';
+import 'package:project2/screens/VenuePrivatePage.dart';
 import 'package:project2/screens/constraints.dart';
 import 'package:project2/screens/welcome_screen.dart';
 import '../storage_services.dart';
@@ -34,6 +35,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
   }
 
   void activateListeners() {
+    print("LISTENER UID ARTIST: "+ExtractData.getUserUID());
     _userBio = _database
         .child(ExtractData.getUserUID() + "/BIO/Bio")
         .onValue
@@ -369,6 +371,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
 
   @override
   void deactivate() {
+    print("LISTENER UID ARTiST PROFILE DEACTIVATED");
     _userBio.cancel();
     super.deactivate();
   }

@@ -20,7 +20,7 @@ class _MessagePageState extends State<MessagePage> {
           text: TextSpan(
             children: [
               TextSpan(
-                text: '*username here*',
+                text: '*username*',
                 style: TextStyle(fontSize: 16, fontFamily: 'Comfortaa'),
               ),
               TextSpan(text: '\n'),
@@ -62,7 +62,7 @@ class _MessagePageState extends State<MessagePage> {
                             ],
                           ),
                           child: Text(
-                              'hi! bla bla bla lbla bla bla bla bla bla bla bla'),
+                              'hi there!'),
                         ),
                       ),
                       Row(
@@ -133,7 +133,7 @@ class _MessagePageState extends State<MessagePage> {
                             ],
                           ),
                           child: Text(
-                            'hi! chup lag',
+                            'hello how are you?',
                             style: TextStyle(
                               color: Colors.white,
                             ),
@@ -187,9 +187,9 @@ class _MessagePageState extends State<MessagePage> {
                       ),
                     ],
                   ),
-                  Container(
-                    child: Text('*aru messages haru halna parcha*'),
-                  ),
+                  //Container(
+                    //child: Text('*aru messages haru halna parcha*'),
+                  //),
                 ],
               ),
             ),
@@ -220,18 +220,21 @@ _sendMessageArea() {
 
     child: Row(
       children: <Widget>[
-        IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.photo),
-          iconSize: 25,
-          color: kPrimaryColor,
-        ),
+       // IconButton(
+         // onPressed: () {},
+          //icon: Icon(Icons.photo),
+          //iconSize: 25,
+          //color: kPrimaryColor,
+        //),
         Expanded(
-          child: TextField(
-            decoration: InputDecoration.collapsed(
-              hintText: 'Send a message..',
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: TextField(
+              decoration: InputDecoration.collapsed(
+                hintText: 'Send a message..',
+              ),
+              textCapitalization: TextCapitalization.sentences,
             ),
-            textCapitalization: TextCapitalization.sentences,
           ),
         ),
         IconButton(

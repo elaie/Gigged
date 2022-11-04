@@ -1,44 +1,160 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:project2/screens/ArtistProfilePage.dart';
 import 'package:project2/screens/MainPage.dart';
 import 'package:project2/screens/MapPage.dart';
+import 'package:project2/screens/VenueMapPage.dart';
 import 'package:project2/screens/VenuePrivatePage.dart';
 import 'package:project2/screens/VenuePublicPage.dart';
 import 'package:project2/screens/SearchPage.dart';
 import 'package:project2/screens/UserProfilePage.dart';
 import 'package:project2/screens/constraints.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../storage_services.dart';
+import '../getData.dart';
+import '../local_data.dart';
+import 'dummyProfile.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
+class VenueHomePage extends StatefulWidget {
+  //const HomePage({Key? key}) : super(key: key);
+  final accType;
+  String mainAccType = "Venue";
+  VenueHomePage(this.accType);
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<VenueHomePage> createState() => _VenueHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _VenueHomePageState extends State<VenueHomePage> {
+  final _database = FirebaseDatabase.instance.reference();
+  late StreamSubscription _userBio;
+  String accTypeMain="";
+  final Storage storage = Storage();
+  final extractData ExtractData = extractData();
+  final local_data Local_data = local_data();
+
   var _selectedIndex = 0;
   var _screens = [];
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  /* static const List<Widget> _widgetOptions = <Widget>[
     MainPage(),
     MapPage(),
     SearchPage(),
+<<<<<<< HEAD
+   // ArtistProfilePage(),
+    DummyProfile(widget.accType),
+=======
     ArtistProfilePage(),
     //VenuePrivatePage(),
+>>>>>>> 77cbbcf3dae167874aab4ca3b21fdc3bcebbdb68
     //ProfilePage(widget.userName),
-  ];
+  ];*/
 
   void _onItemTapped(int index) {
     setState(() {
+      print("INDEX VALUE "+index.toString());
+
+      // if ((widget.accType
+      //     == 'Venue')&&index==3) {
+      //   print("THIS IS VENUE");
+      //   _selectedIndex=index+1;
+      //   print("SELECTED INDEX ON TAP"+_selectedIndex.toString());
+      // }
+      // else
       _selectedIndex = index;
+      print("SELECTED INDEX ON TAP"+_selectedIndex.toString());
     });
   }
 
   @override
+  void initState() {
+    super.initState();
+    print("INIT STATE FOR HOMEPAGE");
+    activateListner();
+    // print("THIS IS ACC TYPE======================="+widget.accType);
+    // print(FirebaseAuth.instance.currentUser?.uid.toString());
+    // FirebaseFirestore.instance.collection("Venue")
+    //     .doc(FirebaseAuth.instance.currentUser?.uid.toString()).get()
+    //     .then((value) {
+    //   if (value.exists){
+    //     print("IF INIT==============");
+    //     widget.mainAccType="Venue";
+    //     print("WIDGET TYPE================="+widget.mainAccType);
+    //     (widget.mainAccType== 'Venue')?print("VENUE HO"):print("ARTIST HO");
+    //   }
+    //   else{
+    //     print("ELSE INIT");
+    //   }
+    //
+    // });
+    //checkAccountType();
+
+    //widget.userName use gana ko lagi initialize garna parcha paila
+    print("INIT IN HOME PAGE SCREEN");
+    _screens = [
+      MainPage(),
+      VenueMapPage(),
+      SearchPage(),
+      //DummyProfile(widget.accType),
+      //widget.test
+      //(accTypeMain == "Venue")?VenuePrivatePage():ArtistProfilePage(),
+      VenuePrivatePage(),
+      // UserProfilePage(),
+    ];
+  }
+  void activateListner(){
+    setState(() {
+      print("LISTENER UID in HOMEPAGE: " + ExtractData.getUserUID());
+      print(ExtractData.getUserUID().toString());
+      FirebaseFirestore.instance.collection("Venue")
+          .doc(FirebaseAuth.instance.currentUser?.uid.toString()).get()
+          .then((value) {
+        if (value.exists){
+          print("IF INIT==============");
+          widget.mainAccType="Venue";
+          print("WIDGET TYPE================="+widget.mainAccType);
+          (widget.mainAccType== 'Venue')?print("VENUE HO"):print("ARTIST HO");
+        }
+        else{
+          print("ELSE INIT IN HOMEPAGE");
+        }
+
+      });
+      _userBio = _database
+          .child(extractData().getUserUID() + "/Account Type")
+          .onValue
+          .listen((event) {
+        final String description = event.snapshot.value.toString();
+        //print("LISTENER UID: " + ExtractData.getUserUID());
+        print("LISTENER FOR ACC TYPE in HOMEPAGE: " + description);
+        setState(() {
+          accTypeMain = '$description';
+        });
+      });
+    });
+
+  }
+  Future<void> checkAccountType() async {
+    final prefs = await SharedPreferences.getInstance();
+    final account = prefs.getString(widget.accType);
+    print("Checkacctype Init");
+    print("ACC TYPE"+widget.accType);
+    print("Selectedindex"+_selectedIndex.toString());
+    setState(() {
+      if ((widget.accType
+          == 'Venue')&&_selectedIndex==3) {
+        print("THIS IS VENUE");
+        _selectedIndex=_selectedIndex+1;
+      }
+    });
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: _screens[_selectedIndex],
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(

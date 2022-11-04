@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project2/main.dart';
-import 'package:project2/screens/Homepage.dart';
+import 'package:project2/screens/ArtistHomepage.dart';
 import 'package:project2/screens/Signup.dart';
+import 'package:project2/screens/UserHomePage.dart';
+import 'package:project2/screens/VenueHomePage.dart';
 import 'package:project2/screens/constraints.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -19,6 +23,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   var _formKey = GlobalKey<FormState>();
+  final _auth = FirebaseAuth.instance;
   bool _isPasswordHidden = true;
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
@@ -153,7 +158,9 @@ class _LoginPageState extends State<LoginPage> {
         width: 200,
         height: 50,
         child: ElevatedButton(
-          onPressed: signIn,
+          onPressed: (){
+            signIn(_emailTextController.text,_passwordTextController.text);
+          },
           child: const Text(
             'Login',
             style:
@@ -208,7 +215,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future signIn() async {
+  Future signIn2() async {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -226,5 +233,102 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
     Navigator.of(context).pop();
+  }
+  void signIn(String email, String password) async {
+    print("SIGN IN INIT");
+    if (_formKey.currentState!.validate()) {
+      try {
+        await _auth
+            .signInWithEmailAndPassword(email: email, password: password)
+            .then((value) {
+          print("**************LOGIN SUCESS");
+          FirebaseFirestore.instance
+              .collection('User')
+              .doc(_auth.currentUser!.uid)
+              .get()
+              .then((uid) {
+                print("UID CHECK IN FIRST==============="+uid.toString());
+            if (uid.exists) {
+              print('***********************USER Exist');
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => UserHomePage("accType")));
+              // Navigator.of(context).pushReplacement(
+              //  MaterialPageRoute(builder: (context) => const dashboard()));
+            } else {
+              FirebaseFirestore.instance
+                  .collection('Artist')
+                  .doc(_auth.currentUser!.uid)
+                  .get()
+                  .then((uid) {
+                if (uid.exists) {
+                  print('***********************ARTIST Exist');
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) =>
+                          ArtistHomePage("accType")));
+                  // Navigator.of(context).pushReplacement(
+                  //  MaterialPageRoute(builder: (context) => const dashboard()));
+                }
+                else {
+                  print('***********************VENUE Exist');
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) =>
+                      VenueHomePage("accType")));
+                }
+              }).onError((error, stackTrace) {
+                print('***********************does not Exist');
+                // Navigator.push(
+                //     context, MaterialPageRoute(builder: (context) => UserHomePage("accType")));
+                // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                //   builder: (context) => const serviceDashboard()));
+              });
+              }
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => ArtistHomePage("accType")));
+              //Navigator.of(context).pushReplacement(MaterialPageRoute(
+              //   builder: (context) => const serviceDashboard()));
+            });
+          }).onError((error, stackTrace) {
+            print('***********************does not Exist');
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => UserHomePage("accType")));
+            // Navigator.of(context).pushReplacement(MaterialPageRoute(
+            //   builder: (context) => const serviceDashboard()));
+          });
+        // .then((uid) => {
+        Fluttertoast.showToast(msg: "Login Successful");
+        print(_auth.currentUser!.uid);
+        print('#############################S');
+
+        //if(_auth.currentUser!.uid)
+
+      } on FirebaseAuthException catch (error) {
+        var errorMessage;
+        switch (error.code) {
+          case "invalid-email":
+            errorMessage = "Your email address appears to be malformed.";
+
+            break;
+          case "wrong-password":
+            errorMessage = "Your password is wrong.";
+            break;
+          case "user-not-found":
+            errorMessage = "User with this email doesn't exist.";
+            break;
+          case "user-disabled":
+            errorMessage = "User with this email has been disabled.";
+            break;
+          case "too-many-requests":
+            errorMessage = "Too many requests";
+            break;
+          case "operation-not-allowed":
+            errorMessage = "Signing in with Email and Password is not enabled.";
+            break;
+          default:
+            errorMessage = "An undefined Error happened.";
+        }
+        Fluttertoast.showToast(msg: errorMessage!);
+        print(error.code);
+      }
+    }
   }
 }

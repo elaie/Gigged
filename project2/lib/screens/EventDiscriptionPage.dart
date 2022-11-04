@@ -1,19 +1,50 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project2/screens/BookingOrReg.dart';
+import 'package:project2/screens/PublicArtistProfile.dart';
 import 'package:project2/screens/constraints.dart';
-
+import '../storage_services.dart';
 class EventDiscription extends StatefulWidget {
-  const EventDiscription({Key? key}) : super(key: key);
+  final uid;
+
+  EventDiscription(this.uid);
+
+  //const EventDiscription({Key? key}) : super(key: key);
 
   @override
   State<EventDiscription> createState() => _EventDiscriptionState();
 }
 
 class _EventDiscriptionState extends State<EventDiscription> {
+  final Storage storage = Storage();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+        body: SingleChildScrollView(
+        child: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        future: FirebaseFirestore.instance
+        .collection('Events')
+        .doc(widget.uid)
+        .get(),
+    builder: (_, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+      return const Center(
+      child: CircularProgressIndicator(),
+      );
+      }
+      else
+        {
+
+        }
+      var data = snapshot.data!.data();
+      var eventName = data!['Event Name'];
+      print("UID IN EVENT===========" + widget.uid);
+      var eventDescription = data['Event Description'].toString();
+      var specialAttraction = data['Special Attraction'];
+      var venueDescription = data['Venue Description'].toString();
+      var eventType = data['Event Type'].toString();
+      var artistUID = data['Artist UID'].toString();
+      return SafeArea(
         child: Container(
           padding: EdgeInsets.only(top: 30, left: 20, right: 20),
           decoration: const BoxDecoration(
@@ -28,7 +59,7 @@ class _EventDiscriptionState extends State<EventDiscription> {
               //Event name
               Center(
                 child: Text(
-                  'EVENT NAME',
+                  eventName,
                   style: TextStyle(
                     fontSize: 30,
                     fontFamily: 'Comfortaa',
@@ -53,7 +84,7 @@ class _EventDiscriptionState extends State<EventDiscription> {
                 height: 10,
               ),
               Text(
-                '*write about event here. just very long discription. explain about how great the event is. why are you hosting this event. i am just making this long ignore me*',
+                eventDescription,
                 style: TextStyle(
                   fontSize: 15,
                   fontFamily: 'Comfortaa',
@@ -76,7 +107,7 @@ class _EventDiscriptionState extends State<EventDiscription> {
                 height: 10,
               ),
               Text(
-                '*write about event here. just very long discription. explain about how great the event is. why are you hosting this event. i am just making this long ignore me*',
+                eventDescription,
                 style: TextStyle(
                   fontSize: 15,
                   fontFamily: 'Comfortaa',
@@ -119,6 +150,44 @@ class _EventDiscriptionState extends State<EventDiscription> {
                   ],
                 ),
               ),
+
+              SizedBox(height: 20,),
+              //artist disc
+              Text(
+                'Who is performing',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontFamily: 'Comfortaa',
+                  color: kPrimaryColor,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              PublicArtistProfile(artistUID)));
+                },
+                child: FutureBuilder(
+                    future: storage.downloadURL(artistUID),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<String> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done &&
+                          snapshot.hasData) {
+                        return CircleAvatar(
+                            radius: 70,
+                            backgroundImage: NetworkImage(
+                              snapshot.data!,
+                            ));
+                      }
+                      return Container();
+                    }),
+              ),
+
               SizedBox(height: 30,),
               Text(
                 'Special Attractions',
@@ -132,7 +201,7 @@ class _EventDiscriptionState extends State<EventDiscription> {
                 height: 10,
               ),
               Text(
-                '*write about event here. just very long discription. explain about how great the event is. why are you hosting this event. i am just making this long ignore me*',
+                specialAttraction,
                 style: TextStyle(
                   fontSize: 15,
                   fontFamily: 'Comfortaa',
@@ -171,7 +240,10 @@ class _EventDiscriptionState extends State<EventDiscription> {
             ],
           ),
         ),
-      ),
+      );
+    }
+    ),
+    ),
     );
+    }
   }
-}

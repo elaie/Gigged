@@ -1,33 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:project2/screens/EventDiscriptionPage.dart';
 import 'package:project2/screens/PublicArtistProfile.dart';
 import '../storage_services.dart';
 import 'package:project2/getData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../artistCollection.dart';
 import 'package:firebase_database/firebase_database.dart';
-import '../storage_services.dart';
 import '../local_data.dart';
 import 'dart:async';
-import 'MessagePage.dart';
-import 'constraints.dart';
 
-class SeeAllPageEvent extends StatefulWidget {
-  const SeeAllPageEvent({Key? key}) : super(key: key);
+class hireArtist extends StatefulWidget {
+  const hireArtist({Key? key}) : super(key: key);
 
   @override
-  State<SeeAllPageEvent> createState() => _SeeAllPageEvent();
+  State<hireArtist> createState() => _hireArtistState();
 }
 
-class _SeeAllPageEvent extends State<SeeAllPageEvent> {
+class _hireArtistState extends State<hireArtist> {
   CollectionReference _collectionRef =
   FirebaseFirestore.instance.collection('collection');
   final Storage storage = Storage();
   final extractData ExtractData = extractData();
   final local_data Local_data = local_data();
   DatabaseReference database = FirebaseDatabase.instance.ref();
-  String DisplayUid = " ";
+  String DisplayUid = "a";
   late StreamSubscription _userName;
 
   Future<void> getData() async {
@@ -46,12 +40,23 @@ class _SeeAllPageEvent extends State<SeeAllPageEvent> {
     super.initState();
     //activateListeners();
   }
+
+  void activateListeners(String result) {
+    _userName = database.child(result + "/Name/Name").onValue.listen((event) {
+      final String description1 = event.snapshot.value.toString();
+      print("LISTENER: " + description1);
+      setState(() {
+        DisplayUid = '$description1';
+      });
+    });
+  }
+
   Widget build(BuildContext context) {
 
     return Scaffold(
 
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('Events').snapshots(),
+        stream: FirebaseFirestore.instance.collection('Artist').snapshots(),
         builder: (context, snapshots) {
           return (snapshots.connectionState == ConnectionState.waiting)
               ? Center(
@@ -65,7 +70,6 @@ class _SeeAllPageEvent extends State<SeeAllPageEvent> {
               itemBuilder: (context, index) {
                 var data = snapshots.data!.docs[index].data()
                 as Map<String, dynamic>;
-                data['ID']=snapshots.data!.docs[index].id.toString();
                 print("data printing");
                 print(data);
                 getUID(data.toString());
@@ -73,17 +77,13 @@ class _SeeAllPageEvent extends State<SeeAllPageEvent> {
                 return GestureDetector(
                     onTap: () {
                       print("Tapped ");
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => EventDiscription(
-                                  data['ID'].toString())));
+                      Navigator.pop(context, data['UID'].toString());
                       print("nav pushed");
                     },
 
                     //radius vairacha somehow
                     child: Card(
-                      child: (data['Artist Verification']=='ACCEPT')?Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           FutureBuilder(
@@ -117,9 +117,9 @@ class _SeeAllPageEvent extends State<SeeAllPageEvent> {
                           SizedBox(
                             width: 20,
                           ),
-                          Text(data['Event Name'].toString()),
+                          Text(data['Name'].toString()),
                         ],
-                      ): Container(),
+                      ),
                     ));
               });
         },
