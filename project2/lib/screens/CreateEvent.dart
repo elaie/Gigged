@@ -29,6 +29,7 @@ class _CreateEventState extends State<CreateEvent> {
   String dateTime = '';
   String _time = '';
   String path = '';
+  String photoPath = '';
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
   TextEditingController _dateController = TextEditingController();
@@ -75,15 +76,12 @@ class _CreateEventState extends State<CreateEvent> {
     );
 
     aUID = '$result';
-    ScaffoldMessenger.of(context)
-      ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text('$result')));
     print("UID FROM ANOTHER PAGE" + aUID);
   }
 
   final extractData ExtractData = extractData();
 
-  String eventType = "0";
+  String eventType = "Free";
   TextEditingController _eventNameTextController = TextEditingController();
   TextEditingController _DescriptionTextController = TextEditingController();
   TextEditingController _venueDescriptionTextController =
@@ -198,7 +196,7 @@ class _CreateEventState extends State<CreateEvent> {
                               //final fileName = results.files.single.name;
 
 
-
+                              photoPath=(aUID+_dateController.text.toString());
                               print("PATH" + path);
                               print("FILENAME: " + ExtractData.getUserEmail());
 
@@ -234,35 +232,35 @@ class _CreateEventState extends State<CreateEvent> {
                 Center(
                   child: Row(
                     children: [
-                      Text(
-                        "Is this a free event?",
-                        style: TextStyle(
-                            fontFamily: 'Comfortaa',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: kPrimaryColor),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      ToggleSwitch(
-                        initialLabelIndex: 0,
-                        totalSwitches: 2,
-                        cornerRadius: 30,
-                        activeBgColor: [kPrimaryColor],
-                        inactiveBgColor: kPrimaryLightColor,
-                        labels: [
-                          'Yes',
-                          'No',
-                        ],
-                        onToggle: (index) {
-                          if (index == 0) {
-                            eventType = "Yes";
-                          } else
-                            eventType = "No";
-                          print('switched to: $index');
-                        },
-                      ),
+                      // Text(
+                      //   "Is this a free event?",
+                      //   style: TextStyle(
+                      //       fontFamily: 'Comfortaa',
+                      //       fontWeight: FontWeight.bold,
+                      //       fontSize: 15,
+                      //       color: kPrimaryColor),
+                      // ),
+                      // SizedBox(
+                      //   width: 20,
+                      // ),
+                      // ToggleSwitch(
+                      //   initialLabelIndex: 0,
+                      //   totalSwitches: 2,
+                      //   cornerRadius: 30,
+                      //   activeBgColor: [kPrimaryColor],
+                      //   inactiveBgColor: kPrimaryLightColor,
+                      //   labels: [
+                      //     'Yes',
+                      //     'No',
+                      //   ],
+                      //   onToggle: (index) {
+                      //     if (index == 0) {
+                      //       eventType = "Free";
+                      //     } else
+                      //       eventType = "Paid";
+                      //     print('switched to: $index');
+                      //   },
+                      // ),
                     ],
                   ),
                 ),
@@ -455,6 +453,7 @@ class _CreateEventState extends State<CreateEvent> {
                         'Event Type': eventType,
                         'Artist UID': aUID,
                         'Artist Verification': 'WAITING',
+                        'Photo URL': photoPath,
                       };
                       FirebaseFirestore.instance
                           .collection("Events")
@@ -475,11 +474,11 @@ class _CreateEventState extends State<CreateEvent> {
                           'Artist Verification': 'WAITING',
                           'UPDATABLE': 'TRUE',
                         }).then((value) => {
-                        //   String va = value
-                        // storage.uploadFile(path, va).then(
-                        // (value) => print("profile picture uploaded   FILENAME:" + path));
+                        storage.uploadFile(path, photoPath).then(
+                        (value) => print("profile picture uploaded   FILENAME:" + path)),
                         });
-                      });
+
+                        });
 
                       //SEND NOTIFICATION TO USER
                       Navigator.pop(context);

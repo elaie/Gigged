@@ -24,30 +24,6 @@ class _VenuMapPageState extends State<VenueMapPage> {
 
   //list of markers
   final Set<Marker> markers = new Set();
-  List<Object> _ListM = [];
-  void addMarkerMap()
-  {
-    markers.add(Marker( //add first marker
-      markerId: MarkerId("showLocation.toString()"),
-      position: LatLng(27.7099116, 85.3132343), //position of marker
-      infoWindow: InfoWindow( //popup info
-        title: 'My Custom Title ',
-        snippet: 'My Custom Subtitle',
-      ),
-      icon: BitmapDescriptor.defaultMarker, //Icon for Marker
-    ));
-
-    markers.add(Marker( //add second marker
-      markerId: MarkerId("showLocation.toString()"),
-      position: LatLng(27.7099116, 85.3132343), //position of marker
-      infoWindow: InfoWindow( //popup info
-        title: 'My Custom Title ',
-        snippet: 'My Custom Subtitle',
-      ),
-      icon: BitmapDescriptor.defaultMarker, //Icon for Marker
-    ));
-
-  }
   final Storage storage = Storage();
   Set<Marker> markersList = {};
   double Lat = 0;
@@ -55,13 +31,12 @@ class _VenuMapPageState extends State<VenueMapPage> {
   late GoogleMapController googleMapController;
   final Mode _mode = Mode.overlay;
   static const CameraPosition initialCameraPosition = CameraPosition(
-      target: LatLng(37.42796133580664, -122.085749655962), zoom: 100);
+      target: LatLng(27.6720636, 85.3402312), zoom: 100);
   //Set<Marker> markers = {};
 
   @override
   void initState() {
-    //addMarkerMap();
-    //getMarkerFromDb();
+    getMarkerData();
     activateListner();
     super.initState();
   }
@@ -72,6 +47,7 @@ class _VenuMapPageState extends State<VenueMapPage> {
         CameraPosition(
             target: LatLng(position.latitude, position.longitude), zoom: 14)));
     //markersList.clear();
+    //markerss[0]=marker;
     markers.add(Marker(
         markerId: const MarkerId('currentLocation'),
         position: LatLng(position.latitude, position.longitude),
@@ -83,64 +59,32 @@ class _VenuMapPageState extends State<VenueMapPage> {
 
     setState(() {});
   }
-Future getMarkerFromDb() async {
-    var data = await FirebaseFirestore.instance
-        .collection("Venue")
-        .doc()
-        .get();
-    print("DATA FROM GETMARKERDB"+data.data().toString());
-
-    // setState(() {
-    //   _ListM = List.from(data.map((doc)=>User.fromSnapShot(doc)));
-    // });
-
-
-}
-  Set<Marker> getmarkers() {
+Map<MarkerId, Marker> markerss =<MarkerId,Marker> {};
+  void initMarker(specify, specifyID) async {
+    var markerIdVal = specifyID;
+    final MarkerId markerId = MarkerId(markerIdVal);
+    final Marker marker = Marker(markerId: markerId,
+    position: LatLng(specify['Latitude'], specify['Longitude']),
+    infoWindow: InfoWindow(title: specify['Name'],)
+    );
     setState(() {
-
-      markers.add(Marker( //add first marker
-        markerId: MarkerId("1"),
-        position: LatLng(37.42796133580664, -122.085749655962), //position of marker
-        infoWindow: InfoWindow( //popup info
-          title: 'Marker Title First ',
-          snippet: 'My Custom Subtitle',
-        ),
-        icon: BitmapDescriptor.defaultMarker, //Icon for Marker
-      ));
-
-      markers.add(Marker( //add second marker
-        markerId: MarkerId("2"),
-        position: LatLng(57.42796133580664, -126.085749655962), //position of marker
-        infoWindow: InfoWindow( //popup info
-          title: 'Marker Title Second ',
-          snippet: 'My Custom Subtitle',
-        ),
-        icon: BitmapDescriptor.defaultMarker, //Icon for Marker
-      ));
-
-      markers.add(Marker( //add third marker
-        markerId: MarkerId("3"),
-        position: LatLng(57.7137735, -85.315626), //position of marker
-        infoWindow: InfoWindow( //popup info
-          title: 'Marker Title Third ',
-          snippet: 'My Custom Subtitle',
-        ),
-        icon: BitmapDescriptor.defaultMarker, //Icon for Marker
-      ));
-
-      //add more markers here
+              markerss[markerId]=marker;
     });
 
-    return markers;
   }
-
-
+  Future getMarkerData() async {
+   FirebaseFirestore.instance.collection("Venue").get().then((value){
+        if(value.docs.isNotEmpty){
+          for(int i=0;i<value.docs.length;i++){
+            print("PRINTING DATA");
+            initMarker(value.docs[i].data(), value.docs[i].id);
+          }
+        }
+   });
+  }
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       key: homeScaffoldKey,
       appBar: AppBar(
         title: const Text("Google Search Places"),
@@ -150,7 +94,7 @@ Future getMarkerFromDb() async {
         children: [
           GoogleMap(
             initialCameraPosition: initialCameraPosition,
-            markers: getmarkers(),
+            markers: Set<Marker>.of(markerss.values),
             mapType: MapType.normal,
             onMapCreated: (GoogleMapController controller) {
               googleMapController = controller;
@@ -159,28 +103,6 @@ Future getMarkerFromDb() async {
           ElevatedButton(
               onPressed: _handlePressButton,
               child: const Text("Search Places")),
-        FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-            future: FirebaseFirestore.instance
-                .collection('Events')
-                .doc()
-                .get(),
-            builder: (_, snapshot) {
-              // if (snapshot.connectionState == ConnectionState.waiting) {
-              // return const Center(
-              // child: CircularProgressIndicator(),
-              //);
-              // }
-              // var data = snapshot.data!.data();
-              // var eventName = data!['Event Name'];
-              // //print("UID IN EVENT===========" + );
-              // var eventDescription = data['Event Description'].toString();
-              // var specialAttraction = data['Special Attraction'];
-              // var venueDescription = data['Venue Description'].toString();
-              // var eventType = data['Event Type'].toString();
-              // var artistUID = data['Artist UID'].toString();
-              return Container();
-            }
-              )
 
         ],
       ),
@@ -189,17 +111,17 @@ Future getMarkerFromDb() async {
           final uid = extractData().getUserUID();
           final docUser = FirebaseFirestore.instance.collection('Venue').doc(uid);
           docUser.update(
-            {
+              {
 
-            }
+              }
           );
           Position position = await _determinePosition();
           Lat=position.latitude;
           Long=position.longitude;
           docUser.update(
               {
-                  "Latitude":Lat,
-                  "Longitude":Long
+                "Latitude":Lat,
+                "Longitude":Long
               }
           );
           // googleMapController.animateCamera(CameraUpdate.newCameraPosition(

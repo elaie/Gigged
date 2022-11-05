@@ -127,9 +127,6 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
 
           storage.uploadFile(path, ExtractData.getUserUID()).then(
               (value) => print("profile picture uploaded   FILENAME:" + path));
-
-          print("PATH" + path);
-          print("FILENAME: " + ExtractData.getUserEmail());
         },
         // TO INITIALIZE THE PROFILE PICTURE
         child: FutureBuilder(
@@ -142,14 +139,38 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
                   snapshot.hasData) {
                 print("CONNECTION STATE IS STABLE");
                 return Container(
-                    width: 300,
-                    height: 250,
-                    child: Image.network(snapshot.data!, fit: BoxFit.cover));
+                  padding: EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(100),
+                    ),
+                    //for circle outline on pp
+                    border: Border.all(
+                      width: 3,
+                      color: kPrimaryColor,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                      ),
+                    ],
+                  ),
+                  child: CircleAvatar(
+                    radius: 70,
+                    backgroundImage: NetworkImage(snapshot.data!),
+                    //child: Image.network(snapshot.data!, fit: BoxFit.cover)
+                  ),
+                );
               }
               print("CONNECTION STATE IS UN-STABLE");
-              return Container();
+              return CircleAvatar(
+                radius: 50,
+                backgroundColor: Colors.transparent,
+                child: Image.asset('assets/images/user.png'),
+              );
             }));
-
     Widget ChangeProfilePic = GestureDetector(
         onTap: () async {
           print('image pressed');
@@ -282,32 +303,28 @@ class _EditProfilePageSigninState extends State<EditProfilePageSignin> {
         //FirebaseFirestore.instance.collection('Artist').doc().set({"Name":_nameTextController.text});
         //FirebaseFirestore.instance.collection('Artist').doc().set({"UID":});
         print("USER UID================" + widget.value);
-        if(widget.accType=="Artist"){
+        if (widget.accType == "Artist") {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => ArtistHomePage(widget.accType),
             ),
           );
-        }
-        else if(widget.accType=="User"){
+        } else if (widget.accType == "User") {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => UserHomePage(widget.accType),
             ),
           );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => VenueHomePage(widget.accType),
+            ),
+          );
         }
-        else
-          {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => VenueHomePage(widget.accType),
-              ),
-            );
-          }
-
       },
     );
 

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project2/screens/EditProfilePage.dart';
 import 'package:project2/screens/ArtistHomepage.dart';
@@ -149,16 +150,12 @@ class _SignupPageState extends State<SignupPage> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               //to take input from user
-              String userName = _emailTextController.text;
-              String userPassword = _passwordTextController.text;
-              String userPassword2= _passwordTextController2.text;
+              String userName = _emailTextController.text.trim();
+              String userPassword = _passwordTextController.text.trim();
+              String userPassword2= _passwordTextController2.text.trim();
               if(userPassword!=userPassword2)
                 {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Password doesn't match"),
-                    ),
-                  );
+                  Fluttertoast.showToast(msg: "Password Doesn't Match");
                   return null;
                 }
               print(userName);
@@ -166,8 +163,8 @@ class _SignupPageState extends State<SignupPage> {
               try{
                 FirebaseAuth.instance
                     .createUserWithEmailAndPassword(
-                    email: _emailTextController.text,
-                    password: _passwordTextController.text)
+                    email: _emailTextController.text.trim(),
+                    password: _passwordTextController.text.trim())
                     .then((value) {
                   print("created new acc");
                   print(value.user?.uid.toString());
@@ -179,15 +176,11 @@ class _SignupPageState extends State<SignupPage> {
                   );
                 }).onError((error, stackTrace) {
                   print("error ${error.toString()}");
+                  Fluttertoast.showToast(msg: "${error.toString()}");
                 });
               } on FirebaseAuthException catch (e){
                 print(e);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(e.message.toString()),
-                  ),
-                );
-
+                Fluttertoast.showToast(msg: e!.message.toString());
               }
 
             }

@@ -72,9 +72,12 @@ class _LoginPageState extends State<LoginPage> {
       },
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(30.0),),
-            borderSide: BorderSide(color: kPrimaryLightColor,)
-        ),
+            borderRadius: BorderRadius.all(
+              Radius.circular(30.0),
+            ),
+            borderSide: BorderSide(
+              color: kPrimaryLightColor,
+            )),
         labelStyle: TextStyle(color: kPrimaryDarkColor),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
@@ -102,9 +105,12 @@ class _LoginPageState extends State<LoginPage> {
       },
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(30.0),),
-            borderSide: BorderSide(color: kPrimaryLightColor,)
-        ),
+            borderRadius: BorderRadius.all(
+              Radius.circular(30.0),
+            ),
+            borderSide: BorderSide(
+              color: kPrimaryLightColor,
+            )),
         labelStyle: TextStyle(color: kPrimaryDarkColor),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
@@ -158,8 +164,9 @@ class _LoginPageState extends State<LoginPage> {
         width: 200,
         height: 50,
         child: ElevatedButton(
-          onPressed: (){
-            signIn(_emailTextController.text,_passwordTextController.text);
+          onPressed: () {
+            signIn(_emailTextController.text.trim(),
+                _passwordTextController.text.trim());
           },
           child: const Text(
             'Login',
@@ -234,6 +241,7 @@ class _LoginPageState extends State<LoginPage> {
     }
     Navigator.of(context).pop();
   }
+
   void signIn(String email, String password) async {
     print("SIGN IN INIT");
     if (_formKey.currentState!.validate()) {
@@ -247,11 +255,16 @@ class _LoginPageState extends State<LoginPage> {
               .doc(_auth.currentUser!.uid)
               .get()
               .then((uid) {
-                print("UID CHECK IN FIRST==============="+uid.toString());
+            print("UID CHECK IN FIRST===============" + uid.toString());
             if (uid.exists) {
               print('***********************USER Exist');
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => UserHomePage("accType")));
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => UserHomePage("accType")),
+                  (route) => false);
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => UserHomePage("accType")));
               // Navigator.of(context).pushReplacement(
               //  MaterialPageRoute(builder: (context) => const dashboard()));
             } else {
@@ -262,38 +275,51 @@ class _LoginPageState extends State<LoginPage> {
                   .then((uid) {
                 if (uid.exists) {
                   print('***********************ARTIST Exist');
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) =>
-                          ArtistHomePage("accType")));
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ArtistHomePage("accType")),
+                      (route) => false);
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => ArtistHomePage("accType")));
                   // Navigator.of(context).pushReplacement(
                   //  MaterialPageRoute(builder: (context) => const dashboard()));
-                }
-                else {
+                } else {
                   print('***********************VENUE Exist');
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) =>
-                      VenueHomePage("accType")));
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => VenueHomePage("accType")),
+                      (route) => false);
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => VenueHomePage("accType")));
                 }
               }).onError((error, stackTrace) {
                 print('***********************does not Exist');
+                Fluttertoast.showToast(msg: error.toString());
                 // Navigator.push(
                 //     context, MaterialPageRoute(builder: (context) => UserHomePage("accType")));
                 // Navigator.of(context).pushReplacement(MaterialPageRoute(
                 //   builder: (context) => const serviceDashboard()));
               });
-              }
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (context) => ArtistHomePage("accType")));
-              //Navigator.of(context).pushReplacement(MaterialPageRoute(
-              //   builder: (context) => const serviceDashboard()));
-            });
-          }).onError((error, stackTrace) {
-            print('***********************does not Exist');
-            // Navigator.push(
-            //     context, MaterialPageRoute(builder: (context) => UserHomePage("accType")));
-            // Navigator.of(context).pushReplacement(MaterialPageRoute(
+            }
+            // Navigator.push(context,
+            //     MaterialPageRoute(builder: (context) => ArtistHomePage("accType")));
+            //Navigator.of(context).pushReplacement(MaterialPageRoute(
             //   builder: (context) => const serviceDashboard()));
           });
+        }).onError((error, stackTrace) {
+          print('***********************does not Exist');
+          Fluttertoast.showToast(msg: error.toString());
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (context) => UserHomePage("accType")));
+          // Navigator.of(context).pushReplacement(MaterialPageRoute(
+          //   builder: (context) => const serviceDashboard()));
+        });
         // .then((uid) => {
 
         print(_auth.currentUser!.uid);
@@ -306,25 +332,28 @@ class _LoginPageState extends State<LoginPage> {
         switch (error.code) {
           case "invalid-email":
             errorMessage = "Your email address appears to be malformed.";
-
+            Fluttertoast.showToast(msg: errorMessage.toString());
             break;
           case "wrong-password":
             errorMessage = "Your password is wrong.";
             break;
           case "user-not-found":
             errorMessage = "User with this email doesn't exist.";
+            Fluttertoast.showToast(msg: errorMessage.toString());
             break;
           case "user-disabled":
             errorMessage = "User with this email has been disabled.";
+            Fluttertoast.showToast(msg: errorMessage.toString());
             break;
           case "too-many-requests":
             errorMessage = "Too many requests";
+            Fluttertoast.showToast(msg: errorMessage.toString());
             break;
           case "operation-not-allowed":
             errorMessage = "Signing in with Email and Password is not enabled.";
             break;
           default:
-            errorMessage = "An undefined Error happened.";
+            errorMessage = "An undefined Error happened..";
         }
         Fluttertoast.showToast(msg: errorMessage!);
         print(error.code);

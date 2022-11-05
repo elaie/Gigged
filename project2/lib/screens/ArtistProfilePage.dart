@@ -279,65 +279,6 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                 ),
               ),
               //Highlights
-              Positioned(
-                top: 410,
-                child: Text(
-                  "Highlights",
-                  style: TextStyle(
-                      fontFamily: 'Comfortaa',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: kPrimaryColor),
-                ),
-              ),
-              Positioned(
-                  top: 450,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 100,
-                          width: 150,
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Image.asset(
-                            'assets/images/club.jpg',
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        Container(
-                          height: 100,
-                          width: 150,
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Image.asset(
-                            'assets/images/club.jpg',
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        Container(
-                          height: 100,
-                          width: 150,
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Image.asset(
-                            'assets/images/club.jpg',
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ))
             ],
           ),
         ),

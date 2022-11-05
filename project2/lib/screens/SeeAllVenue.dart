@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project2/screens/VenuePrivatePage.dart';
 import 'package:project2/screens/VenuePublicPage.dart';
 
 import 'EventDiscriptionPage.dart';
@@ -27,14 +28,14 @@ class _SeeAllVenueState extends State<SeeAllVenue> {
               ? Center(
             child: CircularProgressIndicator(),
           )
-              : ListView.separated(
-              separatorBuilder: (context, index) {
-                return Divider();
-              },
+              : ListView.builder(
+
               itemCount: snapshots.data!.docs.length,
               itemBuilder: (context, index) {
                 var data = snapshots.data!.docs[index].data()
                 as Map<String, dynamic>;
+                print("data printing");
+                print(data);
                 return GestureDetector(
                     onTap: () {
                       print("Tapped ");
@@ -47,43 +48,63 @@ class _SeeAllVenueState extends State<SeeAllVenue> {
                     },
 
                     //radius vairacha somehow
-                    child: Card(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          FutureBuilder(
-                              future: storage
-                                  .downloadURL(data['UID'].toString()),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<String> snapshot) {
-                                // print(
-                                // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
-                                //extractData().getUserUID();
-                                print(
-                                    "IMG================================");
-                                if (snapshot.connectionState ==
-                                    ConnectionState.done &&
-                                    snapshot.hasData) {
-                                  print(
-                                      "IMG================================");
-                                  return CircleAvatar(
-                                      radius: 40,
-                                      backgroundImage: NetworkImage(
-                                        snapshot.data!,
-                                      ));
-                                } else {
-                                  return CircleAvatar(
-                                    radius: 40,
-                                    child: Image.asset(
-                                        'assets/images/profile2.webp'),
-                                  );
-                                }
-                              }),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text(data['Name'].toString()),
-                        ],
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10),
+                      child: Container(
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: kPrimaryLightColor,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            FutureBuilder(
+                                future:
+                                storage.downloadURL(data['UID'].toString()),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<String> snapshot) {
+                                  // print(
+                                  // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+                                  //extractData().getUserUID();
+                                  print("IMG================================");
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done &&
+                                      snapshot.hasData) {
+                                    print(
+                                        "IMG================================");
+                                    return Padding(
+                                      padding: const EdgeInsets.only(left: 20.0),
+                                      child: CircleAvatar(
+                                          radius: 40,
+                                          backgroundImage: NetworkImage(
+                                            snapshot.data!,
+                                          )),
+                                    );
+                                  } else {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(left: 20.0),
+                                      child: CircleAvatar(
+                                        radius: 40,
+                                        child:Image.asset (
+                                          'assets/images/user.png',),
+                                        backgroundColor: Colors.transparent,
+                                      ),
+                                    );
+                                  }
+                                }),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              data['Name'].toString(),
+                              style: TextStyle(
+                                  fontFamily: 'Comfortaa',
+                                  color: kPrimaryDarkColor
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ));
               });

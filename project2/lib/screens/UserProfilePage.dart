@@ -194,10 +194,25 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   onPressed: () {
                     FirebaseAuth.instance.signOut().then((value) {
                       print("Signed Out");
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => WelcomeScreen()));
+                          PageRouteBuilder(pageBuilder: (BuildContext context,
+                              Animation animation,
+                              Animation secondaryAnimation) {
+                            return WelcomeScreen();
+                          }, transitionsBuilder: (BuildContext context,
+                              Animation<double> animation,
+                              Animation<double> secondaryAnimation,
+                              Widget child) {
+                            return new SlideTransition(
+                              position: new Tween<Offset>(
+                                begin: const Offset(1.0, 0.0),
+                                end: Offset.zero,
+                              ).animate(animation),
+                              child: child,
+                            );
+                          }),
+                              (Route route) => false);
                     });
                   },
                 ),
