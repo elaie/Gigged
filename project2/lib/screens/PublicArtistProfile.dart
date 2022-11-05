@@ -149,41 +149,6 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
                       Container(
                         child: Text(Bio),
                       ),
-                      //buttons
-                      SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          //message me button
-                          ElevatedButton(
-                            child: Text(
-                              "Message me",
-                              style: TextStyle(
-                                  fontFamily: 'Comfortaa',
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                (kPrimaryColor),
-                              ),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                ),
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MessagePage(),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
                       SizedBox(height: 20),
                       //ratings
                       Text(
@@ -258,13 +223,13 @@ class _PublicArtistProfileState extends State<PublicArtistProfile> {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            EventDiscription(data['ID'])));
+                                                            EventDiscription(data['Event UID'])));
                                                 print("nav pushed");
                                               },
                                               //radius vairacha somehow
                                               child: FutureBuilder(
                                                   future: storage.downloadURL(
-                                                      data['UID'].toString()),
+                                        data['Artist UID'].toString()+data['Date'].toString()),
                                                   builder: (BuildContext context,
                                                       AsyncSnapshot<String>
                                                       snapshot) {

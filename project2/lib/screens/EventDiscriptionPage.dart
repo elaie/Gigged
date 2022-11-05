@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project2/screens/BookingOrReg.dart';
 import 'package:project2/screens/PublicArtistProfile.dart';
+import 'package:project2/screens/VenuePublicPage.dart';
 import 'package:project2/screens/constraints.dart';
 import '../storage_services.dart';
 
@@ -54,7 +55,7 @@ class _EventDiscriptionState extends State<EventDiscription> {
                     ),
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       //Event name
                       Center(
@@ -68,15 +69,116 @@ class _EventDiscriptionState extends State<EventDiscription> {
                           ),
                         ),
                       ),
+                      Divider(
+                        thickness: 1,
+                        indent: 20,
+                        endIndent: 0,
+                        color: kPrimaryDarkColor,
+                      ),
                       SizedBox(
                         height: 40,
                       ),
+                      //artist disc
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                'Performing',
+                                style: TextStyle(
+                                  fontSize: 21,
+                                  fontFamily: 'Comfortaa',
+                                  color: kPrimaryColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 10,),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              PublicArtistProfile(artistUID)));
+                                },
+                                child: FutureBuilder(
+                                    future: storage.downloadURL(artistUID),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<String> snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.done &&
+                                          snapshot.hasData) {
+                                        return CircleAvatar(
+                                            radius: 70,
+                                            backgroundImage: NetworkImage(
+                                              snapshot.data!,
+                                            ));
+                                      }
+                                      return Container();
+                                    }),
+                              ),
+                            ],
+                          ),
+                          //Venue
+                          Column(
+                            children: [
+                              Text(
+                                'Venue',
+                                style: TextStyle(
+                                  fontSize: 21,
+                                  fontFamily: 'Comfortaa',
+                                  color: kPrimaryColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 10,),
+                              FutureBuilder(
+                                  future: storage.downloadURL(artistUID+date),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<String> snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.done &&
+                                        snapshot.hasData) {
+                                      return GestureDetector(
+                                        onTap: (){
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      VenuePublicPage(venueUID)));
+                                        },
+                                        child: CircleAvatar(
+                                            radius: 70,
+                                            backgroundImage: NetworkImage(
+                                              snapshot.data!,
+                                            )),
+                                      );
+                                    }
+                                    return Container();
+                                  }),
+                            ],
+                          ),
+                        ],
+                      ),
+
+
+                      SizedBox(
+                        height: 20,
+                      ),
+
+
+                      SizedBox(
+                        height: 20,
+                      ),
+                      //date
                       Text(
                         'Date',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 23,
                           fontFamily: 'Comfortaa',
                           color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(
@@ -90,12 +192,17 @@ class _EventDiscriptionState extends State<EventDiscription> {
                           color: Colors.black45,
                         ),
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      //time
                       Text(
                         'Time',
                         style: TextStyle(
                           fontSize: 20,
                           fontFamily: 'Comfortaa',
                           color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(
@@ -109,6 +216,9 @@ class _EventDiscriptionState extends State<EventDiscription> {
                           color: Colors.black45,
                         ),
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
                       //discription
                       Text(
                         'Discription',
@@ -116,6 +226,7 @@ class _EventDiscriptionState extends State<EventDiscription> {
                           fontSize: 20,
                           fontFamily: 'Comfortaa',
                           color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(
@@ -129,9 +240,7 @@ class _EventDiscriptionState extends State<EventDiscription> {
                           color: Colors.black45,
                         ),
                       ),
-                      SizedBox(
-                        height: 40,
-                      ),
+
                       // Text(
                       //   'Event Type',
                       //   style: TextStyle(
@@ -151,75 +260,10 @@ class _EventDiscriptionState extends State<EventDiscription> {
                       //     color: Colors.black45,
                       //   ),
                       // ),
-                      //Venue
-                      Text(
-                        'Venue',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Comfortaa',
-                          color: kPrimaryColor,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      FutureBuilder(
-                          future: storage.downloadURL(artistUID+date),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<String> snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done &&
-                                snapshot.hasData) {
-                              return CircleAvatar(
-                                  radius: 70,
-                                  backgroundImage: NetworkImage(
-                                    snapshot.data!,
-                                  ));
-                            }
-                            return Container();
-                          }),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      //artist disc
-                      Text(
-                        'Who is performing',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Comfortaa',
-                          color: kPrimaryColor,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      PublicArtistProfile(artistUID)));
-                        },
-                        child: FutureBuilder(
-                            future: storage.downloadURL(artistUID),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<String> snapshot) {
-                              if (snapshot.connectionState ==
-                                      ConnectionState.done &&
-                                  snapshot.hasData) {
-                                return CircleAvatar(
-                                    radius: 70,
-                                    backgroundImage: NetworkImage(
-                                      snapshot.data!,
-                                    ));
-                              }
-                              return Container();
-                            }),
-                      ),
+
 
                       SizedBox(
-                        height: 30,
+                        height: 20,
                       ),
                       Text(
                         'Special Attractions',
@@ -227,6 +271,7 @@ class _EventDiscriptionState extends State<EventDiscription> {
                           fontSize: 20,
                           fontFamily: 'Comfortaa',
                           color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(

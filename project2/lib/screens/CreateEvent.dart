@@ -473,6 +473,7 @@ class _CreateEventState extends State<CreateEvent> {
                           'Venue UID': ExtractData.getUserUID().toString(),
                           'Artist Verification': 'WAITING',
                           'UPDATABLE': 'TRUE',
+                          'Photo URL': photoPath,
                         }).then((value) => {
                         storage.uploadFile(path, photoPath).then(
                         (value) => print("profile picture uploaded   FILENAME:" + path)),

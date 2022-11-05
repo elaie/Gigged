@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
 
-      home: BookingListPage(),//this page runs first
+      home: WelcomeScreen(),//this page runs first
 
     );
   }

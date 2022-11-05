@@ -82,21 +82,6 @@ class _MainPageState extends State<MainPage> {
                         child: Image.asset('assets/images/Gigged-1.png',
                             fit: BoxFit.fill)),
                     //messages
-                    Container(
-                        child: IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MessageListPage(),
-                          ),
-                        );
-                      },
-                      icon: Icon(
-                        Icons.message_outlined,
-                        color: kPrimaryDarkColor,
-                      ),
-                    )),
                   ],
                 ),
               ),

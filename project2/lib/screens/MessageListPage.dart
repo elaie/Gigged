@@ -57,49 +57,52 @@ class _MessageListPageState extends State<MessageListPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PublicArtistProfile(
-                                  data['UID'].toString())));
+                              builder: (context) => MessagePage()));
                       print("nav pushed");
                     },
 
                     //radius vairacha somehow
-                    child: Card(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          FutureBuilder(
-                              future: storage
-                                  .downloadURL(data['UID'].toString()),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<String> snapshot) {
-                                // print(
-                                // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
-                                //extractData().getUserUID();
-                                print(
-                                    "IMG================================");
-                                if (snapshot.connectionState ==
-                                    ConnectionState.done &&
-                                    snapshot.hasData) {
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Container(
+                        height: 100,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            FutureBuilder(
+                                future: storage
+                                    .downloadURL(data['UID'].toString()),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<String> snapshot) {
+                                  // print(
+                                  // "===================FUTURE BUILDER LIST FILE INITIALIZED=======================");
+                                  //extractData().getUserUID();
                                   print(
                                       "IMG================================");
-                                  return CircleAvatar(
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done &&
+                                      snapshot.hasData) {
+                                    print(
+                                        "IMG================================");
+                                    return CircleAvatar(
+                                        radius: 40,
+                                        backgroundImage: NetworkImage(
+                                          snapshot.data!,
+                                        ));
+                                  } else {
+                                    return CircleAvatar(
                                       radius: 40,
-                                      backgroundImage: NetworkImage(
-                                        snapshot.data!,
-                                      ));
-                                } else {
-                                  return CircleAvatar(
-                                    radius: 40,
-                                    child: Image.asset(
-                                        'assets/images/profile2.webp'),
-                                  );
-                                }
-                              }),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text(data['Name'].toString()),
-                        ],
+                                      child: Image.asset(
+                                          'assets/images/profile2.webp'),
+                                    );
+                                  }
+                                }),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Text(data['Name'].toString()),
+                          ],
+                        ),
                       ),
                     ));
                 // return ListTile(
