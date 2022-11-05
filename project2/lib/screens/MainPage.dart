@@ -182,7 +182,7 @@ class _MainPageState extends State<MainPage> {
                                                 //radius vairacha somehow
                                                 child: FutureBuilder(
                                                     future: storage.downloadURL(
-                                                        data['UID'].toString()),
+                                                        data['Artist UID'].toString()+data['Date'].toString()),
                                                     builder: (BuildContext
                                                             context,
                                                         AsyncSnapshot<String>

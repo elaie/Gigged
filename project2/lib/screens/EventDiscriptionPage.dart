@@ -267,7 +267,7 @@ class _EventDiscriptionState extends State<EventDiscription> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      BookingOrReg(venueUID.toString()),
+                                      BookingOrReg(venueUID.toString(),eventName),
                                 ),
                               );
                             }),

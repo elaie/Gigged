@@ -31,7 +31,7 @@ class _VenuMapPageState extends State<VenueMapPage> {
   late GoogleMapController googleMapController;
   final Mode _mode = Mode.overlay;
   static const CameraPosition initialCameraPosition = CameraPosition(
-      target: LatLng(37.42796133580664, -122.085749655962), zoom: 100);
+      target: LatLng(27.6720636, 85.3402312), zoom: 100);
   //Set<Marker> markers = {};
 
   @override
