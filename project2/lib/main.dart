@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:project2/screens/ArtistProfilePage.dart';
+import 'package:project2/screens/BookingListPage.dart';
 import 'package:project2/screens/CreateEvent.dart';
 import 'package:project2/screens/EventDiscriptionPage.dart';
 import 'package:project2/screens/ArtistHomepage.dart';
@@ -51,7 +52,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
 
-      home: WelcomeScreen(),//this page runs first
+      home: BookingListPage(),//this page runs first
 
     );
   }
