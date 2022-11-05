@@ -7,8 +7,8 @@ import 'constraints.dart';
 class BookingOrReg extends StatefulWidget {
   //const BookingOrReg({Key? key}) : super(key: key);
 final venueUID;
-final venueName;
-BookingOrReg(this.venueUID,this.venueName);
+final eventName;
+BookingOrReg(this.venueUID,this.eventName);
   @override
   State<BookingOrReg> createState() => _BookingOrRegState();
 }
@@ -159,7 +159,7 @@ class _BookingOrRegState extends State<BookingOrReg> {
                         'Name': _nameController.text,
                         'No Of Attendees': _noOfAtController.text,
                         'Contact':_contactController.text,
-                        'Venue Name:':widget.venueName,
+                        'Event Name':widget.eventName,
                       };
                       FirebaseFirestore.instance
                           .collection("Venue").doc(widget.venueUID).collection("Booking List")
