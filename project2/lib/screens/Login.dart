@@ -353,7 +353,7 @@ class _LoginPageState extends State<LoginPage> {
             errorMessage = "Signing in with Email and Password is not enabled.";
             break;
           default:
-            errorMessage = "An undefined Error happened.";
+            errorMessage = "An undefined Error happened..";
         }
         Fluttertoast.showToast(msg: errorMessage!);
         print(error.code);
