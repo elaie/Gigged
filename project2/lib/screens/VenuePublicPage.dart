@@ -148,39 +148,6 @@ class _VenuePublicPage extends State<VenuePublicPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                ElevatedButton(
-                                  child: Text(
-                                    "Message us",
-                                    style: TextStyle(
-                                        fontFamily: 'Comfortaa',
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(
-                                      (kPrimaryColor),
-                                    ),
-                                    shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(25.0),
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(20),
-                                        ),
-                                      ),
-                                      builder: (context) =>
-                                          VenuePublicPage(widget.uid),
-                                    );
-                                  },
-                                ),
                               ],
                             ),
                             SizedBox(height: 20),
@@ -253,8 +220,11 @@ class _VenuePublicPage extends State<VenuePublicPage> {
                                       itemBuilder: (context, index) {
                                         var data = snapshots.data!.docs[index]
                                             .data() as Map<String, dynamic>;
-                                        return (data['Artist Verification'] ==
-                                            'ACCEPT')? Row(
+                                        data['ID'] = snapshots.data!.docs[index].id
+                                            .toString();
+                                        return (data['Venue UID'] ==
+                                            widget.uid)
+                                            ? Row(
                                           children: [
                                             GestureDetector(
                                               onTap: () {
@@ -262,16 +232,17 @@ class _VenuePublicPage extends State<VenuePublicPage> {
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                        builder: (context) => EventDiscription(
-                                                            data['ID'].toString())));
+                                                        builder: (context) =>
+                                                            EventDiscription(
+                                                                data['ID'])));
                                                 print("nav pushed");
                                               },
-
                                               //radius vairacha somehow
                                               child: FutureBuilder(
                                                   future: storage.downloadURL(
-                                                      data['UID'].toString()),
-                                                  builder: (BuildContext context,
+                                                      data['Artist UID'].toString()+data['Date'].toString()),
+                                                  builder: (BuildContext
+                                                  context,
                                                       AsyncSnapshot<String>
                                                       snapshot) {
                                                     // print(
@@ -280,37 +251,52 @@ class _VenuePublicPage extends State<VenuePublicPage> {
                                                     print(
                                                         "IMG================================");
                                                     if (snapshot.connectionState ==
-                                                        ConnectionState.done &&
+                                                        ConnectionState
+                                                            .done &&
                                                         snapshot.hasData) {
                                                       print(
                                                           "IMG================================");
                                                       return Padding(
                                                         padding:
-                                                        const EdgeInsets.only(
-                                                            left: 8.0,
-                                                            right: 8.0),
+                                                        const EdgeInsets
+                                                            .all(8.0),
                                                         child: Column(
                                                           children: [
-                                                            CircleAvatar(
-                                                                radius: 70,
-                                                                backgroundColor:
-                                                                Colors
-                                                                    .transparent,
-                                                                backgroundImage:
-                                                                NetworkImage(
-                                                                  snapshot.data!,
-                                                                )),
+                                                            Container(
+                                                              height: 100,
+                                                              width: 150,
+                                                              decoration:
+                                                              BoxDecoration(
+                                                                borderRadius:
+                                                                BorderRadius
+                                                                    .all(
+                                                                  Radius
+                                                                      .circular(
+                                                                      50),
+                                                                ),
+                                                              ),
+                                                              child: Image
+                                                                  .network(
+                                                                snapshot
+                                                                    .data!,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            ),
+                                                            //username
                                                             SizedBox(
-                                                              height: 10,
+                                                              height: 5,
                                                             ),
                                                             Text(
-                                                              data['Name']
+                                                              data['Event Name']
                                                                   .toString(),
-                                                              style: TextStyle(
+                                                              style:
+                                                              TextStyle(
                                                                 color:
                                                                 kPrimaryDarkColor,
                                                                 fontWeight:
-                                                                FontWeight.bold,
+                                                                FontWeight
+                                                                    .bold,
                                                                 fontFamily:
                                                                 'Comfortaa',
                                                               ),
@@ -321,51 +307,32 @@ class _VenuePublicPage extends State<VenuePublicPage> {
                                                     } else {
                                                       return Padding(
                                                         padding:
-                                                        const EdgeInsets.all(
-                                                            30.0),
+                                                        const EdgeInsets
+                                                            .all(20.0),
                                                         child: CircleAvatar(
                                                           radius: 50,
                                                           backgroundColor:
-                                                          Colors.transparent,
-                                                          child: Image.asset(
-                                                              'assets/images/user.png'),
+                                                          Colors
+                                                              .transparent,
+                                                          child: Padding(
+                                                            padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                bottom:
+                                                                20.0),
+                                                            child: Image.asset(
+                                                                'assets/images/Concert.png'),
+                                                          ),
                                                         ),
                                                       );
                                                     }
                                                     // print("CONNECTION STATE IS UN-STABLE");
                                                     return Container();
                                                   }),
-                                              // child: CircleAvatar(
-                                              //   backgroundImage: NetworkImage(snapshots.data!),
-                                              //   child: Text(data['Name'].toString()),
-                                              //   radius: 50,
-                                              // ),
                                             )
                                           ],
-                                        ):SizedBox();
-                                        // return ListTile(
-                                        //
-                                        //   onTap: () {
-                                        //     print("Tapped ");
-                                        //     Navigator.push(
-                                        //         context,
-                                        //         MaterialPageRoute(
-                                        //             builder: (context) =>
-                                        //                 PublicArtistProfile(
-                                        //                     data['UID'].toString())));
-                                        //     print("nav pushed");
-                                        //   },
-                                        //
-                                        //   //radius vairacha somehow
-                                        //   visualDensity: VisualDensity(vertical: 4),
-                                        //   leading: CircleAvatar(
-                                        //
-                                        //     //backgroundImage: NetworkImage(),
-                                        //     child: Text(data['Name'].toString()),
-                                        //     radius: 50,
-                                        //
-                                        //   ),
-                                        // );
+                                        )
+                                            : Container();
                                       }),
                                 ),
                               ],
